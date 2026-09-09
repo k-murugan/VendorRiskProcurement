@@ -284,3 +284,8 @@ entity RiskRules {
     effectiveTo               : Date;
 }
 
+
+entity Employee {
+
+    
+}
