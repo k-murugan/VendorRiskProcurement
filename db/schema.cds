@@ -289,3 +289,8 @@ entity Employee {
 
     
 }
+
+entity Sample {
+    key sno : String;
+    sname : String;
+}
