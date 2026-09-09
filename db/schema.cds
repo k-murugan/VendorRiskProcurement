@@ -283,3 +283,4 @@ entity RiskRules {
     effectiveFrom             : Date;
     effectiveTo               : Date;
 }
+
