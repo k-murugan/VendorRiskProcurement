@@ -345,7 +345,3 @@ entity RiskRules {
 }
 
 
-entity Employee {
-
-    
-}

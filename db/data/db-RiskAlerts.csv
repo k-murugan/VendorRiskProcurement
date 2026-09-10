@@ -1,0 +1,1 @@
+ID,alertNumber,vendor_ID,riskAssessment_ID,alertType,severity,riskScore,threshold,message,recipientVendor,recipientManager,status,createdAt,sentAt,acknowledgedAt,resolutionRemarks
