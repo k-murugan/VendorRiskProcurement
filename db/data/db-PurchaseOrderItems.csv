@@ -1,0 +1,1 @@
+ID,purchaseOrder_ID,itemNumber,materialCode,materialDescription,materialGroup,orderedQuantity,unit,oldUnitPrice,newUnitPrice,priceDifference,priceDeviationPercent,contractPrice,currency,requestedDeliveryDate

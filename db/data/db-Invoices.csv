@@ -1,0 +1,1 @@
+ID,invoiceNumber,vendor_ID,purchaseOrder_ID,invoiceDate,materialCode,quantity,oldPrice,currentPrice,priceDifference,priceDeviationPercent,invoiceAmount,currency,invoiceStatus,blocked,mismatch
