@@ -98,6 +98,66 @@ entity PurchaseOrderItems {
     requestedDeliveryDate    : Date;
 }
 
+type designation : String enum{
+     Manager;
+     QualityCheck;
+     Executive;
+     ProcurementTeam ;
+}; //te
+
+entity Employee{
+    key ID      :UUID;
+    empId       : String ;
+    name        : String ;
+    designation : designation ; 
+}
+type UnitOfMeasure : String enum {
+    EA;     // Each
+    KG;     // Kilogram
+    G;      // Gram
+    L;      // Liter
+    M;      // Meter
+    CM;     // Centimeter
+    BOX;    // Box
+    BAG;    // Bag
+    SET;    // Set
+    PACK;   // Pack
+}
+
+type Currency : String enum {
+    INR; // Indian Rupee
+    USD; // US Dollar
+    EUR; // Euro
+    GBP; // British Pound
+    JPY; // Japanese Yen
+    AUD; // Australian Dollar
+    CAD; // Canadian Dollar
+    SGD; // Singapore Dollar
+}
+
+type MaterialStatus : String enum {
+    ACTIVE;
+    INACTIVE;
+}
+
+// Master Data enity
+entity Materials {
+    key ID                  : UUID;
+
+    materialCode            : String(40);
+    materialDescription     : String(200);
+    materialGroup           : String(50);
+    
+    baseUnit                : UnitOfMeasure @assert.rang:['EA','KG','G','L','M','CM','BOX','BAG','SET','PACK' ];
+
+    currentUnitPrice        : Decimal(15,2);
+    currency                : Currency @assert.range: ['INR', 'USD', 'EUR', 'GBP', 'JPY', 'AUD', 'CAD', 'SGD'];
+    contractPrice           : Decimal(15,2);
+    supplierMaterialCode    : String(40);
+    status                  : MaterialStatus  default #ACTIVE  @assert.rang:['ACTIVE','INACTIVE'];
+}
+
+
 
 entity Deliveries {
     key ID                   : UUID;
