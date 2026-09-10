@@ -1,1 +1,11 @@
 ID,empId,name,designation
+550e8400-e29b-41d4-a716-446655440000,EMP001,Arun Kumar,Manager
+7c9e6679-7425-40de-944b-e07fc1f90ae7,EMP002,Priya Sharma,QualityCheck
+3f2504e0-4f89-41d3-9a0c-0305e82c3301,EMP003,Ravi Kumar,Executive
+6ba7b810-9dad-41d1-80b4-00c04fd430c8,EMP004,Divya Raj,ProcurementTeam
+1b4e28ba-2fa1-41c6-8e76-2b9e7c8a5d10,EMP005,Karthik S,Manager
+9f8c7d6e-5b4a-4321-9c8d-7e6f5a4b3c21,EMP006,Meena Devi,QualityCheck
+2d3a4b5c-6e7f-4890-a123-b456c789d012,EMP007,Suresh Babu,Executive
+8a7b6c5d-4e3f-4210-9a8b-7c6d5e4f3a21,EMP008,Anitha R,ProcurementTeam
+4c5d6e7f-8a9b-4123-b456-c789d012e345,EMP009,Vignesh M,Manager
+e1234567-89ab-4cde-8123-456789abcdef,EMP010,Swetha K,ProcurementTeam
