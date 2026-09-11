@@ -1,0 +1,1 @@
+ID,complaintNumber,vendor_ID,purchaseOrder_ID,materialCode,complaintDate,defectType,severity,rejectedQuantity,inspectedQuantity,defectPercentage,complaintStatus,qualityScore,rootCause,correctiveAction,resolvedDate

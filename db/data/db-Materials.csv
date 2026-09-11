@@ -1,0 +1,11 @@
+ID,materialCode,materialDescription,materialGroup,baseUnit,currentUnitPrice,currency,contractPrice,supplierMaterialCode,status
+4ecd32d6-b5f8-4a5a-b5e7-860c38038341,MAT-PLY-19MM,19mm Commercial Plywood Sheet,Wood & Boards,M2,850.0,INR,820.0,SPI-PLY-19,ACTIVE
+cab47d67-a0eb-4e10-9c29-11f76bb41336,MAT-STL-TUBE25,25mm MS Square Steel Tube,Metal,KG,68.0,INR,65.0,PSF-TUBE-25,ACTIVE
+bcf1a26e-9617-4fc0-8a05-75f344f93461,MAT-FOAM-D32,PU Foam Block D32 Density,Foam,KG,210.0,INR,200.0,CFI-FOAM-D32,ACTIVE
+8f227321-e81a-4e1f-b067-e7b544a7b6f3,MAT-FAB-UPH01,Premium Upholstery Fabric,Textile,M,320.0,INR,300.0,VUF-FAB-01,ACTIVE
+e4cd7749-31cf-4d19-9328-a6921197aeed,MAT-GLS-TMP10,10mm Tempered Glass Top,Glass,EA,1450.0,INR,1400.0,CGW-GLS-10,ACTIVE
+073d7deb-6d78-451a-b247-64744fe24aef,MAT-HNG-SS304,SS304 Concealed Cabinet Hinge,Hardware,EA,45.0,USD,42.0,GHF-HNG-304,ACTIVE
+d31f9389-2c43-4c01-9705-0abf797b5f6a,MAT-CST-75MM,75mm Swivel Caster Wheel,Hardware,EA,95.0,INR,88.0,SRC-CST-75,ACTIVE
+c3678850-3ecb-4924-8f13-9a4f52339784,MAT-LAM-08MM,0.8mm Decorative Laminate Sheet,Wood & Boards,M2,480.0,INR,460.0,ELL-LAM-08,INACTIVE
+dc4875f8-c334-45a8-b82a-49668bd70c46,MAT-LEA-GEN01,Genuine Leather Upholstery Hide,Textile,M2,2100.0,INR,2000.0,RLC-LEA-01,ACTIVE
+054a7fe0-c4a5-40a8-a100-0c5ea873ec54,MAT-BOX-5PLY,5-Ply Corrugated Packaging Box,Packaging,EA,65.0,INR,60.0,EPS-BOX-5PLY,ACTIVE
