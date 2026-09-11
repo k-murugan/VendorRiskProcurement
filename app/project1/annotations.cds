@@ -1,0 +1,1 @@
+using VendorRiskService as service from '../../srv/service';

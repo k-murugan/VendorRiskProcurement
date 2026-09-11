@@ -1,0 +1,32 @@
+{
+  "name": "vendorrisk",
+  "version": "1.0.0",
+  "description": "Welcome to your new CAP project.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch-project1": "cds watch --open project1/index.html?sap-ui-xx-viewCache=false --livereload false"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/k-murugan/VendorRiskProcurement.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/k-murugan/VendorRiskProcurement/issues"
+  },
+  "homepage": "https://github.com/k-murugan/VendorRiskProcurement#readme",
+  "dependencies": {
+    "@sap/cds": "^10.1.0"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^3.1.0",
+    "cds-plugin-ui5": "^0.17.0"
+  },
+  "workspaces": [
+    "app/*"
+  ]
+}
