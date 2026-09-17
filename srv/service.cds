@@ -3,6 +3,7 @@ using { db } from '../db/schema';
 service VendorRiskService {
 
     entity Vendors as projection on db.Vendors;
+    function totalVendor() returns Integer;
 
     entity PurchaseOrders as projection on db.PurchaseOrders;
 

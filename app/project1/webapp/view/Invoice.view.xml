@@ -1,0 +1,116 @@
+<!-- <mvc:View
+    controllerName="project1.controller.Invoice"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.f"
+    xmlns:core="sap.ui.core"
+    xmlns:fb="sap.ui.comp.filterbar">
+
+    <Page title="Invoice Details">
+        <f:DynamicPage
+            fitContent="true"
+            headerExpanded="true">
+            <f:header>
+                <f:DynamicPageHeader>
+                    <f:content>
+                        <fb:FilterBar
+                            id="invoiceFilterBar"
+                            showFilterConfiguration="false"
+                            useToolbar="false">
+                            <fb:filterGroupItems>
+                                <fb:FilterGroupItem
+                                    label="Invoice Details"
+                                    name="Invoice"
+                                    groupName="invoice"
+                                    visibleInFilterBar="true">
+                                    <fb:control>
+                                        <MultiComboBox
+                                            id="invoiceFilter"
+                                            width="300px"
+                                            selectionChange=".oninvoiceFilterChange"
+                                            items="{
+                                                path: '/Invoices',
+                                                templateShareable: true
+                                            }">
+                                            <core:Item
+                                                key="{ID}"
+                                                text="{invoiceNumber}"/>
+                                        </MultiComboBox>
+                                    </fb:control>
+                                </fb:FilterGroupItem>
+                            </fb:filterGroupItems>
+                        </fb:FilterBar>
+                    </f:content>
+                </f:DynamicPageHeader>
+            </f:header>
+            <f:content>
+                <VBox>
+                    <!-- <HBox
+                        justifyContent="End"
+                        class="sapUiTinyMarginBottom">
+                        <Button
+                            text="+ Add PO"
+                            press=".addPO"
+                            type="Emphasized"/>
+                    </HBox> -->
+                    <Table
+                        id="invoiceTable"
+                        items="{
+                            path: '/Invoices',
+                            sorter: {
+                                path: 'invoiceNumber'
+                            }
+                        }">
+                        <columns>
+                            <Column>
+                                <Text text="Invoice Number"/>
+                            </Column>
+                            <Column>
+                                <Text text="Invoice Date"/>
+                            </Column>
+                            <Column>
+                                <Text text="Material Code"/>
+                            </Column>
+                            <Column>
+                                <Text text="Quantity"/>
+                            </Column>
+                            <Column>
+                                <Text text="Estimated Price"/>
+                            </Column>
+                            <Column>
+                                <Text text="Price Difference"/>
+                            </Column>
+                            <Column>
+                                <Text text="Invoice Amount"/>
+                            </Column>
+                            <Column>
+                                <Text text="Status"/>
+                            </Column>
+                            <Column>
+                                <Text text="Risk Level"/>
+                            </Column>
+            
+                        </columns>
+                        <items>
+                            <ColumnListItem>
+                                <cells>
+                                    <Text text="{invoiceNumber}"/>
+                                    <Text text="{invoiceDate}"/>
+                                    <Text text="{materialCode}"/>
+                                    <Text text="{quantity}"/>
+                                    <Text text="{oldPrice}"/>
+                                    <Text text="{currentPrice}"/>
+                                    <Text text="{priceDifference}"/>
+                                    <Text text="{invoiceAmount}"/>
+                                    <Text text="{invoiceStatus}"/>
+                                    <Text text="{riskLevel}"/>
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </VBox>
+            </f:content>
+        </f:DynamicPage>
+    </Page>
+
+</mvc:View> -->

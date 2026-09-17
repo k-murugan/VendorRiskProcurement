@@ -1,0 +1,102 @@
+<mvc:View
+    controllerName="project1.controller.PurchaseOrder"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.f"
+    xmlns:core="sap.ui.core"
+    xmlns:fb="sap.ui.comp.filterbar">
+
+    <Page title="Purchase Order Details">
+        <f:DynamicPage
+            fitContent="true"
+            headerExpanded="true">
+            <f:header>
+                <f:DynamicPageHeader>
+                    <f:content>
+                        <fb:FilterBar
+                            id="poFilterBar"
+                            showFilterConfiguration="false"
+                            useToolbar="false">
+                            <fb:filterGroupItems>
+                                <fb:FilterGroupItem
+                                    label="Purchase Order"
+                                    name="PurchaseOrder"
+                                    groupName="PO"
+                                    visibleInFilterBar="true">
+                                    <fb:control>
+                                        <MultiComboBox
+                                            id="poFilter"
+                                            width="300px"
+                                            selectionChange=".onPOFilterChange"
+                                            items="{
+                                                path: '/PurchaseOrders',
+                                                templateShareable: true
+                                            }">
+                                            <core:Item
+                                                key="{ID}"
+                                                text="{poNumber}"/>
+                                        </MultiComboBox>
+                                    </fb:control>
+                                </fb:FilterGroupItem>
+                            </fb:filterGroupItems>
+                        </fb:FilterBar>
+                    </f:content>
+                </f:DynamicPageHeader>
+            </f:header>
+            <f:content>
+                <VBox>
+                    <HBox
+                        justifyContent="End"
+                        class="sapUiTinyMarginBottom">
+                        <Button
+                            text="+ Add PO"
+                            press=".addPO"
+                            type="Emphasized"/>
+                    </HBox>
+                    <Table
+                        id="poTable"
+                        items="{
+                            path: '/PurchaseOrders',
+                            sorter: {
+                                path: 'poNumber'
+                            }
+                        }">
+                        <columns>
+                            <Column>
+                                <Text text="PO Number"/>
+                            </Column>
+                            <Column>
+                                <Text text="PO Date"/>
+                            </Column>
+                            <Column>
+                                <Text text="Expected Delivery Date"/>
+                            </Column>
+                            <Column>
+                                <Text text="PO Status"/>
+                            </Column>
+                            <Column>
+                                <Text text="Total Amount"/>
+                            </Column>
+                            <Column>
+                                <Text text="Payment Terms"/>
+                            </Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem>
+                                <cells>
+                                    <Text text="{poNumber}"/>
+                                    <Text text="{poDate}"/>
+                                    <Text text="{expectedDeliveryDate}"/>
+                                    <Text text="{poStatus}"/>
+                                    <Text text="{totalAmount}"/>
+                                    <Text text="{paymentTerms}"/>
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </VBox>
+            </f:content>
+        </f:DynamicPage>
+    </Page>
+
+</mvc:View>

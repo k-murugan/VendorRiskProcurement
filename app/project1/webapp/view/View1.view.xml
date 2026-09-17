@@ -1,7 +1,87 @@
 <mvc:View controllerName="project1.controller.View1"
     xmlns:mvc="sap.ui.core.mvc"
+    xmlns:tnt="sap.tnt"
+    xmlns:cards="sap.f.cards"
+    xmlns:f="sap.f"
     xmlns="sap.m">
-    <Page id="page" title="{i18n>title}">
-      
+   <Page title="Procurement Board" 
+         class="sapUiNoContentPadding">
+        <content>
+            <tnt:SideNavigation
+                id="sideNavigation"
+                selectedKey="dashboard"
+                expanded="true"
+            >
+                <tnt:NavigationList id="navigationList">
+                    <tnt:NavigationListItem
+                        key="dashboard"
+                        text="Dashboard"
+                        icon="sap-icon://home"
+                        select=".onNavigationSelect"
+                    />
+
+                    <tnt:NavigationListItem
+                        key="Vendor"
+                        text="Vendor"
+                        icon="sap-icon://supplier"
+                        select=".onNavigationSelect"
+                    />
+
+                    <tnt:NavigationListItem
+                        key="purchaseOrders"
+                        text="Purchase Orders"
+                        icon="sap-icon://cart"
+                        select=".onNavigationSelect"
+                    />
+
+                    <tnt:NavigationListItem
+                        key="invoices"
+                        text="Invoices"
+                        icon="sap-icon://receipt"
+                        select=".onNavigationSelect"
+                    />
+
+                    <tnt:NavigationListItem
+                        key="risk"
+                        text="Risk Management"
+                        icon="sap-icon://warning"
+                        select=".onNavigationSelect"
+                    />
+
+                    <tnt:NavigationListItem
+                        key="compliance"
+                        text="Compliance"
+                        icon="sap-icon://documents"
+                        select=".onNavigationSelect"
+                    />
+
+                    <tnt:NavigationListItem
+                        key="approvals"
+                        text="Approvals"
+                        icon="sap-icon://approvals"
+                        select=".onNavigationSelect"
+                    />
+
+                </tnt:NavigationList>
+
+                <tnt:fixedItem>
+                    <tnt:NavigationList>
+
+                        <tnt:NavigationListItem
+                            key="settings"
+                            text="Settings"
+                            icon="sap-icon://action-settings"
+                            select=".onNavigationSelect"
+                        />
+
+                    </tnt:NavigationList>
+                </tnt:fixedItem>
+
+            </tnt:SideNavigation>
+
+        </content>
+        
     </Page>
 </mvc:View>
+
+ 
