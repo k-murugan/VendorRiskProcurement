@@ -1,5 +1,4 @@
-<!-- <mvc:View
-    controllerName="project1.controller.Invoice"
+<mvc:View
     xmlns="sap.m"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns:f="sap.f"
@@ -45,14 +44,6 @@
             </f:header>
             <f:content>
                 <VBox>
-                    <!-- <HBox
-                        justifyContent="End"
-                        class="sapUiTinyMarginBottom">
-                        <Button
-                            text="+ Add PO"
-                            press=".addPO"
-                            type="Emphasized"/>
-                    </HBox> -->
                     <Table
                         id="invoiceTable"
                         items="{
@@ -74,8 +65,11 @@
                             <Column>
                                 <Text text="Quantity"/>
                             </Column>
-                            <Column>
+                              <Column>
                                 <Text text="Estimated Price"/>
+                            </Column>
+                            <Column>
+                                <Text text="Actual Price"/>
                             </Column>
                             <Column>
                                 <Text text="Price Difference"/>
@@ -113,4 +107,4 @@
         </f:DynamicPage>
     </Page>
 
-</mvc:View> -->
+</mvc:View>

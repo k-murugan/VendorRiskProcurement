@@ -1,87 +1,129 @@
-<mvc:View controllerName="project1.controller.View1"
+<mvc:View
+    controllerName="project1.controller.View1"
     xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
     xmlns:tnt="sap.tnt"
-    xmlns:cards="sap.f.cards"
     xmlns:f="sap.f"
-    xmlns="sap.m">
-   <Page title="Procurement Board" 
-         class="sapUiNoContentPadding">
+    xmlns:card="sap.f.cards"
+    xmlns:mdc="sap.ui.mdc"
+    xmlns:mdcc="sap.ui.mdc.chart"
+    xmlns:mdcat="sap.ui.mdc.actiontoolbar"
+    xmlns:variants="sap.ui.fl.variants"
+>
+    <Page
+        title="Procurement Board"
+        class="sapUiNoContentPadding"
+    >
         <content>
-            <tnt:SideNavigation
-                id="sideNavigation"
-                selectedKey="dashboard"
-                expanded="true"
+            <!-- Main Layout -->
+            <HBox
+                width="100%"
+                height="100%"
+                renderType="Bare"
             >
-                <tnt:NavigationList id="navigationList">
-                    <tnt:NavigationListItem
-                        key="dashboard"
-                        text="Dashboard"
-                        icon="sap-icon://home"
-                        select=".onNavigationSelect"
-                    />
-
-                    <tnt:NavigationListItem
-                        key="Vendor"
-                        text="Vendor"
-                        icon="sap-icon://supplier"
-                        select=".onNavigationSelect"
-                    />
-
-                    <tnt:NavigationListItem
-                        key="purchaseOrders"
-                        text="Purchase Orders"
-                        icon="sap-icon://cart"
-                        select=".onNavigationSelect"
-                    />
-
-                    <tnt:NavigationListItem
-                        key="invoices"
-                        text="Invoices"
-                        icon="sap-icon://receipt"
-                        select=".onNavigationSelect"
-                    />
-
-                    <tnt:NavigationListItem
-                        key="risk"
-                        text="Risk Management"
-                        icon="sap-icon://warning"
-                        select=".onNavigationSelect"
-                    />
-
-                    <tnt:NavigationListItem
-                        key="compliance"
-                        text="Compliance"
-                        icon="sap-icon://documents"
-                        select=".onNavigationSelect"
-                    />
-
-                    <tnt:NavigationListItem
-                        key="approvals"
-                        text="Approvals"
-                        icon="sap-icon://approvals"
-                        select=".onNavigationSelect"
-                    />
-
-                </tnt:NavigationList>
-
-                <tnt:fixedItem>
-                    <tnt:NavigationList>
+                <!-- LEFT SIDE NAVIGATION -->
+                <tnt:SideNavigation
+                    id="sideNavigation"
+                    selectedKey="dashboard"
+                    expanded="true"
+                    width="15rem"
+                >
+                    <tnt:NavigationList id="navigationList">
 
                         <tnt:NavigationListItem
-                            key="settings"
-                            text="Settings"
-                            icon="sap-icon://action-settings"
+                            key="Vendor"
+                            text="Vendor"
+                            icon="sap-icon://supplier"
+                            select=".onNavigationSelect"
+                        />
+
+                        <tnt:NavigationListItem
+                            key="purchaseOrders"
+                            text="Purchase Orders"
+                            icon="sap-icon://cart"
+                            select=".onNavigationSelect"
+                        />
+
+                        <tnt:NavigationListItem
+                            key="invoices"
+                            text="Invoices"
+                            icon="sap-icon://receipt"
                             select=".onNavigationSelect"
                         />
 
                     </tnt:NavigationList>
-                </tnt:fixedItem>
+           
+                </tnt:SideNavigation>
 
-            </tnt:SideNavigation>
+                <!-- RIGHT CONTENT AREA -->
+                <VBox
+                    width="100%"
+                    class="sapUiMediumMargin"
+                >
+                    <!-- CARDS ROW -->
+                    <HBox
+                        width="100%"
+                        wrap="Wrap"
+                        justifyContent="Center"
+                        alignItems="Center"
+                    >
+                        <f:Card
+                            class="sapUiSmallMarginBottom"
+                            width="500px"
+                            height="500px"
+                        >
+                            <f:header>
+                                <card:Header
+                                    iconSrc="sap-icon://order"
+                                    title="PO Details"
+                                />
+                            </f:header>
 
+                            <f:content>
+                                <VBox
+                                    width="100%"
+                                    height="100%"
+                                    justifyContent="Center"
+                                    alignItems="Center"
+                                >
+                                    <!-- <m:InteractiveBarChart
+                                        id="poStatusChart"
+                                        selectionChanged=".onSelectionChanged"
+                                    /> -->
+                                                       <mdc:Chart
+                                         id="poStatusChart"
+    chartType="bar"
+    header="PO Status"
+    width="100%"
+    height="400px"
+    delegate="{
+        'name': 'project1/delegate/POStatusChartDelegate'
+    }">
+
+                                        <mdc:items>
+
+                                            <mdcc:Item
+                                                propertyKey="status"
+                                                type="groupable"
+                                                label="PO Status"
+                                                role="category"/>
+
+                                            <mdcc:Item
+                                                propertyKey="count"
+                                                type="aggregatable"
+                                                label="Number of POs"
+                                                role="axis1"/>
+
+                                        </mdc:items>
+
+                                    </mdc:Chart>
+                                  
+                                </VBox>
+                            </f:content>
+                        </f:Card>
+                    </HBox>
+                </VBox>
+            </HBox>
         </content>
-        
     </Page>
 </mvc:View>
-
- 
