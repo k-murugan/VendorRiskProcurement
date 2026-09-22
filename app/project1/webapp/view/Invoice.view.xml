@@ -1,110 +1,192 @@
 <mvc:View
+    controllerName="project1.controller.Invoice"
     xmlns="sap.m"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns:f="sap.f"
     xmlns:core="sap.ui.core"
-    xmlns:fb="sap.ui.comp.filterbar">
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:cards="sap.f.cards"
+>
+    <f:DynamicPage
+        id="invoiceDynamicPage"
+        fitContent="true"
+        headerExpanded="true"
+        class="sapUiResponsiveContentPadding"
+    >
+        <f:title>
+            <f:DynamicPageTitle>
+                <f:heading>
+                    <Title text="Invoice Details" />
+                </f:heading>
 
-    <Page title="Invoice Details">
-        <f:DynamicPage
-            fitContent="true"
-            headerExpanded="true">
-            <f:header>
-                <f:DynamicPageHeader>
-                    <f:content>
-                        <fb:FilterBar
-                            id="invoiceFilterBar"
-                            showFilterConfiguration="false"
-                            useToolbar="false">
-                            <fb:filterGroupItems>
-                                <fb:FilterGroupItem
-                                    label="Invoice Details"
-                                    name="Invoice"
-                                    groupName="invoice"
-                                    visibleInFilterBar="true">
-                                    <fb:control>
-                                        <MultiComboBox
-                                            id="invoiceFilter"
-                                            width="300px"
-                                            selectionChange=".oninvoiceFilterChange"
-                                            items="{
-                                                path: '/Invoices',
-                                                templateShareable: true
-                                            }">
-                                            <core:Item
-                                                key="{ID}"
-                                                text="{invoiceNumber}"/>
-                                        </MultiComboBox>
-                                    </fb:control>
-                                </fb:FilterGroupItem>
-                            </fb:filterGroupItems>
-                        </fb:FilterBar>
-                    </f:content>
-                </f:DynamicPageHeader>
-            </f:header>
-            <f:content>
-                <VBox>
-                    <Table
-                        id="invoiceTable"
-                        items="{
-                            path: '/Invoices',
-                            sorter: {
-                                path: 'invoiceNumber'
-                            }
-                        }">
-                        <columns>
-                            <Column>
-                                <Text text="Invoice Number"/>
-                            </Column>
-                            <Column>
-                                <Text text="Invoice Date"/>
-                            </Column>
-                            <Column>
-                                <Text text="Material Code"/>
-                            </Column>
-                            <Column>
-                                <Text text="Quantity"/>
-                            </Column>
-                              <Column>
-                                <Text text="Estimated Price"/>
-                            </Column>
-                            <Column>
-                                <Text text="Actual Price"/>
-                            </Column>
-                            <Column>
-                                <Text text="Price Difference"/>
-                            </Column>
-                            <Column>
-                                <Text text="Invoice Amount"/>
-                            </Column>
-                            <Column>
-                                <Text text="Status"/>
-                            </Column>
-                            <Column>
-                                <Text text="Risk Level"/>
-                            </Column>
-            
-                        </columns>
-                        <items>
-                            <ColumnListItem>
-                                <cells>
-                                    <Text text="{invoiceNumber}"/>
-                                    <Text text="{invoiceDate}"/>
-                                    <Text text="{materialCode}"/>
-                                    <Text text="{quantity}"/>
-                                    <Text text="{oldPrice}"/>
-                                    <Text text="{currentPrice}"/>
-                                    <Text text="{priceDifference}"/>
-                                    <Text text="{invoiceAmount}"/>
-                                    <Text text="{invoiceStatus}"/>
-                                    <Text text="{riskLevel}"/>
-                                </cells>
-                            </ColumnListItem>
-                        </items>
-                    </Table>
-                </VBox>
-            </f:content>
-        </f:DynamicPage>
-    </Page>
+                <!-- <f:actions>
+                    <Button
+                        text="Add Vendor"
+                        icon="sap-icon://add"
+                        type="Emphasized"
+                        press=".onAddVendor"
+                    />
+                </f:actions> -->
+            </f:DynamicPageTitle>
+        </f:title>
 
+        <f:header>
+            <f:DynamicPageHeader>
+                <f:content>
+                    <fb:FilterBar
+                        id="invoiceFilterBar"
+                        showFilterConfiguration="false"
+                        useToolbar="false"
+                        showGoOnFB="false"
+                    >
+                        <fb:filterGroupItems>
+                            <fb:FilterGroupItem
+                                label="Invoice"
+                                name="invoice"
+                                groupName="invoice"
+                                visibleInFilterBar="true"
+                            >
+                                <fb:control>
+                                    <MultiComboBox
+                                        id="invoiceFilter"
+                                        width="220px"
+                                        selectionChange=".onInvoiceFilterChange"
+                                        items="{
+                                            path: '/Invoices',
+                                            templateShareable: true
+                                        }"
+                                    >
+                                        <core:Item
+                                            key="{ID}"
+                                            text="{invoiceNumber}"
+                                        />
+                                    </MultiComboBox>
+                                </fb:control>
+                            </fb:FilterGroupItem>
+
+                            <fb:FilterGroupItem
+                                label="Invoice Number"
+                                name="invoiceNumber"
+                                groupName="inNumber"
+                                visibleInFilterBar="true"
+                            >
+                                <fb:control>
+                                    <MultiComboBox
+                                        id="inNumberFilter"
+                                        width="220px"
+                                        selectionChange=".onInvoiceFilterChange"
+                                        items="{
+                                            path: '/Invoices',
+                                            templateShareable: true
+                                        }"
+                                    >
+                                        <core:Item
+                                            key="{ID}"
+                                            text="{invoiceNumber}"
+                                        />
+                                    </MultiComboBox>
+                                </fb:control>
+                            </fb:FilterGroupItem>
+
+                          
+                        </fb:filterGroupItems>
+                    </fb:FilterBar>
+                </f:content>
+            </f:DynamicPageHeader>
+        </f:header>
+
+        <f:content>
+            <VBox
+                width="100%"
+                class="sapUiMediumMarginTop"
+            >
+                <Table
+                    mode="MultiSelect"
+                    id="invoiceTable"
+                    width="100%"
+                    growing="true"
+                    growingScrollToLoad="true"
+                    items="{
+                        path: '/Invoices',
+                        sorter: {
+                            path: 'invoiceNumber'
+                        }
+                    }"
+                    
+                >
+                    <headerToolbar>
+                        <OverflowToolbar>
+                            <ToolbarSpacer />
+
+                            <Button
+                                icon="sap-icon://edit"
+                                tooltip="Edit Invoice"
+                                type="Transparent"
+                                press=".onEditInvoice"
+                            />
+
+                            <Button
+                                icon="sap-icon://delete"
+                                tooltip="Delete Invoice"
+                                type="Transparent"
+                                press=".onDeleteInvoice"
+                            />
+                        </OverflowToolbar>
+                    </headerToolbar>
+
+                    <columns>
+                        <Column>
+                            <Text text="Invoice Number" />
+                        </Column>
+                        <Column>
+                            <Text text="Invoice Date" />
+                        </Column>
+                        <Column>
+                            <Text text="Material Code" />
+                        </Column>
+                        <Column>
+                            <Text text="Quantity" />
+                        </Column>
+                        <Column>
+                            <Text text="Estimated Price" />
+                        </Column>
+                        <Column>
+                            <Text text="Actual Price" />
+                        </Column>
+                        <Column>
+                            <Text text="Price Difference" />
+                        </Column>
+                        <Column>
+                            <Text text="Invoice Amount" />
+                        </Column>
+                        <Column>
+                            <Text text="Status" />
+                        </Column>
+                        <Column>
+                            <Text text="Risk Level" />
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem
+                            type="Navigation"
+                            press=".onVendorPress"
+                        >
+                            <cells>
+                                <Text text="{invoiceNumber}" />
+                                <Text text="{invoiceDate}" />
+                                <Text text="{materialCode}" />
+                                <Text text="{quantity}" />
+                                <Text text="{oldPrice}" />
+                                <Text text="{currentPrice}" />
+                                <Text text="{priceDifference}" />
+                                <Text text="{invoiceAmount}" />
+                                <Text text="{invoiceStatus}" />
+                                <Text text="{riskLevel}" />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </VBox>
+        </f:content>
+    </f:DynamicPage>
 </mvc:View>

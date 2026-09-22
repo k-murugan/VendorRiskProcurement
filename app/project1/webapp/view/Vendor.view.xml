@@ -5,6 +5,8 @@
     xmlns:f="sap.f"
     xmlns:core="sap.ui.core"
     xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:cards="sap.f.cards"
+    xmlns:table="sap.m.table"
 >
     <f:DynamicPage
         id="vendorDynamicPage"
@@ -29,10 +31,6 @@
             </f:DynamicPageTitle>
         </f:title>
 
-
-        <!-- ========================= -->
-        <!-- FILTER HEADER -->
-        <!-- ========================= -->
         <f:header>
             <f:DynamicPageHeader>
                 <f:content>
@@ -41,6 +39,7 @@
                         id="vendorFilterBar"
                         showFilterConfiguration="false"
                         useToolbar="false"
+                        showGoOnFB="false"
                     >
 
                         <fb:filterGroupItems>
@@ -157,62 +156,34 @@
         </f:header>
 
 
-        <!-- ========================= -->
-        <!-- MAIN CONTENT -->
-        <!-- ========================= -->
+    
         <f:content>
 
             <VBox
                 width="100%"
                 class="sapUiMediumMarginTop"
             >
+          
 
-                <!-- ========================= -->
-                <!-- TABLE -->
-                <!-- ========================= -->
                 <Table
                     id="vendorTable"
                     width="100%"
                     growing="true"
                     growingScrollToLoad="true"
+                    mode="MultiSelect"
                     items="{
                         path: '/Vendors',
                         sorter: {
-                            path: 'vendorName'
+                            path: 'vendorCode'
                         }
                     }"
                 >
 
-                    <!-- ========================= -->
-                    <!-- TABLE TOOLBAR -->
-                    <!-- ========================= -->
                     <headerToolbar>
                         <OverflowToolbar>
 
-                            <!-- <Title
-                                text="Vendors"
-                                level="H2"
-                            /> -->
-
                             <ToolbarSpacer />
 
-                            <!-- Search -->
-                            <!-- <SearchField
-                                id="vendorSearch"
-                                width="250px"
-                                placeholder="Search vendors"
-                                liveChange=".onVendorSearch"
-                            /> -->
-
-                            <!-- Refresh -->
-                            <!-- <Button
-                                icon="sap-icon://refresh"
-                                tooltip="Refresh"
-                                type="Transparent"
-                                press=".onRefresh"
-                            /> -->
-
-                            <!-- Add -->
                             <Button
                                 icon="sap-icon://add"
                                 tooltip="Add Vendor"
@@ -240,9 +211,6 @@
                     </headerToolbar>
 
 
-                    <!-- ========================= -->
-                    <!-- TABLE COLUMNS -->
-                    <!-- ========================= -->
                     <columns>
 
                         <Column width="10rem">
@@ -268,9 +236,6 @@
                     </columns>
 
 
-                    <!-- ========================= -->
-                    <!-- TABLE ROWS -->
-                    <!-- ========================= -->
                     <items>
 
                         <ColumnListItem

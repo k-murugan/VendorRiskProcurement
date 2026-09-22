@@ -4,6 +4,8 @@ service VendorRiskService {
 
     entity Vendors as projection on db.Vendors;
     function totalVendor() returns Integer;
+    function totalPO() returns Integer;
+    function totalInvoice() returns Integer;
     function getPOStatusCounts() returns array of {
         status : String;
         count  : Integer;

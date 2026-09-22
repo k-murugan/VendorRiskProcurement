@@ -17,6 +17,21 @@ sap.ui.define([
         },
         onCloseDialog() {
             this.byId("Dialog")?.close();
+        },
+        onDeletePO: function(){
+            const oTable = this.byId("poTable");
+            const oSelectedItem = oTable.getSelectedItem();
+            if(!oSelectedItem){
+                sap.m.MessageToast.show("Please select a PO to delete");
+                return;
+            }
+            const oContext = oSelectedItem.getBindingContext();
+            oContext.delete().then(()=>{
+                sap.m.MessageToast.show("PO deleted successfully");
+                oTable.removeSelections(true);
+            }).catch((oError)=>{
+                sap.m.MessageToast.show("Failed to delete PO")
+            })
         }
   });
 });

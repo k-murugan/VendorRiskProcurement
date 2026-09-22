@@ -1,9 +1,21 @@
 const cds = require("@sap/cds");
 module.exports = cds.service.impl(async function(){
-    const {Vendors, PurchaseOrders} = this.entities;
+    const {Vendors, PurchaseOrders, Invoices} = this.entities;
     this.on("totalVendor", async(req)=>{
         const result = await SELECT.one
             .from(Vendors)
+            .columns`count(*) as count`;
+        return Number(result.count);
+    })
+    this.on("totalPO", async(req)=>{
+        const result = await SELECT.one
+            .from(PurchaseOrders)
+            .columns`count(*) as count`;
+        return Number(result.count);
+    })
+    this.on("totalInvoice", async(req)=>{
+        const result = await SELECT.one
+            .from(Invoices)
             .columns`count(*) as count`;
         return Number(result.count);
     })

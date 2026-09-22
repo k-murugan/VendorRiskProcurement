@@ -4,99 +4,148 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns:f="sap.f"
     xmlns:core="sap.ui.core"
-    xmlns:fb="sap.ui.comp.filterbar">
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:cards="sap.f.cards"
+>
+    <f:DynamicPage
+        id="poDynamicPage"
+        fitContent="true"
+        headerExpanded="true"
+        class="sapUiResponsiveContentPadding"
+    >
+        <f:title>
+            <f:DynamicPageTitle>
+                <f:heading>
+                    <Title text="Purchase Order Details" />
+                </f:heading>
+            </f:DynamicPageTitle>
+        </f:title>
 
-    <Page title="Purchase Order Details">
-        <f:DynamicPage
-            fitContent="true"
-            headerExpanded="true">
-            <f:header>
-                <f:DynamicPageHeader>
-                    <f:content>
-                        <fb:FilterBar
-                            id="poFilterBar"
-                            showFilterConfiguration="false"
-                            useToolbar="false">
-                            <fb:filterGroupItems>
-                                <fb:FilterGroupItem
-                                    label="Purchase Order"
-                                    name="PurchaseOrder"
-                                    groupName="PO"
-                                    visibleInFilterBar="true">
-                                    <fb:control>
-                                        <MultiComboBox
-                                            id="poFilter"
-                                            width="300px"
-                                            selectionChange=".onPOFilterChange"
-                                            items="{
-                                                path: '/PurchaseOrders',
-                                                templateShareable: true
-                                            }">
-                                            <core:Item
-                                                key="{ID}"
-                                                text="{poNumber}"/>
-                                        </MultiComboBox>
-                                    </fb:control>
-                                </fb:FilterGroupItem>
-                            </fb:filterGroupItems>
-                        </fb:FilterBar>
-                    </f:content>
-                </f:DynamicPageHeader>
-            </f:header>
-            <f:content>
-                <VBox>
-                    <HBox
-                        justifyContent="End"
-                        class="sapUiTinyMarginBottom">
-                        <Button
-                            text="+ Add PO"
-                            press=".addPO"
-                            type="Emphasized"/>
-                    </HBox>
-                    <Table
-                        id="poTable"
-                        items="{
-                            path: '/PurchaseOrders',
-                            sorter: {
-                                path: 'poNumber'
-                            }
-                        }">
-                        <columns>
-                            <Column>
-                                <Text text="PO Number"/>
-                            </Column>
-                            <Column>
-                                <Text text="PO Date"/>
-                            </Column>
-                            <Column>
-                                <Text text="Expected Delivery Date"/>
-                            </Column>
-                            <Column>
-                                <Text text="PO Status"/>
-                            </Column>
-                            <Column>
-                                <Text text="Total Amount"/>
-                            </Column>
-                            <Column>
-                                <Text text="Payment Terms"/>
-                            </Column>
-                        </columns>
-                        <items>
-                            <ColumnListItem>
-                                <cells>
-                                    <Text text="{poNumber}"/>
-                                    <Text text="{poDate}"/>
-                                    <Text text="{expectedDeliveryDate}"/>
-                                    <Text text="{poStatus}"/>
-                                    <Text text="{totalAmount}"/>
-                                    <Text text="{paymentTerms}"/>
-                                </cells>
-                            </ColumnListItem>
-                        </items>
-                    </Table>
-                </VBox>
-            </f:content>
-        </f:DynamicPage>
-    </Page>
+        <f:header>
+            <f:DynamicPageHeader>
+                <f:content>
+                    <fb:FilterBar
+                        id="poFilterBar"
+                        showFilterConfiguration="false"
+                        useToolbar="false"
+                        showGoOnFB="false"
+                    >
+                        <fb:filterGroupItems>
+                            <fb:FilterGroupItem
+                                label="Purchase Order"
+                                name="Purchase Order"
+                                groupName="PO"
+                                visibleInFilterBar="true"
+                            >
+                                <fb:control>
+                                    <MultiComboBox
+                                        id="poFilter"
+                                        width="220px"
+                                        selectionChange=".onpoFilterChange"
+                                        items="{
+                                            path: '/PurchaseOrders',
+                                            templateShareable: true
+                                        }"
+                                    >
+                                        <core:Item
+                                            key="{ID}"
+                                            text="{poNumber}"
+                                        />
+                                    </MultiComboBox>
+                                </fb:control>
+                            </fb:FilterGroupItem>
+                        </fb:filterGroupItems>
+                    </fb:FilterBar>
+                </f:content>
+            </f:DynamicPageHeader>
+        </f:header>
 
+        <f:content>
+            <VBox
+                width="100%"
+                class="sapUiMediumMarginTop"
+            >
+                <Table
+                    id="poTable"
+                    width="100%"
+                    growing="true"
+                    growingScrollToLoad="true"
+                    mode="MultiSelect"
+                    items="{
+                        path: '/PurchaseOrders',
+                        sorter: {
+                            path: 'poNumber'
+                        }
+                    }"
+                >
+                    <headerToolbar>
+                        <OverflowToolbar>
+                            <ToolbarSpacer />
+
+                            <Button
+                                icon="sap-icon://add"
+                                tooltip="Add PO"
+                                type="Transparent"
+                                press=".addPO"
+                            />
+
+                            <!-- Edit -->
+                            <Button
+                                icon="sap-icon://edit"
+                                tooltip="Edit PO"
+                                type="Transparent"
+                                press=".onEditPO"
+                            />
+
+                            <!-- Delete -->
+                            <Button
+                                icon="sap-icon://delete"
+                                tooltip="Delete PO"
+                                type="Transparent"
+                                press=".onDeletePO"
+                            />
+                        </OverflowToolbar>
+                    </headerToolbar>
+
+                    <columns>
+                        <Column width="10rem">
+                            <Text text="PO Number" />
+                        </Column>
+
+                        <Column width="15rem">
+                            <Text text="PO Date" />
+                        </Column>
+
+                        <Column width="12rem">
+                            <Text text="Expected Delivery Date" />
+                        </Column>
+                        <Column width="10rem">
+                            <Text text="PO Status" />
+                        </Column>
+                        <Column>
+                            <Text text="Total Amount" />
+                        </Column>
+                        <Column>
+                            <Text text="Payment Terms" />
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem
+                            type="Navigation"
+                            press=".onVendorPress"
+                        >
+                            <cells>
+                                <Text text="{poNumber}" />
+                                <Text text="{poDate}" />
+                                <Text text="{expectedDeliveryDate}" />
+                                <Text text="{poStatus}" />
+                                <Text text="{totalAmount}" />
+                                <Text text="{paymentTerms}" />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </VBox>
+        </f:content>
+    </f:DynamicPage>
 </mvc:View>
