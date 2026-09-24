@@ -6,13 +6,60 @@ sap.ui.define([
 
     return Controller.extend("project1.controller.View1", {
         onInit: function () {
-            const oModel = this.getOwnerComponent().getModel(); 
-            console.log("OData Model:", oModel); 
-            // Load dashboard counts 
-            this._loadTotalVendor(oModel); 
-            this._loadTotalPO(oModel); 
-            this._loadTotalInvoice(oModel); 
-        }, 
+            const oModel = this.getOwnerComponent().getModel();
+            console.log("OData Model:", oModel);
+            this._loadTotalVendor(oModel);
+            this._loadTotalPO(oModel);
+            this._loadTotalInvoice(oModel);
+        },
+    //     _loadTotalVendor: function (oModel) {
+    //         oModel.callFunction("/totalVendor", {
+    //             method: "GET",
+    //             success: function (oData) {
+    //                 console.log("Total Vendor Result:", oData);
+    //                 const iValue = oData.totalVendor;
+    //                 console.log("Total Vendors:", iValue);
+    //                 this.byId("vendorCount").setValue(iValue);
+    //             }.bind(this),
+    //             error: function (oError) {
+    //                 console.error(
+    //                     "Error getting vendor count:",
+    //                     oError
+    //                 );
+    //                 MessageToast.show(
+    //                     "Unable to load vendor count"
+    //                 );
+    //             }
+    //         });
+    //     },
+    //  _loadTotalPO: function(oModel){
+    //     oModel.callFunction("/totalPO",{
+    //         method:"GET",
+    //         success:function(oData){
+    //             const iValue=oData.totalPO;
+    //             this.byId("poCount").setValue(iValue);
+    //         }.bind(this),
+    //         error: function(oError){
+    //             console.error("Error getting PO count:",oError);
+    //             MessageToast.show("Unable to load PO count");
+    //         }
+    //     })
+    //  },
+    //  _loadTotalInvoice: function(oModel){
+    //     oModel.callFunction("/totalInvoice",{
+    //         method: "GET",
+    //         success: function(oData){
+    //             const iValue = oData.totalInvoice;
+    //             this.byId("invoiceCount").setValue(iValue);
+    //         }.bind(this),
+    //         error: function(oError){
+    //             console.error("Error getting invoice count:", oError);
+    //             MessageToast.show("Unable to load invoice count");
+    //         }
+    //     })
+    //  },
+
+
          _loadTotalVendor: function (oModel) { 
             const oOperation = oModel.bindContext( "/totalVendor(...)" ); 
             oOperation.invoke() .then(() => { 
@@ -27,6 +74,7 @@ sap.ui.define([
                 MessageToast.show( "Unable to load vendor count" ); 
             }); 
         }, 
+        
          _loadTotalPO: function (oModel) { 
             const oOperation = oModel.bindContext( "/totalPO(...)" ); 
             oOperation.invoke() .then(() => { 
@@ -34,13 +82,14 @@ sap.ui.define([
                 const oResult = oContext.getObject(); 
                 console.log( "Total PO Result:", oResult ); 
                 const iValue = oResult.value ?? oResult; 
-                console.log( "Total Purchase Orders:", iValue ); 
+                console.log( "Total PO:", iValue ); 
                 this.byId("poCount") .setValue(iValue); 
             }) .catch((oError) => { 
                 console.error( "Error getting PO count:", oError ); 
                 MessageToast.show( "Unable to load PO count" ); 
-            });
-         }, 
+            }); 
+        }, 
+        
          _loadTotalInvoice: function (oModel) { 
             const oOperation = oModel.bindContext( "/totalInvoice(...)" ); 
             oOperation.invoke() .then(() => { 
@@ -48,35 +97,14 @@ sap.ui.define([
                 const oResult = oContext.getObject(); 
                 console.log( "Total Invoice Result:", oResult ); 
                 const iValue = oResult.value ?? oResult; 
-                console.log( "Total Invoices:", iValue ); 
+                console.log( "Total Invoice:", iValue ); 
                 this.byId("invoiceCount") .setValue(iValue); 
             }) .catch((oError) => { 
                 console.error( "Error getting invoice count:", oError ); 
                 MessageToast.show( "Unable to load invoice count" ); 
-            });
-         },
-            // const oModel = this.getOwnerComponent().getModel(); 
-            // console.log("OData Model:", oModel); 
-            // const oOperation = oModel.bindContext("/totalVendor(...)"); 
-            // oOperation.invoke().then(() => { 
-            //     const oContext = oOperation.getBoundContext(); 
-            //     console.log("Operation Context:", oContext); 
-            //     const oResult = oContext.getObject(); 
-            //     console.log("Operation Result:", oResult); 
-            //     if (oResult !== undefined) { 
-            //         const oValue = oResult.value ?? oResult; 
-            //         console.log("Total Vendors:", oValue); 
-            //         this.byId("vendorCount").setValue(oValue); 
-            //     }
-            //  }).catch((oError) => { 
-            //     console.error("Error getting vendor count:", oError);
-            //  });
-
-            // const oModel = this.getOwnerComponent().getModel();
-
-            // console.log("OData Model:", oModel);
-            // this._loadVendorCount();
-            // this._loadPOStatusCounts(oModel);
+            }); 
+        }, 
+      
 
 
         // _loadPOStatusCounts: function (oModel) {
@@ -173,7 +201,7 @@ sap.ui.define([
 
         //     });
 
-        
+
         // },
 
         // onSelectData: function (oEvent) {
@@ -190,10 +218,10 @@ sap.ui.define([
             const sKey = oItem.getKey();
 
             switch (sKey) {
-                case "dashboard": 
-                    this.getOwnerComponent() 
-                        .getRouter() 
-                        .navTo("View1"); 
+                case "dashboard":
+                    this.getOwnerComponent()
+                        .getRouter()
+                        .navTo("View1");
                     break;
 
                 case "Vendor":

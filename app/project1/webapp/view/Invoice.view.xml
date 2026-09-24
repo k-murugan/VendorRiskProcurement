@@ -100,25 +100,10 @@
                 width="100%"
                 class="sapUiMediumMarginTop"
             >
-                <Table
-                    mode="MultiSelect"
-                    id="invoiceTable"
-                    width="100%"
-                    growing="true"
-                    growingScrollToLoad="true"
-                    items="{
-                        path: '/Invoices',
-                        sorter: {
-                            path: 'invoiceNumber'
-                        }
-                    }"
-                    
-                >
-                    <headerToolbar>
-                        <OverflowToolbar>
-                            <ToolbarSpacer />
-
-                            <Button
+            <Toolbar>
+            <Title text="Invoice List"/>
+            <ToolbarSpacer/>
+            <Button
                                 icon="sap-icon://edit"
                                 tooltip="Edit Invoice"
                                 type="Transparent"
@@ -131,8 +116,23 @@
                                 type="Transparent"
                                 press=".onDeleteInvoice"
                             />
-                        </OverflowToolbar>
-                    </headerToolbar>
+            
+            </Toolbar>
+                <Table
+                    mode="MultiSelect"
+                    id="invoiceTable"
+                    width="100%"
+                    growing="true"
+                    growingThreshold="10"
+                    growingScrollToLoad="true"
+                    items="{
+                        path: '/Invoices',
+                        sorter: {
+                            path: 'invoiceNumber'
+                        }
+                    }"
+                    
+                >
 
                     <columns>
                         <Column>

@@ -65,11 +65,36 @@
                 width="100%"
                 class="sapUiMediumMarginTop"
             >
+            <Toolbar>
+            <Title text="Purchase Orders"/>
+            <ToolbarSpacer />
+             <Button
+                                icon="sap-icon://add"
+                                tooltip="Add PO"
+                                type="Transparent"
+                                press=".addPO"
+                            />
+                            <Button
+                                icon="sap-icon://edit"
+                                tooltip="Edit PO"
+                                type="Transparent"
+                                press=".onEditPO"
+                            />
+
+                            <Button
+                                icon="sap-icon://delete"
+                                tooltip="Delete PO"
+                                type="Transparent"
+                                press=".onDeletePO"
+                            />
+
+            </Toolbar>
                 <Table
                     id="poTable"
                     width="100%"
                     growing="true"
                     growingScrollToLoad="true"
+                    growingThreshold="10"
                     mode="MultiSelect"
                     items="{
                         path: '/PurchaseOrders',
@@ -78,34 +103,6 @@
                         }
                     }"
                 >
-                    <headerToolbar>
-                        <OverflowToolbar>
-                            <ToolbarSpacer />
-
-                            <Button
-                                icon="sap-icon://add"
-                                tooltip="Add PO"
-                                type="Transparent"
-                                press=".addPO"
-                            />
-
-                            <!-- Edit -->
-                            <Button
-                                icon="sap-icon://edit"
-                                tooltip="Edit PO"
-                                type="Transparent"
-                                press=".onEditPO"
-                            />
-
-                            <!-- Delete -->
-                            <Button
-                                icon="sap-icon://delete"
-                                tooltip="Delete PO"
-                                type="Transparent"
-                                press=".onDeletePO"
-                            />
-                        </OverflowToolbar>
-                    </headerToolbar>
 
                     <columns>
                         <Column width="10rem">

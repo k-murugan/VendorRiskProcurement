@@ -1,4 +1,4 @@
-<mvc:View
+<mvc:View xmlns:vk="sap.ui.vk"
     controllerName="project1.controller.Vendor"
     xmlns="sap.m"
     xmlns:mvc="sap.ui.core.mvc"
@@ -44,7 +44,6 @@
 
                         <fb:filterGroupItems>
 
-                            <!-- Vendor Code -->
                             <fb:FilterGroupItem
                                 label="Vendor Code"
                                 name="VendorCode"
@@ -70,7 +69,6 @@
                             </fb:FilterGroupItem>
 
 
-                            <!-- Vendor Name -->
                             <fb:FilterGroupItem
                                 label="Vendor Name"
                                 name="vendorName"
@@ -96,7 +94,6 @@
                             </fb:FilterGroupItem>
 
 
-                            <!-- Category -->
                             <fb:FilterGroupItem
                                 label="Category"
                                 name="vendorCategory"
@@ -122,7 +119,6 @@
                             </fb:FilterGroupItem>
 
 
-                            <!-- Risk Level -->
                             <fb:FilterGroupItem
                                 label="Risk Level"
                                 name="vendorRisk"
@@ -155,21 +151,45 @@
             </f:DynamicPageHeader>
         </f:header>
 
-
-    
-        <f:content>
+       <f:content>
 
             <VBox
                 width="100%"
                 class="sapUiMediumMarginTop"
             >
+            <Toolbar>
+            <Title text="Vendors"></Title>
+              <ToolbarSpacer/>
+            
+                            <Button
+                                icon="sap-icon://add"
+                                tooltip="Add Vendor"
+                                type="Transparent"
+                                press=".addVendor"
+                            />
+
+                            <Button
+                                icon="sap-icon://edit"
+                                tooltip="Edit Vendor"
+                                type="Transparent"
+                                press=".onEditVendor"
+                            />
+
+                            <Button
+                                icon="sap-icon://delete"
+                                tooltip="Delete Vendor"
+                                type="Transparent"
+                                press=".onDeleteVendor"
+                            />
           
+            </Toolbar>
 
                 <Table
                     id="vendorTable"
                     width="100%"
                     growing="true"
                     growingScrollToLoad="true"
+                    growingThreshold="10"
                     mode="MultiSelect"
                     items="{
                         path: '/Vendors',
@@ -178,39 +198,6 @@
                         }
                     }"
                 >
-
-                    <headerToolbar>
-                        <OverflowToolbar>
-
-                            <ToolbarSpacer />
-
-                            <Button
-                                icon="sap-icon://add"
-                                tooltip="Add Vendor"
-                                type="Transparent"
-                                press=".addVendor"
-                            />
-
-                            <!-- Edit -->
-                            <Button
-                                icon="sap-icon://edit"
-                                tooltip="Edit Vendor"
-                                type="Transparent"
-                                press=".onEditVendor"
-                            />
-
-                            <!-- Delete -->
-                            <Button
-                                icon="sap-icon://delete"
-                                tooltip="Delete Vendor"
-                                type="Transparent"
-                                press=".onDeleteVendor"
-                            />
-
-                        </OverflowToolbar>
-                    </headerToolbar>
-
-
                     <columns>
 
                         <Column width="10rem">
