@@ -7,19 +7,21 @@ sap.ui.define([
         onInit() {
             
         },
+        
         async addVendor() {
             if (!this.dialog) {
                 this.dialog = await this.loadFragment({
                     name: "project1.view.VendorForm"
-                    // id: this.getView().getId()
                 });
             }
  
             this.dialog.open();
         },
+
         onCloseDialog() {
             this.byId("helloDialog")?.close();
         },
+
         onDeleteVendor: function(){
             const oTable = this.byId("vendorTable");
             const oSelectedItem = oTable.getSelectedItem();

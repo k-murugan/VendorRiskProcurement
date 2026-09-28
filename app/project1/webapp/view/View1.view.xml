@@ -1,29 +1,40 @@
 <mvc:View
     controllerName="project1.controller.View1"
-    xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
     xmlns:tnt="sap.tnt"
     xmlns:f="sap.f"
     xmlns:core="sap.ui.core"
-    xmlns:micro="sap.suite.ui.microchart"
+    height="100%"
 >
-<!-- <Page>
-<Title text="Procurement Team Dashboard"
-       level='H1'>
-       </Title> -->
-    <tnt:ToolPage id="toolPage"
-    sideExpanded="true">
-
-        <tnt:sideContent>
-
+    <HBox
+        id="mainLayout"
+        width="100%"
+        height="100%"
+        renderType="Bare"
+    >
+        <VBox
+            id="sideContainer"
+            width="70px"
+            height="100%"
+            renderType="Bare"
+            class="sideContainer"
+        >
+            <Button
+                icon="sap-icon://navigation-right-arrow"
+                press=".onCollapseExpandPress"
+            />
+            <!-- <Button
+			text="Show/Hide &quot;Walked&quot;"
+			icon="sap-icon://menu2"
+			press=".onHideShowWalkedPress" /> -->
             <tnt:SideNavigation
                 id="sideNavigation"
-                expanded="true"
                 selectedKey="dashboard"
+                expanded="false"
             >
-
                 <tnt:NavigationList id="navigationList">
-
+                   
                     <tnt:NavigationListItem
                         key="dashboard"
                         text="Dashboard"
@@ -51,157 +62,103 @@
                         icon="sap-icon://receipt"
                         select=".onNavigationSelect"
                     />
-
                 </tnt:NavigationList>
-
             </tnt:SideNavigation>
+        
+        </VBox>
+        <Page
+            id="mainPage"
+            width="auto"
+            showHeader="false"
+            class="sapUiNoContentPadding"
+        >
+            <content>
+                <f:DynamicPage
+                    id="dashboardPage"
+                    fitContent="true"
+                >
+                    <f:title>
+                        <f:DynamicPageTitle>
+                            <f:heading>
+                                <Title text="Procurement Overview" />
+                            </f:heading>
+                        </f:DynamicPageTitle>
+                    </f:title>
 
-        </tnt:sideContent>
-        <tnt:mainContents>
-
-            <Page
-                id="mainPage"
-                showHeader="false"
-            >
-
-
-                <content>
-
-                    <f:DynamicPage
-                        id="dashboardPage"
-                        fitContent="true"
-                    >
-
-                        <f:title>
-
-                            <f:DynamicPageTitle>
-
-                                <f:heading>
-
-                                    <Title
-                                        text="Procurement Overview"
-                                    />
-
-                                </f:heading>
-
-                            </f:DynamicPageTitle>
-
-                        </f:title>
-
-
-                        <f:content>
-
-                            <VBox
+                    <f:content>
+                        <VBox
+                            width="100%"
+                            class="sapUiResponsiveContentPadding"
+                        >
+                            <HBox
                                 width="100%"
-                                class="sapUiResponsiveContentPadding"
+                                wrap="Wrap"
+                                renderType="Bare"
+                                class="sapUiSmallMarginBottom"
                             >
-
-                                <HBox
-                                    width="100%"
-                                    wrap="Wrap"
-                                    renderType="Bare"
-                                    class="sapUiSmallMarginBottom"
+                                <GenericTile
+                                    id="vendorTile"
+                                    header="Total Vendors"
+                                    press=".onVendorPress"
+                                    class="sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                                    width="300px"
                                 >
+                                    <TileContent>
+                                        <NumericContent
+                                            id="vendorCount"
+                                            value="0"
+                                            icon="sap-icon://supplier"
+                                            valueColor="Good"
+                                        />
+                                    </TileContent>
+                                </GenericTile>
 
-                                    <GenericTile
-                                        id="vendorTile"
-                                        header="Total Vendors"
-                                        press=".onVendorPress"
-                                        class="sapUiSmallMarginEnd sapUiSmallMarginBottom"
-                                        width="300px"
-                                    >
-
-                                        <TileContent>
-
-                                            <NumericContent
-                                                id="vendorCount"
-                                                value="0"
-                                                icon="sap-icon://supplier"
-                                                valueColor="Good"
-                                            />
-
-                                        </TileContent>
-
-                                    </GenericTile>
-
-                                    <GenericTile
-                                        id="poTile"
-                                        header="Purchase Orders"
-                                        press=".onPurchaseOrderPress"
-                                        class="sapUiSmallMarginEnd sapUiSmallMarginBottom"
-                                        width="300px"
-                                    >
-
-                                        <TileContent>
-
-                                            <NumericContent
-                                                id="poCount"
-                                                value="0"
-                                                icon="sap-icon://cart"
-                                                valueColor="Neutral"
-                                            />
-
-                                        </TileContent>
-
-                                    </GenericTile>
-
-                                    <GenericTile
-                                        id="invoiceTile"
-                                        header="Total Invoices"
-                                        press=".onInvoicePress"
-                                        class="sapUiSmallMarginBottom"
-                                        width="300px"
-                                    >
-
-                                        <TileContent>
-
-                                            <NumericContent
-                                                id="invoiceCount"
-                                                value="0"
-                                                icon="sap-icon://receipt"
-                                                valueColor="Neutral"
-                                            />
-
-                                        </TileContent>
-
-                                    </GenericTile>
-
-                                </HBox>
-
-                                <Panel
-                                    headerText="Procurement Monitoring"
-                                    expandable="false"
-                                    class="sapUiSmallMarginBottom"
+                                <GenericTile
+                                    id="poTile"
+                                    header="Purchase Orders"
+                                    press=".onPurchaseOrderPress"
+                                    class="sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                                    width="300px"
                                 >
+                                    <TileContent>
+                                        <NumericContent
+                                            id="poCount"
+                                            value="0"
+                                            icon="sap-icon://cart"
+                                            valueColor="Neutral"
+                                        />
+                                    </TileContent>
+                                </GenericTile>
 
-                                    <content>
-                                    		<FlexBox height="70px" width="70px" renderType="Bare">
-							<layoutData>
-								<FlexItemData maxHeight="70px" />
-							</layoutData>
-							<micro:RadialMicroChart size="Responsive" percentage="45" app:name="radial" press=".press" />
-						</FlexBox>
+                                <GenericTile
+                                    id="invoiceTile"
+                                    header="Total Invoices"
+                                    press=".onInvoicePress"
+                                    class="sapUiSmallMarginBottom"
+                                    width="300px"
+                                >
+                                    <TileContent>
+                                        <NumericContent
+                                            id="invoiceCount"
+                                            value="0"
+                                            icon="sap-icon://receipt"
+                                            valueColor="Neutral"
+                                        />
+                                    </TileContent>
+                                </GenericTile>
+                            </HBox>
 
-                                        <!-- <Text
-                                            text="Monitor vendors, purchase orders and invoices from one central dashboard."
-                                        /> -->
-
-                                    </content>
-
-                                </Panel>
-
-                            </VBox>
-
-                        </f:content>
-
-                    </f:DynamicPage>
-
-                </content>
-
-            </Page>
-
-        </tnt:mainContents>
-
-    </tnt:ToolPage>
-<!-- </Page> -->
+                            <Panel
+                                headerText="Procurement Monitoring"
+                                expandable="false"
+                                class="sapUiSmallMarginBottom"
+                            >
+                                <content />
+                            </Panel>
+                        </VBox>
+                    </f:content>
+                </f:DynamicPage>
+            </content>
+        </Page>
+    </HBox>
 </mvc:View>

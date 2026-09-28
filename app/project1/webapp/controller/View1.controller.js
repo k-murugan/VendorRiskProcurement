@@ -12,6 +12,23 @@ sap.ui.define([
             this._loadTotalPO(oModel);
             this._loadTotalInvoice(oModel);
         },
+        onCollapseExpandPress() {
+			 const oSideNavigation = this.byId("sideNavigation");
+    const oSideContainer = this.byId("sideContainer");
+
+    const bExpanded = oSideNavigation.getExpanded();
+
+    if (bExpanded) {
+        // Collapse
+        oSideNavigation.setExpanded(false);
+        oSideContainer.setWidth("70px");
+    } else {
+        // Expand
+        oSideNavigation.setExpanded(true);
+        oSideContainer.setWidth("250px");
+    }
+		},
+
     //     _loadTotalVendor: function (oModel) {
     //         oModel.callFunction("/totalVendor", {
     //             method: "GET",

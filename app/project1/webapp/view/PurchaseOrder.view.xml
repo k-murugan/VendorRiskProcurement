@@ -129,7 +129,7 @@
                     <items>
                         <ColumnListItem
                             type="Navigation"
-                            press=".onVendorPress"
+                            press=".onPOPress"
                         >
                             <cells>
                                 <Text text="{poNumber}" />

@@ -113,6 +113,11 @@
           "name":"Invoice",
           "pattern": "invoice",
           "target":"invoice"
+        },
+        {
+          "name":"POItem",
+          "pattern":"POItem/{po}",
+          "target":"poItem"
         }
       ],
       "targets": {
@@ -128,6 +133,9 @@
         },
         "invoice":{
           "name":"Invoice"
+        },
+        "poItem":{
+          "name":"POItem"
         }
       }
     },
