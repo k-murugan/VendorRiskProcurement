@@ -1,6 +1,6 @@
 sap.ui.define([
-  "sap/ui/core/mvc/Controller", "sap/ui/core/UIComponent"
-], (BaseController, UIComponent) => {
+  "sap/ui/core/mvc/Controller", "sap/ui/core/UIComponent", "sap/m/MessageToast"
+], (BaseController, UIComponent, MessageToast) => {
   "use strict";
 
   return BaseController.extend("project1.controller.PurchaseOrder", {
@@ -32,13 +32,21 @@ sap.ui.define([
                 sap.m.MessageToast.show("Failed to delete PO")
             })
         },
-        onPOPress: function(event){
-            const item=event.getSource();
-            const router= UIComponent.getRouterFor(this);
-            router.navTo("POItem", {
-				po: window.encodeURIComponent(item.getBindingContext("POItem").getPath().substring(1))
-			});
+        onPOPress: function (oEvent) {
+            const oItem = oEvent.getSource();
+            const oContext = oItem.getBindingContext();
 
+            if (!oContext) {
+                MessageToast.show("PO context not found");
+                return;
+            }
+            const sPath = oContext.getPath();
+            console.log("Selected PO path:", sPath);
+            const oRouter = UIComponent.getRouterFor(this);
+            oRouter.navTo("POItem", {
+                po: encodeURIComponent(sPath)
+            });
         }
+
   });
 });

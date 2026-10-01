@@ -9,10 +9,10 @@
     xmlns:table="sap.m.table"
 >
     <f:DynamicPage
-        id="vendorDynamicPage"
+id="vendorDynamicPage"
         fitContent="true"
         headerExpanded="true"
-        class="sapUiResponsiveContentPadding"
+        class="sapUiResponsiveContentPadding"        
     >
         <f:title>
             <f:DynamicPageTitle>
@@ -40,6 +40,7 @@
                         showFilterConfiguration="false"
                         useToolbar="false"
                         showGoOnFB="false"
+                        persistencyKey=""
                     >
 
                         <fb:filterGroupItems>

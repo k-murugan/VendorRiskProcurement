@@ -1,6 +1,488 @@
 <mvc:View
-  xmlns="sap.m"
-  xmlns:mvc="sap.ui.core.mvc"
+    controllerName="project1.controller.POItem"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:uxap="sap.uxap"
+    xmlns:form="sap.ui.layout.form"
+    height="100%"
 >
-<Page title="Purchase Order Item"></Page>
+    <uxap:ObjectPageLayout
+        id="poObjectPage"
+        upperCaseAnchorBar="false"
+        showAnchorBar="false"
+        enableLazyLoading="false"
+        useIconTabBar="false"
+    >
+        <uxap:headerTitle>
+            <uxap:ObjectPageDynamicHeaderTitle>
+                <uxap:expandedHeading>
+                    <VBox>
+                        <Title
+                            text="Purchase Order Item"
+                            level="H1"
+                        />
+                        <Text
+                            text="Create a new purchase order with order items. The order will be sent for approval after submission."
+                            class="sapUiTinyMarginTop"
+                        />
+                    </VBox>
+                </uxap:expandedHeading>
+                <uxap:snappedHeading>
+                    <Title text="Create Purchase Order" />
+                </uxap:snappedHeading>
+            </uxap:ObjectPageDynamicHeaderTitle>
+        </uxap:headerTitle>
+
+        <uxap:sections>
+            <uxap:ObjectPageSection
+                title="Purchase Order Details"
+                titleUppercase="false"
+            >
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection
+                        titleUppercase="false"
+                        showTitle="false"
+                    >
+                        <uxap:blocks>
+                            <VBox width="100%">
+                                <form:SimpleForm
+                                    editable="true"
+                                    layout="ColumnLayout"
+                                    columnsM="3"
+                                    columnsL="3"
+                                    columnsXL="3"
+                                >
+                                    <Label
+                                        text="PO Number"
+                                        required="true"
+                                    />
+
+                                    <Input value="{poNumber}" />
+
+                                    <Label
+                                        text="Currency"
+                                        required="true"
+                                    />
+
+                                    <ComboBox
+                                        selectedKey="{currency}"
+                                        width="100%"
+                                    >
+                                        <core:Item
+                                            key="INR"
+                                            text="INR"
+                                        />
+
+                                        <core:Item
+                                            key="USD"
+                                            text="USD"
+                                        />
+
+                                        <core:Item
+                                            key="EUR"
+                                            text="EUR"
+                                        />
+                                    </ComboBox>
+
+                                    <Label text="Contract Reference" />
+
+                                    <Input
+                                        value="{contractReference}"
+                                        placeholder="Enter contract reference"
+                                    />
+
+                                    <Label
+                                        text="Expected Delivery Date"
+                                        required="true"
+                                    />
+
+                                    <DatePicker
+                                        value="{expectedDeliveryDate}"
+                                        valueFormat="yyyy-MM-dd"
+                                        displayFormat="yyyy-MM-dd"
+                                        width="100%"
+                                    />
+
+                                    <Label
+                                        text="Payment Terms"
+                                        required="true"
+                                    />
+
+                                    <ComboBox
+                                        selectedKey="{paymentTerms}"
+                                        width="100%"
+                                    >
+                                        <core:Item
+                                            key="IMMEDIATE"
+                                            text="Immediate"
+                                        />
+
+                                        <core:Item
+                                            key="NET15"
+                                            text="NET15"
+                                        />
+
+                                        <core:Item
+                                            key="NET30"
+                                            text="NET30"
+                                        />
+
+                                        <core:Item
+                                            key="NET45"
+                                            text="NET45"
+                                        />
+
+                                        <core:Item
+                                            key="NET60"
+                                            text="NET60"
+                                        />
+
+                                        <core:Item
+                                            key="NET90"
+                                            text="NET90"
+                                        />
+                                    </ComboBox>
+
+                                    <Label
+                                        text="Total Amount (Auto Calculated)"
+                                    />
+
+                                    <Input
+                                        value="{
+                                            parts: [
+                                                {path: 'totalAmount'},
+                                                {path: 'currency'}
+                                            ],
+                                            type: 'sap.ui.model.type.Currency',
+                                            formatOptions: {
+                                                showMeasure: true
+                                            }
+                                        }"
+                                        editable="false"
+                                        valueState="None"
+                                        class="totalAmountField"
+                                    />
+                                </form:SimpleForm>
+                            </VBox>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+            <uxap:ObjectPageSection
+                title="Order Items"
+                titleUppercase="false"
+            >
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection
+                        titleUppercase="false"
+                        showTitle="false"
+                    >
+                        <uxap:blocks>
+                            <VBox width="100%">
+                                <OverflowToolbar>
+                                    <Title
+                                        text="Order Items"
+                                        level="H2"
+                                    />
+
+                                    <ToolbarSpacer />
+
+                                    <Button
+                                        text="Add Item"
+                                        icon="sap-icon://add"
+                                        type="Emphasized"
+                                        press=".onAddItem"
+                                    />
+                                </OverflowToolbar>
+
+                                <Table
+                                    id="orderItemsTable"
+                                    width="100%"
+                                    growing="true"
+                                    growingScrollToLoad="true"
+                                    inset="false"
+                                    items="{
+                                        path: 'toItems'
+                                    }"
+                                >
+                                    <columns>
+                                        <!-- <Column width="3rem">
+
+                                            <Text
+                                                text="#"/>
+
+                                        </Column> -->
+
+                                        <Column width="10rem">
+                                            <Text text="Material" />
+                                        </Column>
+
+                                        <Column width="8rem">
+                                            <Text text="Material Code" />
+                                        </Column>
+
+                                        <Column width="12rem">
+                                            <Text text="Description" />
+                                        </Column>
+
+                                        <Column width="7rem">
+                                            <Text text="Quantity" />
+                                        </Column>
+
+                                        <Column width="6rem">
+                                            <Text text="Unit" />
+                                        </Column>
+
+                                        <Column
+                                            width="9rem"
+                                            hAlign="End"
+                                        >
+                                            <Text text="Old Unit Price" />
+                                        </Column>
+
+                                        <Column
+                                            width="9rem"
+                                            hAlign="End"
+                                        >
+                                            <Text text="Total Amount" />
+                                        </Column>
+
+                                        <Column width="11rem">
+                                            <Text
+                                                text="Requested Delivery Date"
+                                            />
+                                        </Column>
+
+                                        <!-- <Column
+                                            width="4rem"
+                                            hAlign="Center">
+
+                                            <Text
+                                                text="Actions"/>
+
+                                        </Column> -->
+                                    </columns>
+
+                                    <!-- ================================================= -->
+                                    <!-- TABLE ROW                                       -->
+                                    <!-- ================================================= -->
+
+                                    <items>
+                                        <ColumnListItem>
+                                            <!-- Row Number -->
+
+                                            <Text text="{= ${$index} + 1 }" />
+
+                                            <!-- Material -->
+
+                                            <ComboBox
+                                                selectedKey="{materialCode}"
+                                                width="100%"
+                                                items="{
+                                                    path: '/Materials'
+                                                }"
+                                            >
+                                                <core:Item
+                                                    key="{materialCode}"
+                                                    text="{materialName}"
+                                                />
+                                            </ComboBox>
+
+                                            <!-- Material Code -->
+
+                                            <Input
+                                                value="{materialCode}"
+                                                editable="false"
+                                                width="100%"
+                                            />
+
+                                            <!-- Description -->
+
+                                            <Input
+                                                value="{description}"
+                                                width="100%"
+                                            />
+
+                                            <!-- Quantity -->
+
+                                            <Input
+                                                value="{quantity}"
+                                                type="Number"
+                                                width="100%"
+                                                liveChange=".onQuantityChange"
+                                            />
+
+                                            <!-- Unit -->
+
+                                            <ComboBox
+                                                selectedKey="{unit}"
+                                                width="100%"
+                                            >
+                                                <core:Item
+                                                    key="EA"
+                                                    text="EA"
+                                                />
+
+                                                <core:Item
+                                                    key="KG"
+                                                    text="KG"
+                                                />
+
+                                                <core:Item
+                                                    key="BOX"
+                                                    text="BOX"
+                                                />
+
+                                                <core:Item
+                                                    key="SET"
+                                                    text="SET"
+                                                />
+                                            </ComboBox>
+
+                                            <!-- Old Unit Price -->
+
+                                            <Input
+                                                value="{oldUnitPrice}"
+                                                type="Number"
+                                                textAlign="End"
+                                                width="100%"
+                                                liveChange=".onPriceChange"
+                                            />
+
+                                            <!-- Total Amount -->
+
+                                            <Input
+                                                value="{totalAmount}"
+                                                editable="false"
+                                                textAlign="End"
+                                                width="100%"
+                                            />
+
+
+                                            <DatePicker
+                                                value="{requestedDeliveryDate}"
+                                                valueFormat="yyyy-MM-dd"
+                                                displayFormat="yyyy-MM-dd"
+                                                width="100%"
+                                            />
+
+
+                                            <Button
+                                                icon="sap-icon://delete"
+                                                type="Transparent"
+                                                tooltip="Delete Item"
+                                                press=".onDeleteItem"
+                                            />
+                                        </ColumnListItem>
+                                    </items>
+                                </Table>
+
+                                <HBox
+                                    width="100%"
+                                    justifyContent="End"
+                                    alignItems="Center"
+                                    class="orderTotalContainer"
+                                >
+                                    <Label
+                                        text="Total Amount"
+                                        class="sapUiSmallMarginEnd"
+                                    />
+
+                                    <ObjectNumber
+                                        number="{totalAmount}"
+                                        unit="{currency}"
+                                        emphasized="true"
+                                    />
+                                </HBox>
+                            </VBox>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+
+         
+            <uxap:ObjectPageSection
+                title="Additional Information"
+                titleUppercase="false"
+            >
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection
+                        titleUppercase="false"
+                        showTitle="false"
+                    >
+                        <uxap:blocks>
+                            <form:SimpleForm
+                                editable="true"
+                                layout="ColumnLayout"
+                                columnsM="2"
+                                columnsL="2"
+                                columnsXL="2"
+                            >
+
+                                <Label text="Buyer" />
+
+                                <ComboBox
+                                    selectedKey="{po>/buyerId}"
+                                    items="{
+        path: '/Employee'
+    }"
+                                >
+                                    <core:Item
+                                        key="{employeeId}"
+                                        text="{employeeName}"
+                                    />
+                                </ComboBox>
+
+
+                                <Label text="Remarks" />
+
+                                <TextArea
+                                    value="{remarks}"
+                                    maxLength="500"
+                                    rows="4"
+                                    width="100%"
+                                    placeholder="Enter remarks"
+                                />
+                            </form:SimpleForm>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+
+            <uxap:ObjectPageSection
+                titleUppercase="false"
+                showTitle="false"
+            >
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection
+                        titleUppercase="false"
+                        showTitle="false"
+                    >
+                        <uxap:blocks>
+                            <HBox
+                                width="100%"
+                                justifyContent="Start"
+                                class="sapUiMediumMarginTop sapUiMediumMarginBottom"
+                            >
+                                <Button
+                                    text="Submit"
+                                    icon="sap-icon://paper-plane"
+                                    type="Emphasized"
+                                    press=".onSubmit"
+                                    class="sapUiSmallMarginEnd"
+                                />
+
+                                <Button
+                                    text="Cancel"
+                                    type="Default"
+                                    press=".onCancel"
+                                />
+                            </HBox>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+        </uxap:sections>
+    </uxap:ObjectPageLayout>
 </mvc:View>
