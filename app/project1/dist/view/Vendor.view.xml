@@ -1,5 +1,4 @@
-<mvc:View
-    xmlns:vk="sap.ui.vk"
+<mvc:View xmlns:vk="sap.ui.vk"
     controllerName="project1.controller.Vendor"
     xmlns="sap.m"
     xmlns:mvc="sap.ui.core.mvc"
@@ -10,22 +9,32 @@
     xmlns:table="sap.m.table"
 >
     <f:DynamicPage
-        id="vendorDynamicPage"
+id="vendorDynamicPage"
         fitContent="true"
         headerExpanded="true"
-        class="sapUiResponsiveContentPadding"
+        class="sapUiResponsiveContentPadding"        
     >
         <f:title>
             <f:DynamicPageTitle>
                 <f:heading>
                     <Title text="Vendor Details" />
                 </f:heading>
+
+                <!-- <f:actions>
+                    <Button
+                        text="Add Vendor"
+                        icon="sap-icon://add"
+                        type="Emphasized"
+                        press=".onAddVendor"
+                    />
+                </f:actions> -->
             </f:DynamicPageTitle>
         </f:title>
 
         <f:header>
             <f:DynamicPageHeader>
                 <f:content>
+
                     <fb:FilterBar
                         id="vendorFilterBar"
                         showFilterConfiguration="false"
@@ -33,7 +42,9 @@
                         showGoOnFB="false"
                         persistencyKey=""
                     >
+
                         <fb:filterGroupItems>
+
                             <fb:FilterGroupItem
                                 label="Vendor Code"
                                 name="VendorCode"
@@ -51,12 +62,13 @@
                                         }"
                                     >
                                         <core:Item
-                                            key="{vendorCode}"
+                                            key="{ID}"
                                             text="{vendorCode}"
                                         />
                                     </MultiComboBox>
                                 </fb:control>
                             </fb:FilterGroupItem>
+
 
                             <fb:FilterGroupItem
                                 label="Vendor Name"
@@ -75,12 +87,13 @@
                                         }"
                                     >
                                         <core:Item
-                                            key="{vendorName}"
+                                            key="{ID}"
                                             text="{vendorName}"
                                         />
                                     </MultiComboBox>
                                 </fb:control>
                             </fb:FilterGroupItem>
+
 
                             <fb:FilterGroupItem
                                 label="Category"
@@ -106,6 +119,7 @@
                                 </fb:control>
                             </fb:FilterGroupItem>
 
+
                             <fb:FilterGroupItem
                                 label="Risk Level"
                                 name="vendorRisk"
@@ -129,42 +143,47 @@
                                     </MultiComboBox>
                                 </fb:control>
                             </fb:FilterGroupItem>
+
                         </fb:filterGroupItems>
+
                     </fb:FilterBar>
+
                 </f:content>
             </f:DynamicPageHeader>
         </f:header>
 
-        <f:content>
+       <f:content>
+
             <VBox
                 width="100%"
                 class="sapUiMediumMarginTop"
             >
-                <Toolbar>
-                    <Title text="Vendors" />
-                    <ToolbarSpacer />
+            <Toolbar>
+            <Title text="Vendors"></Title>
+              <ToolbarSpacer/>
+            
+                            <Button
+                                icon="sap-icon://add"
+                                tooltip="Add Vendor"
+                                type="Transparent"
+                                press=".addVendor"
+                            />
 
-                    <Button
-                        icon="sap-icon://add"
-                        tooltip="Add Vendor"
-                        type="Transparent"
-                        press=".addVendor"
-                    />
+                            <Button
+                                icon="sap-icon://edit"
+                                tooltip="Edit Vendor"
+                                type="Transparent"
+                                press=".onEditVendor"
+                            />
 
-                    <Button
-                        icon="sap-icon://edit"
-                        tooltip="Edit Vendor"
-                        type="Transparent"
-                        press=".onEditVendor"
-                    />
-
-                    <Button
-                        icon="sap-icon://delete"
-                        tooltip="Delete Vendor"
-                        type="Transparent"
-                        press=".onDeleteVendor"
-                    />
-                </Toolbar>
+                            <Button
+                                icon="sap-icon://delete"
+                                tooltip="Delete Vendor"
+                                type="Transparent"
+                                press=".onDeleteVendor"
+                            />
+          
+            </Toolbar>
 
                 <Table
                     id="vendorTable"
@@ -181,6 +200,7 @@
                     }"
                 >
                     <columns>
+
                         <Column width="10rem">
                             <Text text="Vendor Code" />
                         </Column>
@@ -200,28 +220,52 @@
                         <Column width="10rem">
                             <Text text="Risk Level" />
                         </Column>
+
                     </columns>
 
+
                     <items>
+
                         <ColumnListItem
                             type="Navigation"
                             press=".onVendorPress"
                         >
+
                             <cells>
-                                <Text text="{vendorCode}" />
 
-                                <Text text="{vendorName}" />
+                                <Text
+                                    text="{vendorCode}"
+                                />
 
-                                <Text text="{vendorCategory}" />
+                                <Text
+                                    text="{vendorName}"
+                                />
 
-                                <Text text="{materialCategory}" />
+                                <Text
+                                    text="{vendorCategory}"
+                                />
 
-                                <ObjectStatus text="{riskLevel}" />
+                                <Text
+                                    text="{materialCategory}"
+                                />
+
+                                <ObjectStatus
+                                    text="{riskLevel}"
+                                />
+
                             </cells>
+
                         </ColumnListItem>
+
                     </items>
+
                 </Table>
+
             </VBox>
+
         </f:content>
+
     </f:DynamicPage>
+
 </mvc:View>
+

@@ -29,5 +29,6 @@ service VendorRiskService {
     entity RiskAlerts as projection on db.RiskAlerts;
 
     entity RiskRules as projection on db.RiskRules;
+    entity Employee as projection on db.Employee;
     
 }

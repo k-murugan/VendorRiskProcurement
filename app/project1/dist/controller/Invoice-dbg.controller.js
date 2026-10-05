@@ -36,29 +36,7 @@ sap.ui.define([
                 console.error("Delete failed:", oError);
                 sap.m.MessageToast.show("Failed to delete invoice.");
             });
-        },
-        onpoFilterChange: function () { 
-            this._applyPOFilters(); 
-        },
-            _applyPOFilters: function () { 
-             const oTable = this.byId("poTable"); 
-             var oBinding = oTable.getBinding("items"); 
-             if (!oBinding) { 
-                return; 
-            } 
-            var aFilters = []; 
-            var aPOCodeKeys = this.byId("poFilter").getSelectedKeys(); 
-            if (aPOCodeKeys.length > 0) { 
-                var aCodeFilters = aPOCodeKeys.map(function (sKey) { 
-                    return new Filter( "poNumber", FilterOperator.EQ, sKey ); 
-                }); 
-                    aFilters.push( new Filter({ filters: aCodeFilters, and: false 
-
-                    }) );
-                 }           
-             
-                  oBinding.filter(aFilters); 
-                },
+        }
 
     });
 });

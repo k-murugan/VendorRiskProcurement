@@ -1,0 +1,154 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+>
+    <Dialog
+        id="Dialog"
+        title="Purchase Order Details"
+    >
+        <content>
+            <f:SimpleForm
+                editable="false"
+                layout="ColumnLayout"
+                columnsL="2"
+            >
+                <f:content>
+                    <Label
+                        text="PO Number"
+                        required="true"
+                    />
+                    <Input
+                        value=""
+                        type="Text"
+                        id="inputPONumber"
+                    />
+                    <Label
+                        text="PO Date"
+                        required="true"
+                    />
+                    <Input
+                        value=""
+                        type="Date"
+                        id="inputPODate"
+                    />
+                    <Label
+                        text="Expected Delivery Date"
+                        required="true"
+                    />
+                    <Input
+                        value=""
+                        type="Date"
+                        id="inputExpectedDate"
+                    />
+                    <Label
+                        text="PO Status"
+                        required="true"
+                    />
+                    <ComboBox
+                        id="inputPOStatus"
+                        selectedKey="{poStatus}"
+                        editable="true"
+                    >
+                        <core:Item
+                            key="DRAFT"
+                            text="DRAFT"
+                        />
+                        <core:Item
+                            key="PENDING_APPROVAL"
+                            text="PENDING APPROVAL"
+                        />
+                        <core:Item
+                            key='APPROVED'
+                            text="APPROVED"
+                        />
+                        <core:Item
+                            key='REJECTED'
+                            text='REJECTED'
+                        />
+                        <core:Item
+                            key='SENT_TO_VENDOR'
+                            text="SENT_TO_VENDOR"
+                        />
+                        <core:Item
+                            key='ACCEPTED'
+                            text="ACCEPTED"
+                        />
+                        <core:Item
+                            key=' PARTIALLY_DELIVERED'
+                            text=" PARTIALLY_DELIVERED"
+                        />
+                        <core:Item
+                            key='FULLY_DELIVERED'
+                            text="FULLY_DELIVERED"
+                        />
+                         <core:Item
+                            key='CANCELLED'
+                            text="CANCELLED"
+                        />
+                         <core:Item
+                            key='CLOSED'
+                            text="CLOSED"
+                        />
+                    </ComboBox>
+                    <Label
+                        text="Total Amount"
+                        required="true"
+                    />
+                    <Input
+                        value=""
+                        type="Text"
+                        id="inputAmount"
+                    />
+                    <Label
+                        text="Currency"
+                        required="true"
+                    />
+                    <Input
+                        value=""
+                        id="inputCurrency"
+                    />
+                    <Label
+                        text="PaymentTerms"
+                        required="true"
+                    />
+                     <ComboBox
+                        id="inputPaymentTerms"
+                        selectedKey="{poStatus}"
+                        editable="true"
+                    >
+                    <core:Item key="IMMEDIATE" text="IMMEDIATE"/>
+                    <core:Item key="NET15" text="NET15"/>
+                    <core:Item key="NET30" text="NET30"/>
+                    <core:Item key="NET45" text="NET45"/>
+                    <core:Item key="NET60" text="NET60"/>
+                    <core:Item key="NET90" text="NET90"/>
+                    </ComboBox>
+                    <Label
+                        text="Contact Reference"
+                        required="true"
+                    />
+                    <Input
+                        value=""
+                        type="Text"
+                        id="inputContactReference"
+                    />
+                </f:content>
+            </f:SimpleForm>
+        </content>
+        <beginButton>
+            <Button
+                text="Create"
+                type="Emphasized"
+                press=".onCreate"
+            />
+        </beginButton>
+        <endButton>
+            <Button
+                text="Cancel"
+                press=".onCloseDialog"
+            />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

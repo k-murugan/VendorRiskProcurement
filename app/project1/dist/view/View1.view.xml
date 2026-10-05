@@ -1,0 +1,164 @@
+<mvc:View
+    controllerName="project1.controller.View1"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:tnt="sap.tnt"
+    xmlns:f="sap.f"
+    xmlns:core="sap.ui.core"
+    height="100%"
+>
+    <HBox
+        id="mainLayout"
+        width="100%"
+        height="100%"
+        renderType="Bare"
+    >
+        <VBox
+            id="sideContainer"
+            width="70px"
+            height="100%"
+            renderType="Bare"
+            class="sideContainer"
+        >
+            <Button
+                icon="sap-icon://navigation-right-arrow"
+                press=".onCollapseExpandPress"
+            />
+            <!-- <Button
+			text="Show/Hide &quot;Walked&quot;"
+			icon="sap-icon://menu2"
+			press=".onHideShowWalkedPress" /> -->
+            <tnt:SideNavigation
+                id="sideNavigation"
+                selectedKey="dashboard"
+                expanded="false"
+            >
+                <tnt:NavigationList id="navigationList">
+                   
+                    <tnt:NavigationListItem
+                        key="dashboard"
+                        text="Dashboard"
+                        icon="sap-icon://home"
+                        select=".onNavigationSelect"
+                    />
+
+                    <tnt:NavigationListItem
+                        key="Vendor"
+                        text="Vendors"
+                        icon="sap-icon://supplier"
+                        select=".onNavigationSelect"
+                    />
+
+                    <tnt:NavigationListItem
+                        key="purchaseOrders"
+                        text="Purchase Orders"
+                        icon="sap-icon://cart"
+                        select=".onNavigationSelect"
+                    />
+
+                    <tnt:NavigationListItem
+                        key="invoices"
+                        text="Invoices"
+                        icon="sap-icon://receipt"
+                        select=".onNavigationSelect"
+                    />
+                </tnt:NavigationList>
+            </tnt:SideNavigation>
+        
+        </VBox>
+        <Page
+            id="mainPage"
+            width="auto"
+            showHeader="false"
+            class="sapUiNoContentPadding"
+        >
+            <content>
+                <f:DynamicPage
+                    id="dashboardPage"
+                    fitContent="true"
+                >
+                    <f:title>
+                        <f:DynamicPageTitle>
+                            <f:heading>
+                                <Title text="Procurement Overview" />
+                            </f:heading>
+                        </f:DynamicPageTitle>
+                    </f:title>
+
+                    <f:content>
+                        <VBox
+                            width="100%"
+                            class="sapUiResponsiveContentPadding"
+                        >
+                            <HBox
+                                width="100%"
+                                wrap="Wrap"
+                                renderType="Bare"
+                                class="sapUiSmallMarginBottom"
+                            >
+                                <GenericTile
+                                    id="vendorTile"
+                                    header="Total Vendors"
+                                    press=".onVendorPress"
+                                    class="sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                                    width="300px"
+                                >
+                                    <TileContent>
+                                        <NumericContent
+                                            id="vendorCount"
+                                            value="0"
+                                            icon="sap-icon://supplier"
+                                            valueColor="Good"
+                                        />
+                                    </TileContent>
+                                </GenericTile>
+
+                                <GenericTile
+                                    id="poTile"
+                                    header="Purchase Orders"
+                                    press=".onPurchaseOrderPress"
+                                    class="sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                                    width="300px"
+                                >
+                                    <TileContent>
+                                        <NumericContent
+                                            id="poCount"
+                                            value="0"
+                                            icon="sap-icon://cart"
+                                            valueColor="Neutral"
+                                        />
+                                    </TileContent>
+                                </GenericTile>
+
+                                <GenericTile
+                                    id="invoiceTile"
+                                    header="Total Invoices"
+                                    press=".onInvoicePress"
+                                    class="sapUiSmallMarginBottom"
+                                    width="300px"
+                                >
+                                    <TileContent>
+                                        <NumericContent
+                                            id="invoiceCount"
+                                            value="0"
+                                            icon="sap-icon://receipt"
+                                            valueColor="Neutral"
+                                        />
+                                    </TileContent>
+                                </GenericTile>
+                            </HBox>
+
+                            <Panel
+                                headerText="Procurement Monitoring"
+                                expandable="false"
+                                class="sapUiSmallMarginBottom"
+                            >
+                                <content />
+                            </Panel>
+                        </VBox>
+                    </f:content>
+                </f:DynamicPage>
+            </content>
+        </Page>
+    </HBox>
+</mvc:View>

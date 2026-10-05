@@ -1,13 +1,69 @@
 sap.ui.define([
-    "sap/ui/core/mvc/Controller"
-], (Controller) => {
+    "sap/ui/core/mvc/Controller",
+    "sap/ui/model/Filter", "sap/ui/model/FilterOperator"
+], (Controller, Filter, FilterOperator) => {
     "use strict";
 
     return Controller.extend("project1.controller.Vendor", {
         onInit() {
             
         },
-        
+        onVendorFilterChange: function () { 
+            this._applyVendorFilters(); 
+        },
+        onVendorNameFilterChange: function () { 
+            this._applyVendorFilters(); 
+        },
+        onVendorCategoryFilterChange: function () { 
+            this._applyVendorFilters(); 
+        },
+        onVendorRiskFilterChange: function () { 
+            this._applyVendorFilters(); 
+        },
+        _applyVendorFilters: function () { 
+             const oTable = this.byId("vendorTable"); 
+             var oBinding = oTable.getBinding("items"); 
+             if (!oBinding) { 
+                return; 
+            } 
+            var aFilters = []; 
+            var aVendorCodeKeys = this.byId("vendorFilter") .getSelectedKeys(); 
+            if (aVendorCodeKeys.length > 0) { 
+                var aCodeFilters = aVendorCodeKeys.map(function (sKey) { 
+                    return new Filter( "vendorCode", FilterOperator.EQ, sKey ); 
+                }); 
+                    aFilters.push( new Filter({ filters: aCodeFilters, and: false 
+
+                    }) );
+                 } 
+                  var aVendorNameKeys = this.byId("vendorNameFilter") .getSelectedKeys(); 
+                  if (aVendorNameKeys.length > 0) { 
+                    var aNameFilters = aVendorNameKeys.map(function (sKey) { 
+                        return new Filter( "vendorName", FilterOperator.EQ, sKey ); 
+                    });
+                     aFilters.push( new Filter({ 
+                        filters: aNameFilters, and: false 
+                    }) );
+                 } 
+                  var aCategoryKeys = this.byId("vendorCategoryFilter") .getSelectedKeys(); 
+                  if (aCategoryKeys.length > 0) { 
+                    var aCategoryFilters = aCategoryKeys.map(function (sKey) { 
+                        return new Filter( "vendorCategory", FilterOperator.EQ, sKey );
+                     }); 
+                     aFilters.push( new Filter({ filters: aCategoryFilters, and: false 
+
+                     }) );
+                     } 
+                     var aRiskKeys = this.byId("vendorRiskFilter") .getSelectedKeys(); 
+                     if (aRiskKeys.length > 0) { 
+                        var aRiskFilters = aRiskKeys.map(function (sKey) { 
+                            return new Filter( "riskLevel", FilterOperator.EQ, sKey ); 
+                        }); 
+                        aFilters.push( new Filter({ filters: aRiskFilters, and: false }) 
+                    );
+                 } 
+                  oBinding.filter(aFilters); 
+                },
         async addVendor() {
             if (!this.dialog) {
                 this.dialog = await this.loadFragment({

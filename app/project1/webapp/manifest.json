@@ -24,6 +24,18 @@
           "odataVersion": "4.0"
         }
       }
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "project1-display": {
+          "semanticObject": "project1",
+          "action": "display",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
+        }
+      }
     }
   },
   "sap.ui": {
@@ -100,24 +112,24 @@
           ]
         },
         {
-          "name":"Vendor",
+          "name": "Vendor",
           "pattern": "Vendor",
-          "target":"Vendor"
+          "target": "Vendor"
         },
-          {
-          "name":"PurchaseOrder",
+        {
+          "name": "PurchaseOrder",
           "pattern": "po",
-          "target":"po"
+          "target": "po"
         },
         {
-          "name":"Invoice",
+          "name": "Invoice",
           "pattern": "invoice",
-          "target":"invoice"
+          "target": "invoice"
         },
         {
-          "name":"POItem",
-          "pattern":"POItem/{po}",
-          "target":"poItem"
+          "name": "POItem",
+          "pattern": "po-item/{po}",
+          "target": "poItem"
         }
       ],
       "targets": {
@@ -125,17 +137,18 @@
           "id": "View1",
           "name": "View1"
         },
-        "Vendor":{
-          "name":"Vendor"
+        "Vendor": {
+          "name": "Vendor"
         },
-        "po":{
-          "name":"PurchaseOrder"
+        "po": {
+          "name": "PurchaseOrder"
         },
-        "invoice":{
-          "name":"Invoice"
+        "invoice": {
+          "name": "Invoice"
         },
-        "poItem":{
-          "name":"POItem"
+        "poItem": {
+          "name": "POItem",
+          "viewLevel":2
         }
       }
     },
@@ -145,5 +158,9 @@
       "id": "App",
       "async": true
     }
+  },
+  "sap.cloud": {
+    "public": true,
+    "service": "vendorrisk.service"
   }
 }
