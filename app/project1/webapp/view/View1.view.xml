@@ -148,13 +148,13 @@
                                 </GenericTile>
                             </HBox>
 
-                            <Panel
+                            <!-- <Panel
                                 headerText="Procurement Monitoring"
                                 expandable="false"
                                 class="sapUiSmallMarginBottom"
                             >
                                 <content />
-                            </Panel>
+                            </Panel> -->
                         </VBox>
                     </f:content>
                 </f:DynamicPage>

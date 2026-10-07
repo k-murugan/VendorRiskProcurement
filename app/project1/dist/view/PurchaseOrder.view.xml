@@ -48,7 +48,7 @@
                                         }"
                                     >
                                         <core:Item
-                                            key="{ID}"
+                                            key="{poNumber}"
                                             text="{poNumber}"
                                         />
                                     </MultiComboBox>
@@ -74,12 +74,12 @@
                                 type="Transparent"
                                 press=".addPO"
                             />
-                            <Button
+                            <!-- <Button
                                 icon="sap-icon://edit"
                                 tooltip="Edit PO"
                                 type="Transparent"
                                 press=".onEditPO"
-                            />
+                            /> -->
 
                             <Button
                                 icon="sap-icon://delete"

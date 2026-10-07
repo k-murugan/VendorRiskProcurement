@@ -1,7 +1,7 @@
 sap.ui.define([
-    "sap/ui/core/mvc/Controller",
+    "sap/ui/core/mvc/Controller","sap/m/MessageBox","sap/m/MessageToast", "sap/ui/core/UIComponent",
     "sap/ui/model/Filter", "sap/ui/model/FilterOperator"
-], (Controller, Filter, FilterOperator) => {
+], (Controller, MessageBox, MessageToast, UIComponent, Filter, FilterOperator) => {
     "use strict";
 
     return Controller.extend("project1.controller.Vendor", {
@@ -76,6 +76,21 @@ sap.ui.define([
 
         onCloseDialog() {
             this.byId("helloDialog")?.close();
+        },
+        onVendorPress: function (oEvent) {
+            const oItem = oEvent.getSource();
+            const oContext = oItem.getBindingContext();
+            if (!oContext) {
+                MessageBox.error("Vendor context not found.");
+                return;
+            }
+            var sVenPath = oContext.getPath();
+            console.log("Selected Vendor path:", sVenPath);
+            var sEncodedVenPath = encodeURIComponent(sVenPath);
+            var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+            oRouter.navTo("VendorObject", {
+                ven: sEncodedVenPath
+            });
         },
 
         onDeleteVendor: function(){

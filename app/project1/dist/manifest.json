@@ -12,7 +12,7 @@
 		"applicationVersion": {
 			"version": "0.0.1"
 		},
-		"title": "{{appTitle}}",
+		"title": "ProcurementTeam",
 		"description": "{{appDescription}}",
 		"resources": "resources.json",
 		"sourceTemplate": {
@@ -136,7 +136,7 @@
 				},
 				{
 					"name": "POItem",
-					"pattern": "po/{po}",
+					"pattern": "po-item/{po}",
 					"target": "poItem"
 				}
 			],
@@ -155,7 +155,8 @@
 					"name": "Invoice"
 				},
 				"poItem": {
-					"name": "POItem"
+					"name": "POItem",
+					"viewLevel": 2
 				}
 			}
 		},

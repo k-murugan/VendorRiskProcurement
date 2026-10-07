@@ -31,13 +31,16 @@ sap.ui.define([
                 remarks: "",
                 totalAmount: 0,
                 poStatus: "",
-                toItems: [],
-
-                // Form is read-only initially
-                editMode: false
+                items: [],
             });
 
             oView.setModel(oPOModel, "po");
+             var oUIModel = new JSONModel({
+        editMode: false,
+        isNew: false
+    });
+
+    oView.setModel(oUIModel, "ui");
 
             var oRouter = UIComponent.getRouterFor(this);
 
@@ -47,10 +50,6 @@ sap.ui.define([
             );
         },
 
-
-        // =========================================================
-        // ROUTE MATCHED
-        // =========================================================
 
         _onPORouteMatched: function (oEvent) {
             var oArguments = oEvent.getParameter("arguments");
@@ -63,143 +62,187 @@ sap.ui.define([
             if (sPOPath.charAt(0) !== "/") {
                 sPOPath = "/" + sPOPath;
             }
+            this._sPOPath = sPOPath;
             console.log("PO path received:", sPOPath);
-            this._loadPurchaseOrder(sPOPath);
+            this._loadPurchaseOrder(this._sPOPath);
         },
 
-        _loadPurchaseOrder: async function (sPOPath) {
-            try {
-                console.log("Loading PO:", sPOPath);
-                var oODataModel = this.getView().getModel();
-                if (!oODataModel) {
-                    MessageBox.error(
-                        "OData model is not available."
-                    );
-                    return;
-                }
-                 var oContext = oODataModel.bindContext(
-            sPOPath,
-            null,
-            {
-                "$expand": "toItems"
-            }
+      _loadPurchaseOrder: async function (sPOPath) {
+    try {
+        console.log("Loading PO:", sPOPath);
+
+        var oODataModel = this._getODataModel();
+
+        if (!oODataModel) {
+            MessageBox.error("OData model is not available.");
+            return;
+        }
+
+        var oContext = oODataModel.bindContext(
+            sPOPath
         );
 
-                var oPO = await oContext.requestObject();
+        var oPO = await oContext.requestObject();
 
-                console.log(
-                    "Purchase Order data received:",
-                    oPO
-                );
+        console.log("Purchase Order data received:", oPO);
 
-                if (!oPO) {
+        if (!oPO) {
+            MessageBox.error("Purchase Order not found.");
+            return;
+        }
 
-                    MessageBox.error(
-                        "Purchase Order not found."
-                    );
+        // ---------------------------------------------
+        // Get Items
+        // ---------------------------------------------
 
-                    return;
-                }
+          var aItems =
+            await this._loadPurchaseOrderItems(
+                oPO.ID
+            );
 
+        console.log("PO Items:", aItems);
 
-                // =================================================
-                // GET ITEMS
-                // =================================================
+        // ---------------------------------------------
+        // Update local PO model
+        // ---------------------------------------------
 
-                var aItems = [];
+        var oPOModel = this.getView().getModel("po");
 
-                if (oPO.toItems) {
+        oPOModel.setData({
+            poId: oPO.ID || "",
 
-                    /*
-                     * Depending on the CAP/OData V4 response,
-                     * toItems may already be an array.
-                     */
+            poNumber: oPO.poNumber || "",
 
-                    if (Array.isArray(oPO.toItems)) {
+            vendorId: oPO.vendorId || "",
 
-                        aItems = oPO.toItems;
+            currency: oPO.currency || "INR",
 
-                    } else if (oPO.toItems.value) {
+            contractReference: oPO.contractReference || "",
 
-                        aItems = oPO.toItems.value;
-                    }
-                }
+            expectedDeliveryDate:
+                oPO.expectedDeliveryDate || "",
 
+            paymentTerms:
+                oPO.paymentTerms || "NET30",
 
-                // =================================================
-                // SET LOCAL PO MODEL
-                // =================================================
+            buyerId:
+                oPO.buyerId || "",
 
-                var oPOModel = this.getView().getModel("po");
+            remarks:
+                oPO.remarks || "",
 
-                oPOModel.setData({
+            totalAmount:
+                Number(oPO.totalAmount) || 0,
 
-                    poId: oPO.ID || "",
+            poStatus:
+                oPO.poStatus || "",
 
-                    poNumber: oPO.poNumber || "",
+            items: aItems,
 
-                    vendorId: oPO.vendorId || "",
+            // VERY IMPORTANT
 
-                    currency: oPO.currency || "INR",
-
-                    contractReference:
-                        oPO.contractReference || "",
-
-                    expectedDeliveryDate:
-                        oPO.expectedDeliveryDate || "",
-
-                    paymentTerms:
-                        oPO.paymentTerms || "NET30",
-
-                    buyerId:
-                        oPO.buyerId || "",
-
-                    remarks:
-                        oPO.remarks || "",
-
-                    totalAmount:
-                        parseFloat(oPO.totalAmount) || 0,
-
-                    poStatus:
-                        oPO.poStatus || "",
-
-                    toItems: aItems,
-
-                    // Read-only when page opens
-                    editMode: false
-                });
+            // isNew: false
+        });
+                this.getView()
+            .getModel("ui")
+            .setData({
+                editMode: false,
+                isNew: false
+            });
 
 
-                console.log(
-                    "PO model updated:",
-                    oPOModel.getData()
-                );
+        console.log(
+            "PO model updated:",
+            oPOModel.getData()
+        );
+       MessageToast.show(
+            "Purchase Order loaded successfully."
+        );
 
-                MessageToast.show(
-                    "Purchase Order loaded successfully."
-                );
+    } 
+    catch (oError) {
 
-            } catch (oError) {
+        console.error(
+            "Failed to load Purchase Order:",
+            oError
+        );
 
-                console.error(
-                    "Failed to load Purchase Order:",
-                    oError
-                );
+        MessageBox.error(
+            "Failed to load Purchase Order.\n" +
+            (oError.message || "")
+        );
+    }
+},
 
-                MessageBox.error(
-                    "Failed to load Purchase Order."
-                );
+_getODataModel: function () {
+    return this.getOwnerComponent().getModel();
+},
+_loadPurchaseOrderItems: async function (sPOId) {
+
+    var oODataModel =
+        this._getODataModel();
+
+    if (!oODataModel) {
+        return [];
+    }
+
+    try {
+
+        var oListBinding =
+            oODataModel.bindList(
+                "/PurchaseOrderItems"
+            );
+
+        var aContexts =
+            await oListBinding.requestContexts(
+                0,
+                100
+            );
+
+        var aItems = [];
+
+        aContexts.forEach(function (oContext) {
+
+            var oItem =
+                oContext.getObject();
+
+            /*
+             * IMPORTANT:
+             * Change this filter according to your
+             * actual PurchaseOrderItems foreign-key field.
+             */
+
+            if (
+                oItem.purchaseOrder_ID === sPOId ||
+                oItem.poId === sPOId ||
+                oItem.purchaseOrderId === sPOId
+            ) {
+
+                aItems.push(oItem);
             }
-        },
+        });
 
+        console.log(
+            "Purchase Order Items:",
+            aItems
+        );
 
-        // =========================================================
-        // EDIT
-        // =========================================================
+        return aItems;
+
+    } catch (oError) {
+
+        console.error(
+            "Failed to load PO items:",
+            oError
+        );
+
+        return [];
+    }
+},
 
         onEdit: function () {
 
-            var oModel = this.getView().getModel("po");
+            var oModel = this.getView().getModel("ui");
 
             oModel.setProperty(
                 "/editMode",
@@ -211,14 +254,9 @@ sap.ui.define([
             );
         },
 
-
-        // =========================================================
-        // CANCEL EDIT
-        // =========================================================
-
         onCancelEdit: function () {
 
-            var oModel = this.getView().getModel("po");
+            var oModel = this.getView().getModel("ui");
 
             oModel.setProperty(
                 "/editMode",
@@ -241,7 +279,7 @@ sap.ui.define([
                 this.getView().getModel("po");
 
             var aItems =
-                oModel.getProperty("/toItems") || [];
+                oModel.getProperty("/items") || [];
 
             var oNewItem = {
 
@@ -263,7 +301,7 @@ sap.ui.define([
             aItems.push(oNewItem);
 
             oModel.setProperty(
-                "/toItems",
+                "/items",
                 aItems
             );
 
@@ -303,7 +341,7 @@ sap.ui.define([
                 );
 
             var aItems =
-                oModel.getProperty("/toItems");
+                oModel.getProperty("/items");
 
             if (
                 iIndex >= 0 &&
@@ -316,7 +354,7 @@ sap.ui.define([
                 );
 
                 oModel.setProperty(
-                    "/toItems",
+                    "/items",
                     aItems
                 );
 
@@ -329,9 +367,7 @@ sap.ui.define([
         },
 
 
-        // =========================================================
-        // QUANTITY CHANGE
-        // =========================================================
+       
 
         onQuantityChange: function (oEvent) {
 
@@ -441,7 +477,7 @@ sap.ui.define([
                 this.getView().getModel("po");
 
             var aItems =
-                oModel.getProperty("/toItems") || [];
+                oModel.getProperty("/items") || [];
 
             var fTotal = 0;
 
@@ -466,95 +502,218 @@ sap.ui.define([
         // MATERIAL CHANGE
         // =========================================================
 
-        onMaterialChange: async function (oEvent) {
+ onMaterialChange: async function (oEvent) {
+    var oComboBox = oEvent.getSource();
+    var sMaterialCode = oComboBox.getSelectedKey();
 
-            var oComboBox =
-                oEvent.getSource();
+    if (!sMaterialCode) {
+        return;
+    }
 
-            var sMaterialCode =
-                oComboBox.getSelectedKey();
+    var oRowContext = oComboBox.getBindingContext("po");
 
-            var oContext =
-                oComboBox.getBindingContext("po");
+    if (!oRowContext) {
+        MessageBox.error("Material row context not found.");
+        return;
+    }
 
-            if (!oContext) {
-                return;
+    var oPOModel = this.getView().getModel("po");
+    var sRowPath = oRowContext.getPath();
+
+    var oODataModel = this.getOwnerComponent().getModel();
+
+    if (!oODataModel) {
+        MessageBox.error("OData model is not available.");
+        return;
+    }
+
+    try {
+        var oListBinding = oODataModel.bindList("/Materials");
+
+        var aContexts = await oListBinding.requestContexts(0, 100);
+
+        var oMaterial = null;
+
+        for (var i = 0; i < aContexts.length; i++) {
+            var oMaterialData = aContexts[i].getObject();
+
+            if (oMaterialData.materialCode === sMaterialCode) {
+                oMaterial = oMaterialData;
+                break;
             }
+        }
 
-            var oPOModel =
-                this.getView().getModel("po");
+        if (!oMaterial) {
+            MessageBox.warning(
+                "Material " + sMaterialCode + " was not found."
+            );
+            return;
+        }
 
-            var sPath =
-                oContext.getPath();
+        console.log("Selected material:", oMaterial);
 
-            var oODataModel =
-                this.getView().getModel();
+        oPOModel.setProperty(
+            sRowPath + "/materialCode",
+            oMaterial.materialCode
+        );
 
-            if (!oODataModel) {
-                return;
-            }
+        oPOModel.setProperty(
+            sRowPath + "/description",
+            oMaterial.materialName || ""
+        );
 
-            try {
+        MessageToast.show("Material selected.");
 
-                /*
-                 * OData V4 does not support:
-                 *
-                 * getProperty("/Materials")
-                 *
-                 * Load the material directly.
-                 */
+    } catch (oError) {
+        console.error("Material loading failed:", oError);
+        MessageBox.error("Failed to load material data.");
+    }
+},
+onSave: async function () {
 
-                var oMaterialContext =
-                    oODataModel.bindContext(
-                        "/Materials?$filter=materialCode eq '" +
-                        encodeURIComponent(sMaterialCode) +
-                        "'"
-                    );
+    var oPOModel = this.getView().getModel("po");
+    var oPO = oPOModel.getData();
 
-                var oMaterialResult =
-                    await oMaterialContext.requestObject();
+    var oODataModel = this.getOwnerComponent().getModel();
 
-                console.log(
-                    "Material result:",
-                    oMaterialResult
-                );
+    if (!oODataModel) {
+        MessageBox.error("OData model is not available.");
+        return;
+    }
 
-                var aMaterials =
-                    oMaterialResult.value || [];
+    if (!oPO.poId) {
+        MessageBox.error("Purchase Order ID is missing.");
+        return;
+    }
 
-                if (aMaterials.length > 0) {
+    try {
 
-                    var oMaterial =
-                        aMaterials[0];
+        console.log("Saving PO:", oPO.poId);
 
-                    oPOModel.setProperty(
-                        sPath + "/materialCode",
-                        oMaterial.materialCode
-                    );
+        // ---------------------------------------------
+        // Build OData entity path
+        // ---------------------------------------------
 
-                    oPOModel.setProperty(
-                        sPath + "/description",
-                        oMaterial.materialName || ""
-                    );
-                }
+        var sPOPath =
+            "/PurchaseOrders(" +
+            oPO.poId +
+            ")";
 
-            } catch (oError) {
+        console.log("PO OData path:", sPOPath);
 
-                console.error(
-                    "Failed to load material:",
-                    oError
-                );
+        // ---------------------------------------------
+        // Get actual OData V4 Context
+        // ---------------------------------------------
 
-                MessageBox.error(
-                    "Failed to load material."
-                );
-            }
-        },
+        var oPOContextBinding =
+            oODataModel.bindContext(sPOPath);
 
+        var oPOContext =
+            oPOContextBinding.getBoundContext();
 
-        // =========================================================
-        // SUBMIT
-        // =========================================================
+        if (!oPOContext) {
+            MessageBox.error(
+                "Could not get Purchase Order context."
+            );
+            return;
+        }
+
+        console.log(
+            "OData PO context:",
+            oPOContext
+        );
+
+        // ---------------------------------------------
+        // Update PO header
+        // ---------------------------------------------
+
+        oPOContext.setProperty(
+            "poNumber",
+            oPO.poNumber
+        );
+
+        oPOContext.setProperty(
+            "vendorId",
+            oPO.vendorId
+        );
+
+        oPOContext.setProperty(
+            "currency",
+            oPO.currency
+        );
+
+        oPOContext.setProperty(
+            "contractReference",
+            oPO.contractReference
+        );
+
+        oPOContext.setProperty(
+            "expectedDeliveryDate",
+            oPO.expectedDeliveryDate
+        );
+
+        oPOContext.setProperty(
+            "paymentTerms",
+            oPO.paymentTerms
+        );
+
+        oPOContext.setProperty(
+            "buyerId",
+            oPO.buyerId
+        );
+
+        oPOContext.setProperty(
+            "remarks",
+            oPO.remarks
+        );
+
+        oPOContext.setProperty(
+            "totalAmount",
+            Number(oPO.totalAmount) || 0
+        );
+
+        // ---------------------------------------------
+        // Save to backend
+        // ---------------------------------------------
+
+        await oODataModel.submitBatch("$auto");
+
+        console.log(
+            "Purchase Order saved successfully."
+        );
+
+        // ---------------------------------------------
+        // Exit edit mode
+        // ---------------------------------------------
+
+        var oUIModel =
+            this.getView().getModel("ui");
+
+        if (oUIModel) {
+            oUIModel.setProperty(
+                "/editMode",
+                false
+            );
+        }
+
+        MessageToast.show(
+            "Purchase Order saved successfully."
+        );
+
+    } catch (oError) {
+
+        console.error(
+            "Failed to save Purchase Order:",
+            oError
+        );
+
+        MessageBox.error(
+            "Failed to save Purchase Order.\n\n" +
+            (oError.message || "")
+        );
+    }
+},
+
 
         onSubmit: function () {
 
@@ -601,8 +760,8 @@ sap.ui.define([
             }
 
             if (
-                !oPO.toItems ||
-                oPO.toItems.length === 0
+                !oPO.items ||
+                oPO.items.length === 0
             ) {
 
                 MessageBox.error(
@@ -614,12 +773,12 @@ sap.ui.define([
 
             for (
                 var i = 0;
-                i < oPO.toItems.length;
+                i < oPO.items.length;
                 i++
             ) {
 
                 var oItem =
-                    oPO.toItems[i];
+                    oPO.items[i];
 
                 if (!oItem.materialCode) {
 
@@ -819,7 +978,7 @@ sap.ui.define([
 
                 poStatus: "",
 
-                toItems: [],
+                items: [],
 
                 editMode: false
             });

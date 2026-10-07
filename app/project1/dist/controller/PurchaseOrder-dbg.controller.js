@@ -1,11 +1,33 @@
 sap.ui.define([
-    "sap/ui/core/mvc/Controller", "sap/ui/core/UIComponent", "sap/m/MessageToast"
-], (BaseController, UIComponent, MessageToast) => {
+    "sap/ui/core/mvc/Controller", "sap/ui/core/UIComponent", "sap/m/MessageToast", "sap/ui/model/Filter", "sap/ui/model/FilterOperator"
+], (BaseController, UIComponent, MessageToast, Filter, FilterOperator) => {
     "use strict";
 
     return BaseController.extend("project1.controller.PurchaseOrder", {
         onInit() {
         },
+            onpoFilterChange: function () { 
+            this._applyPOFilters(); 
+        },
+            _applyPOFilters: function () { 
+             const oTable = this.byId("poTable"); 
+             var oBinding = oTable.getBinding("items"); 
+             if (!oBinding) { 
+                return; 
+            } 
+            var aFilters = []; 
+            var aPOCodeKeys = this.byId("poFilter").getSelectedKeys(); 
+            if (aPOCodeKeys.length > 0) { 
+                var aCodeFilters = aPOCodeKeys.map(function (sKey) { 
+                    return new Filter( "poNumber", FilterOperator.EQ, sKey ); 
+                }); 
+                    aFilters.push( new Filter({ filters: aCodeFilters, and: false 
+
+                    }) );
+                 }           
+             
+                  oBinding.filter(aFilters); 
+                },
         async addPO() {
             if (!this.dialog) {
                 this.dialog = await this.loadFragment({
@@ -36,25 +58,23 @@ sap.ui.define([
             const oItem = oEvent.getSource();
             const oContext = oItem.getBindingContext();
 
-            if (!oContext) {
-                MessageToast.show("PO context not found");
-                return;
-            }
-            const sPath = oContext.getPath();
-            console.log("Selected PO path:", sPath);
-            const oRouter = UIComponent.getRouterFor(this);
-            // var sPOPath =
-            //     "/PurchaseOrders(" +
-            //     sPOId +
-            //     ")";
+             if (!oContext) {
+        MessageBox.error("Purchase Order context not found.");
+        return;
+    }
+               var sPOPath = oContext.getPath();
 
-            oRouter.navTo(
-                "POItem",
-                {
-                    poPath: encodeURIComponent(sPOPath)
-                }
-            );
-        }
+    console.log("Selected PO path:", sPOPath);
+
+    // Encode the complete OData path before putting it into the route
+    var sEncodedPOPath = encodeURIComponent(sPOPath);
+
+    var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+
+    oRouter.navTo("POItem", {
+        po: sEncodedPOPath
+    });
+}
 
     });
 });

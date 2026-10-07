@@ -32,7 +32,6 @@
                     <Title text="Create Purchase Order" />
                 </uxap:snappedHeading>
                 <uxap:actions>
-                    <!-- EDIT -->
                     <Button
                         text="Edit"
                         icon="sap-icon://edit"
@@ -41,7 +40,6 @@
                         press=".onEdit"
                     />
 
-                    <!-- SAVE -->
                     <Button
                         text="Save"
                         icon="sap-icon://save"
@@ -50,7 +48,6 @@
                         press=".onSave"
                     />
 
-                    <!-- CANCEL EDIT -->
                     <Button
                         text="Cancel"
                         icon="sap-icon://decline"
@@ -179,7 +176,7 @@
                                     </ComboBox>
 
                                     <Label
-                                        text="Total Amount (Auto Calculated)"
+                                        text="Total Amount"
                                     />
 
                                     <Input

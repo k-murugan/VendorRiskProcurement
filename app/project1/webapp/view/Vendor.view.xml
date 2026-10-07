@@ -151,12 +151,6 @@
                         press=".addVendor"
                     />
 
-                    <Button
-                        icon="sap-icon://edit"
-                        tooltip="Edit Vendor"
-                        type="Transparent"
-                        press=".onEditVendor"
-                    />
 
                     <Button
                         icon="sap-icon://delete"

@@ -6,28 +6,29 @@ sap.ui.define([
     return BaseController.extend("project1.controller.PurchaseOrder", {
         onInit() {
         },
-            onpoFilterChange: function () { 
-            this._applyPOFilters(); 
+        onpoFilterChange: function () {
+            this._applyPOFilters();
         },
-            _applyPOFilters: function () { 
-             const oTable = this.byId("poTable"); 
-             var oBinding = oTable.getBinding("items"); 
-             if (!oBinding) { 
-                return; 
-            } 
-            var aFilters = []; 
-            var aPOCodeKeys = this.byId("poFilter").getSelectedKeys(); 
-            if (aPOCodeKeys.length > 0) { 
-                var aCodeFilters = aPOCodeKeys.map(function (sKey) { 
-                    return new Filter( "poNumber", FilterOperator.EQ, sKey ); 
-                }); 
-                    aFilters.push( new Filter({ filters: aCodeFilters, and: false 
+        _applyPOFilters: function () {
+            const oTable = this.byId("poTable");
+            var oBinding = oTable.getBinding("items");
+            if (!oBinding) {
+                return;
+            }
+            var aFilters = [];
+            var aPOCodeKeys = this.byId("poFilter").getSelectedKeys();
+            if (aPOCodeKeys.length > 0) {
+                var aCodeFilters = aPOCodeKeys.map(function (sKey) {
+                    return new Filter("poNumber", FilterOperator.EQ, sKey);
+                });
+                aFilters.push(new Filter({
+                    filters: aCodeFilters, and: false
 
-                    }) );
-                 }           
-             
-                  oBinding.filter(aFilters); 
-                },
+                }));
+            }
+
+            oBinding.filter(aFilters);
+        },
         async addPO() {
             if (!this.dialog) {
                 this.dialog = await this.loadFragment({
@@ -58,23 +59,23 @@ sap.ui.define([
             const oItem = oEvent.getSource();
             const oContext = oItem.getBindingContext();
 
-             if (!oContext) {
-        MessageBox.error("Purchase Order context not found.");
-        return;
-    }
-               var sPOPath = oContext.getPath();
+            if (!oContext) {
+                MessageBox.error("Purchase Order context not found.");
+                return;
+            }
+            var sPOPath = oContext.getPath();
 
-    console.log("Selected PO path:", sPOPath);
+            console.log("Selected PO path:", sPOPath);
 
-    // Encode the complete OData path before putting it into the route
-    var sEncodedPOPath = encodeURIComponent(sPOPath);
+            // Encode the complete OData path before putting it into the route
+            var sEncodedPOPath = encodeURIComponent(sPOPath);
 
-    var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+            var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 
-    oRouter.navTo("POItem", {
-        po: sEncodedPOPath
-    });
-}
+            oRouter.navTo("POItem", {
+                po: sEncodedPOPath
+            });
+        }
 
     });
 });

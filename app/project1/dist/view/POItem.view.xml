@@ -85,7 +85,10 @@
                                         required="true"
                                     />
 
-                                    <Input value="{po>/poNumber}" />
+                                    <Input
+                                        value="{po>/poNumber}"
+                                        editable="{ui>/editMode}"
+                                    />
 
                                     <Label
                                         text="Currency"
@@ -94,6 +97,7 @@
 
                                     <ComboBox
                                         selectedKey="{po>/currency}"
+                                        editable="{ui>/editMode}"
                                         width="100%"
                                     >
                                         <core:Item
@@ -116,6 +120,7 @@
 
                                     <Input
                                         value="{po>/contractReference}"
+                                        editable="{ui>/editMode}"
                                         placeholder="Enter contract reference"
                                     />
 
@@ -126,6 +131,7 @@
 
                                     <DatePicker
                                         value="{po>/expectedDeliveryDate}"
+                                        editable="{ui>/editMode}"
                                         valueFormat="yyyy-MM-dd"
                                         displayFormat="yyyy-MM-dd"
                                         width="100%"
@@ -138,6 +144,7 @@
 
                                     <ComboBox
                                         selectedKey="{po>/paymentTerms}"
+                                        editable="{ui>/editMode}"
                                         width="100%"
                                     >
                                         <core:Item
@@ -208,19 +215,12 @@
                         <uxap:blocks>
                             <VBox width="100%">
                                 <OverflowToolbar>
-                                    <Title
-                                        text="Order Items"
-                                        level="H2"
-                                    />
-
-                                    <ToolbarSpacer />
-
-                                    <Button
+                                    <!-- <Button
                                         text="Add Item"
                                         icon="sap-icon://add"
                                         type="Emphasized"
                                         press=".onAddItem"
-                                    />
+                                    /> -->
                                 </OverflowToolbar>
 
                                 <Table
@@ -229,7 +229,7 @@
                                     growing="true"
                                     growingScrollToLoad="true"
                                     inset="false"
-                                    items="{po>/toItems}"
+                                    items="{po>/items}"
                                 >
                                     <columns>
                                         <!-- <Column width="3rem">
@@ -289,103 +289,88 @@
                                         </Column> -->
                                     </columns>
 
-                                    <!-- ================================================= -->
-                                    <!-- TABLE ROW                                       -->
-                                    <!-- ================================================= -->
+                  
 
                                     <items>
                                         <ColumnListItem>
-                                            <!-- Row Number -->
-
-                                            <Text text="{= ${$index} + 1 }" />
-
                                             <!-- Material -->
-
                                             <ComboBox
-                                                selectedKey="{materialCode}"
+                                                selectedKey="{po>materialCode}"
+                                                editable="{ui>/editMode}"
                                                 width="100%"
+                                                selectionChange=".onMaterialChange"
                                                 items="{
-                                                    path: '/Materials'
-                                                }"
+                path: '/Materials'
+            }"
                                             >
                                                 <core:Item
                                                     key="{materialCode}"
-                                                    text="{materialName}"
+                                                    text="{materialCode}"
                                                 />
                                             </ComboBox>
 
-                                            <!-- Material Code -->
-
                                             <Input
-                                                value="{materialCode}"
-                                                editable="false"
+                                                value="{po>materialCode}"
+                                                editable="{ui>/editMode}"
                                                 width="100%"
                                             />
 
-                                            <!-- Description -->
-
                                             <Input
-                                                value="{description}"
+                                                value="{po>description}"
+                                                editable="{ui>/editMode}"
                                                 width="100%"
                                             />
 
-                                            <!-- Quantity -->
-
                                             <Input
-                                                value="{quantity}"
+                                                value="{po>quantity}"
+                                                editable="{ui>/editMode}"
                                                 type="Number"
                                                 width="100%"
                                                 liveChange=".onQuantityChange"
                                             />
 
-                                            <!-- Unit -->
-
                                             <ComboBox
-                                                selectedKey="{unit}"
+                                                selectedKey="{po>unit}"
+                                                editable="{ui>/editMode}"
                                                 width="100%"
                                             >
                                                 <core:Item
                                                     key="EA"
                                                     text="EA"
                                                 />
-
                                                 <core:Item
                                                     key="KG"
                                                     text="KG"
                                                 />
-
                                                 <core:Item
                                                     key="BOX"
                                                     text="BOX"
                                                 />
-
                                                 <core:Item
                                                     key="SET"
                                                     text="SET"
                                                 />
                                             </ComboBox>
 
-                                            <!-- Old Unit Price -->
-
                                             <Input
-                                                value="{oldUnitPrice}"
+                                                value="{po>oldUnitPrice}"
+                                                editable="{ui>/editMode}"
                                                 type="Number"
                                                 textAlign="End"
                                                 width="100%"
                                                 liveChange=".onPriceChange"
                                             />
 
-                                            <!-- Total Amount -->
-
                                             <Input
-                                                value="{totalAmount}"
-                                                editable="false"
+                                                value="{po>totalAmount}"
+                                                editable="{ui>/editMode}"
                                                 textAlign="End"
                                                 width="100%"
                                             />
 
                                             <DatePicker
-                                                value="{requestedDeliveryDate}"
+                                                value="{po>requestedDeliveryDate}"
+                                                editable="{ui>/editMode}"
                                                 valueFormat="yyyy-MM-dd"
                                                 displayFormat="yyyy-MM-dd"
                                                 width="100%"
@@ -395,29 +380,14 @@
                                                 icon="sap-icon://delete"
                                                 type="Transparent"
                                                 tooltip="Delete Item"
+                                                visible="{ui>/editMode}"
                                                 press=".onDeleteItem"
                                             />
                                         </ColumnListItem>
                                     </items>
                                 </Table>
 
-                                <HBox
-                                    width="100%"
-                                    justifyContent="End"
-                                    alignItems="Center"
-                                    class="orderTotalContainer"
-                                >
-                                    <Label
-                                        text="Total Amount"
-                                        class="sapUiSmallMarginEnd"
-                                    />
-
-                                    <ObjectNumber
-                                        number="{totalAmount}"
-                                        unit="{currency}"
-                                        emphasized="true"
-                                    />
-                                </HBox>
+                               
                             </VBox>
                         </uxap:blocks>
                     </uxap:ObjectPageSubSection>
@@ -445,32 +415,26 @@
 
                                 <ComboBox
                                     selectedKey="{po>/buyerId}"
+                                    editable="{ui>/editMode}"
+                                    width="100%"
                                     items="{
         path: '/Employee'
     }"
                                 >
                                     <core:Item
-                                        key="{employeeId}"
-                                        text="{employeeName}"
+                                        key="{empId}"
+                                        text="{name}"
                                     />
                                 </ComboBox>
 
-                                <Label text="Remarks" />
-
-                                <TextArea
-                                    value="{remarks}"
-                                    maxLength="500"
-                                    rows="4"
-                                    width="100%"
-                                    placeholder="Enter remarks"
-                                />
+                               
                             </form:SimpleForm>
                         </uxap:blocks>
                     </uxap:ObjectPageSubSection>
                 </uxap:subSections>
             </uxap:ObjectPageSection>
 
-            <uxap:ObjectPageSection
+            <!-- <uxap:ObjectPageSection
                 titleUppercase="false"
                 showTitle="false"
             >
@@ -502,7 +466,7 @@
                         </uxap:blocks>
                     </uxap:ObjectPageSubSection>
                 </uxap:subSections>
-            </uxap:ObjectPageSection>
+            </uxap:ObjectPageSection> -->
         </uxap:sections>
     </uxap:ObjectPageLayout>
 </mvc:View>

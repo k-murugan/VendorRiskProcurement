@@ -18,15 +18,7 @@
                 <f:heading>
                     <Title text="Invoice Details" />
                 </f:heading>
-
-                <!-- <f:actions>
-                    <Button
-                        text="Add Vendor"
-                        icon="sap-icon://add"
-                        type="Emphasized"
-                        press=".onAddVendor"
-                    />
-                </f:actions> -->
+c
             </f:DynamicPageTitle>
         </f:title>
 

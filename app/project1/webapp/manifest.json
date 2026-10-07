@@ -7,7 +7,7 @@
     "applicationVersion": {
       "version": "0.0.1"
     },
-    "title": "{{appTitle}}",
+    "title": "ProcurementTeam",
     "description": "{{appDescription}}",
     "resources": "resources.json",
     "sourceTemplate": {
@@ -130,6 +130,11 @@
           "name": "POItem",
           "pattern": "po-item/{po}",
           "target": "poItem"
+        },
+        {
+          "name": "VendorObject",
+          "pattern": "vendors/{ven}",
+          "target": "VendorObject"
         }
       ],
       "targets": {
@@ -148,6 +153,10 @@
         },
         "poItem": {
           "name": "POItem",
+          "viewLevel": 2
+        },
+        "VendorObject":{
+          "name":"VendorObject",
           "viewLevel":2
         }
       }

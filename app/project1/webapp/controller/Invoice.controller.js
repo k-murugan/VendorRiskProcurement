@@ -15,9 +15,6 @@ sap.ui.define([
 
         onInit: function () {
         },
-
-        onInvoiceFilterChange: function () {
-        },
         onDeleteInvoice: function () {
             const oTable = this.byId("invoiceTable");
             const oSelectedItem = oTable.getSelectedItem();
@@ -37,25 +34,37 @@ sap.ui.define([
                 sap.m.MessageToast.show("Failed to delete invoice.");
             });
         },
-        onpoFilterChange: function () { 
-            this._applyPOFilters(); 
+        onInvoiceFilterChange: function () { 
+            this._applyInvoiceFilters(); 
         },
-            _applyPOFilters: function () { 
-             const oTable = this.byId("poTable"); 
+        onInStatusFilterChange: function(){
+             this._applyInvoiceFilters();
+        },
+            _applyInvoiceFilters: function () { 
+             const oTable = this.byId("invoiceTable"); 
              var oBinding = oTable.getBinding("items"); 
              if (!oBinding) { 
                 return; 
             } 
             var aFilters = []; 
-            var aPOCodeKeys = this.byId("poFilter").getSelectedKeys(); 
-            if (aPOCodeKeys.length > 0) { 
-                var aCodeFilters = aPOCodeKeys.map(function (sKey) { 
-                    return new Filter( "poNumber", FilterOperator.EQ, sKey ); 
+            var aInvoiceCodeKeys = this.byId("invoiceFilter").getSelectedKeys(); 
+            if (aInvoiceCodeKeys.length > 0) { 
+                var aCodeFilters = aInvoiceCodeKeys.map(function (sKey) { 
+                    return new Filter( "invoiceNumber", FilterOperator.EQ, sKey ); 
                 }); 
                     aFilters.push( new Filter({ filters: aCodeFilters, and: false 
 
                     }) );
-                 }           
+                 }
+                   var aInvoiceNumberKeys = this.byId("inStatusFilter") .getSelectedKeys(); 
+                  if (aInvoiceNumberKeys.length > 0) { 
+                    var aNameFilters = aInvoiceNumberKeys.map(function (sKey) { 
+                        return new Filter( "invoiceStatus", FilterOperator.EQ, sKey ); 
+                    });
+                     aFilters.push( new Filter({ 
+                        filters: aNameFilters, and: false 
+                    }) );
+                 }            
              
                   oBinding.filter(aFilters); 
                 },
