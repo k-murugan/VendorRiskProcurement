@@ -135,7 +135,13 @@
                                 <Text text="{poNumber}" />
                                 <Text text="{poDate}" />
                                 <Text text="{expectedDeliveryDate}" />
-                                <Text text="{poStatus}" />
+                               <ObjectStatus
+    text="{poStatus}"
+    state="{
+        path: 'poStatus',
+        formatter: '.formatter.poStatusState'
+    }"
+/>
                                 <Text text="{totalAmount}" />
                                 <Text text="{paymentTerms}" />
                             </cells>

@@ -14,25 +14,32 @@
         enableLazyLoading="false"
         useIconTabBar="false"
     >
+
+        <!-- ===================================================== -->
+        <!-- HEADER -->
+        <!-- ===================================================== -->
+
         <uxap:headerTitle>
             <uxap:ObjectPageDynamicHeaderTitle>
+
                 <uxap:expandedHeading>
                     <VBox>
-                        <Title
-                            text="Purchase Order Item"
-                            level="H1"
-                        />
+                        <Title text="Purchase Order" level="H1" />
                         <Text
-                            text="Create a new purchase order with order items. The order will be sent for approval after submission."
+                            text="Purchase order details and order items"
                             class="sapUiTinyMarginTop"
                         />
                     </VBox>
                 </uxap:expandedHeading>
+
                 <uxap:snappedHeading>
-                    <Title text="Create Purchase Order" />
+                    <Title text="Purchase Order" />
                 </uxap:snappedHeading>
+
                 <uxap:actions>
+
                     <Button
+                        id="editButton"
                         text="Edit"
                         icon="sap-icon://edit"
                         type="Emphasized"
@@ -41,35 +48,45 @@
                     />
 
                     <Button
+                        id="saveButton"
                         text="Save"
                         icon="sap-icon://save"
                         type="Emphasized"
-                        visible="{= ${ui>/editMode} }"
+                        visible="{ui>/editMode}"
                         press=".onSave"
                     />
 
                     <Button
+                        id="cancelEditButton"
                         text="Cancel"
                         icon="sap-icon://decline"
-                        visible="{= ${ui>/editMode} }"
+                        visible="{ui>/editMode}"
                         press=".onCancelEdit"
                     />
+
                 </uxap:actions>
+
             </uxap:ObjectPageDynamicHeaderTitle>
         </uxap:headerTitle>
 
+
+        <!-- ===================================================== -->
+        <!-- SECTIONS -->
+        <!-- ===================================================== -->
+
         <uxap:sections>
-            <uxap:ObjectPageSection
-                title="Purchase Order Details"
-                titleUppercase="false"
-            >
+
+            <!-- ================================================= -->
+            <!-- PURCHASE ORDER DETAILS -->
+            <!-- ================================================= -->
+
+            <uxap:ObjectPageSection title="Purchase Order Details" titleUppercase="false">
                 <uxap:subSections>
-                    <uxap:ObjectPageSubSection
-                        titleUppercase="false"
-                        showTitle="false"
-                    >
+                    <uxap:ObjectPageSubSection showTitle="false" titleUppercase="false">
                         <uxap:blocks>
+
                             <VBox width="100%">
+
                                 <form:SimpleForm
                                     editable="{ui>/editMode}"
                                     layout="ColumnLayout"
@@ -77,55 +94,38 @@
                                     columnsL="2"
                                     columnsXL="2"
                                 >
-                                    <Label
-                                        text="PO Number"
-                                        required="true"
-                                    />
 
+                                    <!-- PO Number -->
+                                    <Label text="PO Number" required="true" />
                                     <Input
                                         value="{po>/poNumber}"
                                         editable="{ui>/editMode}"
+                                        width="100%"
                                     />
 
-                                    <Label
-                                        text="Currency"
-                                        required="true"
-                                    />
-
+                                    <!-- Currency -->
+                                    <Label text="Currency" required="true" />
                                     <ComboBox
                                         selectedKey="{po>/currency}"
                                         editable="{ui>/editMode}"
                                         width="100%"
                                     >
-                                        <core:Item
-                                            key="INR"
-                                            text="INR"
-                                        />
-
-                                        <core:Item
-                                            key="USD"
-                                            text="USD"
-                                        />
-
-                                        <core:Item
-                                            key="EUR"
-                                            text="EUR"
-                                        />
+                                        <core:Item key="INR" text="INR" />
+                                        <core:Item key="USD" text="USD" />
+                                        <core:Item key="EUR" text="EUR" />
                                     </ComboBox>
 
+                                    <!-- Contract Reference -->
                                     <Label text="Contract Reference" />
-
                                     <Input
                                         value="{po>/contractReference}"
                                         editable="{ui>/editMode}"
                                         placeholder="Enter contract reference"
+                                        width="100%"
                                     />
 
-                                    <Label
-                                        text="Expected Delivery Date"
-                                        required="true"
-                                    />
-
+                                    <!-- Expected Delivery Date -->
+                                    <Label text="Expected Delivery Date" required="true" />
                                     <DatePicker
                                         value="{po>/expectedDeliveryDate}"
                                         editable="{ui>/editMode}"
@@ -134,190 +134,138 @@
                                         width="100%"
                                     />
 
-                                    <Label
-                                        text="Payment Terms"
-                                        required="true"
-                                    />
-
+                                    <!-- Payment Terms -->
+                                    <Label text="Payment Terms" required="true" />
                                     <ComboBox
                                         selectedKey="{po>/paymentTerms}"
                                         editable="{ui>/editMode}"
                                         width="100%"
                                     >
-                                        <core:Item
-                                            key="IMMEDIATE"
-                                            text="Immediate"
-                                        />
-
-                                        <core:Item
-                                            key="NET15"
-                                            text="NET15"
-                                        />
-
-                                        <core:Item
-                                            key="NET30"
-                                            text="NET30"
-                                        />
-
-                                        <core:Item
-                                            key="NET45"
-                                            text="NET45"
-                                        />
-
-                                        <core:Item
-                                            key="NET60"
-                                            text="NET60"
-                                        />
-
-                                        <core:Item
-                                            key="NET90"
-                                            text="NET90"
-                                        />
+                                        <core:Item key="IMMEDIATE" text="Immediate" />
+                                        <core:Item key="NET15" text="NET15" />
+                                        <core:Item key="NET30" text="NET30" />
+                                        <core:Item key="NET45" text="NET45" />
+                                        <core:Item key="NET60" text="NET60" />
+                                        <core:Item key="NET90" text="NET90" />
                                     </ComboBox>
 
-                                    <Label
-                                        text="Total Amount"
+                                    <!-- Total Amount -->
+                                    <Label text="Total Amount" />
+                                    <Input
+                                        value="{po>/totalAmount}"
+                                        editable="false"
+                                        width="100%"
                                     />
 
-                                    <Input
-                                        value="{
-                                            parts: [
-                                                {path: 'totalAmount'},
-                                                {path: 'currency'}
-                                            ],
-                                            type: 'sap.ui.model.type.Currency',
-                                            formatOptions: {
-                                                showMeasure: true
-                                            }
-                                        }"
-                                        editable="false"
-                                        valueState="None"
-                                        class="totalAmountField"
-                                    />
                                 </form:SimpleForm>
+
                             </VBox>
+
                         </uxap:blocks>
                     </uxap:ObjectPageSubSection>
                 </uxap:subSections>
             </uxap:ObjectPageSection>
-            <uxap:ObjectPageSection
-                title="Order Items"
-                titleUppercase="false"
-            >
+
+
+            <!-- ================================================= -->
+            <!-- ORDER ITEMS -->
+            <!-- ================================================= -->
+
+            <uxap:ObjectPageSection title="Order Items" titleUppercase="false">
                 <uxap:subSections>
-                    <uxap:ObjectPageSubSection
-                        titleUppercase="false"
-                        showTitle="false"
-                    >
+                    <uxap:ObjectPageSubSection showTitle="false" titleUppercase="false">
                         <uxap:blocks>
+
                             <VBox width="100%">
+
                                 <OverflowToolbar>
-                                    <!-- <Button
-                                        text="Add Item"
-                                        icon="sap-icon://add"
-                                        type="Emphasized"
-                                        press=".onAddItem"
-                                    /> -->
+                                    <Title text="Purchase Order Items" />
+                                    <ToolbarSpacer />
                                 </OverflowToolbar>
 
                                 <Table
                                     id="orderItemsTable"
                                     width="100%"
                                     growing="true"
+                                    growingThreshold="10"
                                     growingScrollToLoad="true"
                                     inset="false"
+                                    noDataText="No Purchase Order Items Found"
                                     items="{po>/items}"
                                 >
+
+                                    <!-- COLUMNS -->
                                     <columns>
-                                        <!-- <Column width="3rem">
 
-                                            <Text
-                                                text="#"/>
-
-                                        </Column> -->
-
-                                        <Column width="10rem">
+                                        <Column width="16rem">
                                             <Text text="Material" />
                                         </Column>
 
-                                        <Column width="8rem">
-                                            <Text text="Material Code" />
+                                        <Column width="9rem">
+                                            <Text text="Material Group" />
                                         </Column>
 
-                                        <Column width="12rem">
+                                        <Column width="16rem">
                                             <Text text="Description" />
                                         </Column>
 
-                                        <Column width="7rem">
+                                        <Column width="8rem">
                                             <Text text="Quantity" />
                                         </Column>
 
-                                        <Column width="6rem">
+                                        <Column width="7rem">
                                             <Text text="Unit" />
                                         </Column>
 
-                                        <Column
-                                            width="9rem"
-                                            hAlign="End"
-                                        >
+                                        <Column width="10rem" hAlign="End">
                                             <Text text="Old Unit Price" />
                                         </Column>
 
-                                        <Column
-                                            width="9rem"
-                                            hAlign="End"
-                                        >
+                                        <Column width="10rem" hAlign="End">
+                                            <Text text="Contract Price" />
+                                        </Column>
+
+                                        <Column width="10rem" hAlign="End">
                                             <Text text="Total Amount" />
                                         </Column>
 
-                                        <Column width="11rem">
-                                            <Text
-                                                text="Requested Delivery Date"
-                                            />
+                                        <Column width="13rem">
+                                            <Text text="Requested Delivery Date" />
                                         </Column>
 
-                                        <!-- <Column
-                                            width="4rem"
-                                            hAlign="Center">
-
-                                            <Text
-                                                text="Actions"/>
-
-                                        </Column> -->
                                     </columns>
 
-                  
-
+                                    <!-- ROWS -->
                                     <items>
+
                                         <ColumnListItem>
-                                            <!-- Material -->
+
+                                            <!-- Material (list comes from the "materials" JSON model) -->
                                             <ComboBox
                                                 selectedKey="{po>materialCode}"
                                                 editable="{ui>/editMode}"
                                                 width="100%"
+                                                showSecondaryValues="true"
                                                 selectionChange=".onMaterialChange"
                                                 items="{
-                path: '/Materials'
-            }"
+                                                    path: 'materials>/items',
+                                                    templateShareable: false
+                                                }"
                                             >
-                                                <core:Item
-                                                    key="{materialCode}"
-                                                    text="{materialCode}"
+                                                <core:ListItem
+                                                    key="{materials>materialCode}"
+                                                    text="{materials>materialCode}"
+                                                    additionalText="{materials>materialDescription}"
                                                 />
                                             </ComboBox>
 
-                                            <Input
-                                                value="{po>materialCode}"
-                                                editable="{ui>/editMode}"
-                                                width="100%"
-                                            />
+                                            <!-- Material Group -->
+                                            <Text text="{po>materialGroup}" />
 
-                                            <Input
-                                                value="{po>description}"
-                                                editable="{ui>/editMode}"
-                                                width="100%"
-                                            />
+                                            <!-- Description -->
+                                            <Text text="{po>description}" />
 
+                                            <!-- Quantity -->
                                             <Input
                                                 value="{po>quantity}"
                                                 editable="{ui>/editMode}"
@@ -326,29 +274,25 @@
                                                 liveChange=".onQuantityChange"
                                             />
 
+                                            <!-- Unit -->
                                             <ComboBox
                                                 selectedKey="{po>unit}"
                                                 editable="{ui>/editMode}"
                                                 width="100%"
                                             >
-                                                <core:Item
-                                                    key="EA"
-                                                    text="EA"
-                                                />
-                                                <core:Item
-                                                    key="KG"
-                                                    text="KG"
-                                                />
-                                                <core:Item
-                                                    key="BOX"
-                                                    text="BOX"
-                                                />
-                                                <core:Item
-                                                    key="SET"
-                                                    text="SET"
-                                                />
+                                                <core:Item key="EA" text="EA" />
+                                                <core:Item key="KG" text="KG" />
+                                                <core:Item key="G" text="G" />
+                                                <core:Item key="L" text="L" />
+                                                <core:Item key="M" text="M" />
+                                                <core:Item key="CM" text="CM" />
+                                                <core:Item key="BOX" text="BOX" />
+                                                <core:Item key="BAG" text="BAG" />
+                                                <core:Item key="SET" text="SET" />
+                                                <core:Item key="PACK" text="PACK" />
                                             </ComboBox>
 
+                                            <!-- Old Unit Price -->
                                             <Input
                                                 value="{po>oldUnitPrice}"
                                                 editable="{ui>/editMode}"
@@ -358,13 +302,13 @@
                                                 liveChange=".onPriceChange"
                                             />
 
-                                            <Input
-                                                value="{po>totalAmount}"
-                                                editable="{ui>/editMode}"
-                                                textAlign="End"
-                                                width="100%"
-                                            />
+                                            <!-- Contract Price -->
+                                            <Text text="{po>contractPrice}" />
 
+                                            <!-- Total Amount -->
+                                            <Text text="{po>totalAmount}" />
+
+                                            <!-- Requested Delivery Date -->
                                             <DatePicker
                                                 value="{po>requestedDeliveryDate}"
                                                 editable="{ui>/editMode}"
@@ -373,97 +317,59 @@
                                                 width="100%"
                                             />
 
-                                            <Button
-                                                icon="sap-icon://delete"
-                                                type="Transparent"
-                                                tooltip="Delete Item"
-                                                visible="{ui>/editMode}"
-                                                press=".onDeleteItem"
-                                            />
                                         </ColumnListItem>
+
                                     </items>
+
                                 </Table>
 
-                               
                             </VBox>
+
                         </uxap:blocks>
                     </uxap:ObjectPageSubSection>
                 </uxap:subSections>
             </uxap:ObjectPageSection>
 
-            <uxap:ObjectPageSection
-                title="Additional Information"
-                titleUppercase="false"
-            >
+
+            <!-- ================================================= -->
+            <!-- ADDITIONAL INFORMATION -->
+            <!-- ================================================= -->
+
+            <uxap:ObjectPageSection title="Additional Information" titleUppercase="false">
                 <uxap:subSections>
-                    <uxap:ObjectPageSubSection
-                        titleUppercase="false"
-                        showTitle="false"
-                    >
+                    <uxap:ObjectPageSubSection showTitle="false" titleUppercase="false">
                         <uxap:blocks>
+
                             <form:SimpleForm
-                                editable="true"
+                                editable="{ui>/editMode}"
                                 layout="ColumnLayout"
                                 columnsM="2"
                                 columnsL="2"
                                 columnsXL="2"
                             >
+
                                 <Label text="Buyer" />
 
                                 <ComboBox
-                                    selectedKey="{po>/buyerId}"
+                                    selectedKey="{po>/buyer_ID}"
                                     editable="{ui>/editMode}"
                                     width="100%"
                                     items="{
-        path: '/Employee'
-    }"
+                                        path: '/Employee',
+                                        templateShareable: false
+                                    }"
                                 >
-                                    <core:Item
-                                        key="{empId}"
-                                        text="{name}"
-                                    />
+                                    <core:Item key="{ID}" text="{name}" />
                                 </ComboBox>
 
-                               
                             </form:SimpleForm>
+
                         </uxap:blocks>
                     </uxap:ObjectPageSubSection>
                 </uxap:subSections>
             </uxap:ObjectPageSection>
 
-            <!-- <uxap:ObjectPageSection
-                titleUppercase="false"
-                showTitle="false"
-            >
-                <uxap:subSections>
-                    <uxap:ObjectPageSubSection
-                        titleUppercase="false"
-                        showTitle="false"
-                    >
-                        <uxap:blocks>
-                            <HBox
-                                width="100%"
-                                justifyContent="Start"
-                                class="sapUiMediumMarginTop sapUiMediumMarginBottom"
-                            >
-                                <Button
-                                    text="Submit"
-                                    icon="sap-icon://paper-plane"
-                                    type="Emphasized"
-                                    press=".onSubmit"
-                                    class="sapUiSmallMarginEnd"
-                                />
-
-                                <Button
-                                    text="Cancel"
-                                    type="Default"
-                                    press=".onCancel"
-                                />
-                            </HBox>
-                        </uxap:blocks>
-                    </uxap:ObjectPageSubSection>
-                </uxap:subSections>
-            </uxap:ObjectPageSection> -->
         </uxap:sections>
+
     </uxap:ObjectPageLayout>
 </mvc:View>

@@ -16,7 +16,10 @@ sap.ui.define([
     return Controller.extend("project1.controller.VendorObject", {
 
         onInit: function () {
+
             var oView = this.getView();
+
+
             var oVenModel = new JSONModel({
                 venId: "",
                 vendorCode: "",

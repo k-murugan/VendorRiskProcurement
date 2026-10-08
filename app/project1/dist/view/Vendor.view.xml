@@ -93,14 +93,11 @@
                                         id="vendorCategoryFilter"
                                         width="220px"
                                         selectionChange=".onVendorCategoryFilterChange"
-                                        items="{
-                                            path: '/Vendors',
-                                            templateShareable: true
-                                        }"
+                                        items="{vendorCategory>/categories}"
                                     >
                                         <core:Item
-                                            key="{vendorCategory}"
-                                            text="{vendorCategory}"
+                                            key="{vendorCategory>category}"
+                                            text="{vendorCategory>category}"
                                         />
                                     </MultiComboBox>
                                 </fb:control>
@@ -117,14 +114,11 @@
                                         id="vendorRiskFilter"
                                         width="220px"
                                         selectionChange=".onVendorRiskFilterChange"
-                                        items="{
-                                            path: '/Vendors',
-                                            templateShareable: true
-                                        }"
+                                        items="{vendorRisk>/riskLevels}"
                                     >
                                         <core:Item
-                                            key="{riskLevel}"
-                                            text="{riskLevel}"
+                                            key="{vendorRisk>riskLevel}"
+                                            text="{vendorRisk>riskLevel}"
                                         />
                                     </MultiComboBox>
                                 </fb:control>
@@ -149,13 +143,6 @@
                         tooltip="Add Vendor"
                         type="Transparent"
                         press=".addVendor"
-                    />
-
-                    <Button
-                        icon="sap-icon://edit"
-                        tooltip="Edit Vendor"
-                        type="Transparent"
-                        press=".onEditVendor"
                     />
 
                     <Button
@@ -216,7 +203,14 @@
 
                                 <Text text="{materialCategory}" />
 
-                                <ObjectStatus text="{riskLevel}" />
+                                <ObjectStatus
+                                    text="{riskLevel}"
+                                    state="{
+        path: 'riskLevel',
+        formatter: '.formatter.riskLevelState'
+    }"
+                                   
+                                />
                             </cells>
                         </ColumnListItem>
                     </items>

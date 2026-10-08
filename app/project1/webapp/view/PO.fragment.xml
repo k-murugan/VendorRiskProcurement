@@ -10,45 +10,46 @@
     >
         <content>
             <f:SimpleForm
-                editable="false"
+                editable="true"
                 layout="ColumnLayout"
                 columnsL="2"
             >
                 <f:content>
+
                     <Label
                         text="PO Number"
                         required="true"
                     />
                     <Input
-                        value=""
-                        type="Text"
                         id="inputPONumber"
+                        type="Text"
                     />
+
                     <Label
                         text="PO Date"
                         required="true"
                     />
                     <Input
-                        value=""
-                        type="Date"
                         id="inputPODate"
+                        type="Date"
                     />
+
                     <Label
                         text="Expected Delivery Date"
                         required="true"
                     />
                     <Input
-                        value=""
-                        type="Date"
                         id="inputExpectedDate"
+                        type="Date"
                     />
+
                     <Label
                         text="PO Status"
                         required="true"
                     />
                     <ComboBox
                         id="inputPOStatus"
-                        selectedKey="{poStatus}"
+                        selectedKey="DRAFT"
                         editable="true"
                     >
                         <core:Item
@@ -60,83 +61,105 @@
                             text="PENDING APPROVAL"
                         />
                         <core:Item
-                            key='APPROVED'
+                            key="APPROVED"
                             text="APPROVED"
                         />
                         <core:Item
-                            key='REJECTED'
-                            text='REJECTED'
+                            key="REJECTED"
+                            text="REJECTED"
                         />
                         <core:Item
-                            key='SENT_TO_VENDOR'
-                            text="SENT_TO_VENDOR"
+                            key="SENT_TO_VENDOR"
+                            text="SENT TO VENDOR"
                         />
                         <core:Item
-                            key='ACCEPTED'
+                            key="ACCEPTED"
                             text="ACCEPTED"
                         />
                         <core:Item
-                            key=' PARTIALLY_DELIVERED'
-                            text=" PARTIALLY_DELIVERED"
+                            key="PARTIALLY_DELIVERED"
+                            text="PARTIALLY DELIVERED"
                         />
                         <core:Item
-                            key='FULLY_DELIVERED'
-                            text="FULLY_DELIVERED"
+                            key="FULLY_DELIVERED"
+                            text="FULLY DELIVERED"
                         />
-                         <core:Item
-                            key='CANCELLED'
+                        <core:Item
+                            key="CANCELLED"
                             text="CANCELLED"
                         />
-                         <core:Item
-                            key='CLOSED'
+                        <core:Item
+                            key="CLOSED"
                             text="CLOSED"
                         />
                     </ComboBox>
+
                     <Label
                         text="Total Amount"
                         required="true"
                     />
                     <Input
-                        value=""
-                        type="Text"
                         id="inputAmount"
+                        type="Number"
                     />
+
                     <Label
                         text="Currency"
                         required="true"
                     />
                     <Input
-                        value=""
                         id="inputCurrency"
+                        value="INR"
                     />
+
                     <Label
-                        text="PaymentTerms"
+                        text="Payment Terms"
                         required="true"
                     />
-                     <ComboBox
+                    <ComboBox
                         id="inputPaymentTerms"
-                        selectedKey="{poStatus}"
+                        selectedKey="NET30"
                         editable="true"
                     >
-                    <core:Item key="IMMEDIATE" text="IMMEDIATE"/>
-                    <core:Item key="NET15" text="NET15"/>
-                    <core:Item key="NET30" text="NET30"/>
-                    <core:Item key="NET45" text="NET45"/>
-                    <core:Item key="NET60" text="NET60"/>
-                    <core:Item key="NET90" text="NET90"/>
+                        <core:Item
+                            key="IMMEDIATE"
+                            text="IMMEDIATE"
+                        />
+                        <core:Item
+                            key="NET15"
+                            text="NET15"
+                        />
+                        <core:Item
+                            key="NET30"
+                            text="NET30"
+                        />
+                        <core:Item
+                            key="NET45"
+                            text="NET45"
+                        />
+                        <core:Item
+                            key="NET60"
+                            text="NET60"
+                        />
+                        <core:Item
+                            key="NET90"
+                            text="NET90"
+                        />
                     </ComboBox>
+
                     <Label
                         text="Contact Reference"
                         required="true"
                     />
                     <Input
-                        value=""
-                        type="Text"
                         id="inputContactReference"
+                        type="Text"
                     />
+
                 </f:content>
             </f:SimpleForm>
         </content>
+
         <beginButton>
             <Button
                 text="Create"
@@ -144,11 +167,13 @@
                 press=".onCreate"
             />
         </beginButton>
+
         <endButton>
             <Button
                 text="Cancel"
                 press=".onCloseDialog"
             />
         </endButton>
+
     </Dialog>
 </core:FragmentDefinition>

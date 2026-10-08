@@ -102,10 +102,6 @@ sap.ui.define([
 
         console.log("PO Items:", aItems);
 
-        // ---------------------------------------------
-        // Update local PO model
-        // ---------------------------------------------
-
         var oPOModel = this.getView().getModel("po");
 
         oPOModel.setData({
@@ -139,9 +135,6 @@ sap.ui.define([
 
             items: aItems,
 
-            // VERY IMPORTANT
-
-            // isNew: false
         });
                 this.getView()
             .getModel("ui")
@@ -161,14 +154,8 @@ sap.ui.define([
 
     } 
     catch (oError) {
-
-        console.error(
-            "Failed to load Purchase Order:",
-            oError
-        );
-
-        MessageBox.error(
-            "Failed to load Purchase Order.\n" +
+        console.error("Failed to load Purchase Order:", oError);
+        MessageBox.error("Failed to load Purchase Order.\n" +
             (oError.message || "")
         );
     }
@@ -205,12 +192,6 @@ _loadPurchaseOrderItems: async function (sPOId) {
 
             var oItem =
                 oContext.getObject();
-
-            /*
-             * IMPORTANT:
-             * Change this filter according to your
-             * actual PurchaseOrderItems foreign-key field.
-             */
 
             if (
                 oItem.purchaseOrder_ID === sPOId ||
@@ -313,10 +294,6 @@ _loadPurchaseOrderItems: async function (sPOId) {
         },
 
 
-        // =========================================================
-        // DELETE ITEM
-        // =========================================================
-
         onDeleteItem: function (oEvent) {
 
             var oModel =
@@ -416,9 +393,6 @@ _loadPurchaseOrderItems: async function (sPOId) {
         },
 
 
-        // =========================================================
-        // PRICE CHANGE
-        // =========================================================
 
         onPriceChange: function (oEvent) {
 
@@ -467,10 +441,6 @@ _loadPurchaseOrderItems: async function (sPOId) {
         },
 
 
-        // =========================================================
-        // CALCULATE TOTAL
-        // =========================================================
-
         _calculatePOTotal: function () {
 
             var oModel =
@@ -498,9 +468,6 @@ _loadPurchaseOrderItems: async function (sPOId) {
         },
 
 
-        // =========================================================
-        // MATERIAL CHANGE
-        // =========================================================
 
  onMaterialChange: async function (oEvent) {
     var oComboBox = oEvent.getSource();
@@ -590,9 +557,7 @@ onSave: async function () {
 
         console.log("Saving PO:", oPO.poId);
 
-        // ---------------------------------------------
-        // Build OData entity path
-        // ---------------------------------------------
+    
 
         var sPOPath =
             "/PurchaseOrders(" +
@@ -601,9 +566,6 @@ onSave: async function () {
 
         console.log("PO OData path:", sPOPath);
 
-        // ---------------------------------------------
-        // Get actual OData V4 Context
-        // ---------------------------------------------
 
         var oPOContextBinding =
             oODataModel.bindContext(sPOPath);
@@ -622,10 +584,6 @@ onSave: async function () {
             "OData PO context:",
             oPOContext
         );
-
-        // ---------------------------------------------
-        // Update PO header
-        // ---------------------------------------------
 
         oPOContext.setProperty(
             "poNumber",

@@ -18,7 +18,6 @@
                 <f:heading>
                     <Title text="Invoice Details" />
                 </f:heading>
-c
             </f:DynamicPageTitle>
         </f:title>
 
@@ -33,7 +32,7 @@ c
                     >
                         <fb:filterGroupItems>
                             <fb:FilterGroupItem
-                                label="Invoice"
+                                label="Invoice Number"
                                 name="invoice"
                                 groupName="invoice"
                                 visibleInFilterBar="true"
@@ -49,7 +48,7 @@ c
                                         }"
                                     >
                                         <core:Item
-                                            key="{ID}"
+                                            key="{invoiceNumber}"
                                             text="{invoiceNumber}"
                                         />
                                     </MultiComboBox>
@@ -57,30 +56,25 @@ c
                             </fb:FilterGroupItem>
 
                             <fb:FilterGroupItem
-                                label="Invoice Number"
-                                name="invoiceNumber"
-                                groupName="inNumber"
+                                label="Invoice Status"
+                                name="invoiceStatus"
+                                groupName="inStatus"
                                 visibleInFilterBar="true"
                             >
                                 <fb:control>
                                     <MultiComboBox
-                                        id="inNumberFilter"
+                                        id="inStatusFilter"
                                         width="220px"
-                                        selectionChange=".onInvoiceFilterChange"
-                                        items="{
-                                            path: '/Invoices',
-                                            templateShareable: true
-                                        }"
+                                        selectionChange=".onInStatusFilterChange"
+                                        items="{invoiceStatus>/statuses}"
                                     >
                                         <core:Item
-                                            key="{ID}"
-                                            text="{invoiceNumber}"
+                                            key="{invoiceStatus>status}"
+                                            text="{invoiceStatus>status}"
                                         />
                                     </MultiComboBox>
                                 </fb:control>
                             </fb:FilterGroupItem>
-
-                          
                         </fb:filterGroupItems>
                     </fb:FilterBar>
                 </f:content>
@@ -92,24 +86,41 @@ c
                 width="100%"
                 class="sapUiMediumMarginTop"
             >
-            <Toolbar>
-            <Title text="Invoice List"/>
-            <ToolbarSpacer/>
-            <Button
-                                icon="sap-icon://edit"
-                                tooltip="Edit Invoice"
-                                type="Transparent"
-                                press=".onEditInvoice"
-                            />
+                <Toolbar>
+                    <Title text="Invoice List" />
+                    <ToolbarSpacer />
+                    <Button
+                        id="editInvoiceButton"
+                        icon="sap-icon://edit"
+                        tooltip="Edit Invoice"
+                        type="Transparent"
+                        press=".onEditInvoice"
+                    />
 
-                            <Button
-                                icon="sap-icon://delete"
-                                tooltip="Delete Invoice"
-                                type="Transparent"
-                                press=".onDeleteInvoice"
-                            />
-            
-            </Toolbar>
+                    <Button
+                        id="saveInvoiceButton"
+                        icon="sap-icon://save"
+                        tooltip="Save Invoice"
+                        type="Emphasized"
+                        press=".onSaveInvoice"
+                        visible="false"
+                    />
+
+                    <Button
+                        id="cancelInvoiceButton"
+                        icon="sap-icon://decline"
+                        tooltip="Cancel Edit"
+                        type="Transparent"
+                        press=".onCancelInvoice"
+                        visible="false"
+                    />
+                    <Button
+                        icon="sap-icon://delete"
+                        tooltip="Delete Invoice"
+                        type="Transparent"
+                        press=".onDeleteInvoice"
+                    />
+                </Toolbar>
                 <Table
                     mode="MultiSelect"
                     id="invoiceTable"
@@ -121,11 +132,12 @@ c
                         path: '/Invoices',
                         sorter: {
                             path: 'invoiceNumber'
+                        },
+                         parameters: {
+                            $$updateGroupId: 'invoiceUpdate'
                         }
                     }"
-                    
                 >
-
                     <columns>
                         <Column>
                             <Text text="Invoice Number" />
@@ -164,15 +176,60 @@ c
                             press=".onVendorPress"
                         >
                             <cells>
-                                <Text text="{invoiceNumber}" />
-                                <Text text="{invoiceDate}" />
-                                <Text text="{materialCode}" />
-                                <Text text="{quantity}" />
-                                <Text text="{oldPrice}" />
-                                <Text text="{currentPrice}" />
+                                <Input
+                                    value="{invoiceNumber}"
+                                    editable="{ui>/editMode}"
+                                />
+
+                                <Input
+                                    value="{invoiceDate}"
+                                    type="Date"
+                                    editable="{ui>/editMode}"
+                                />
+
+                                <Input
+                                    value="{materialCode}"
+                                    editable="{ui>/editMode}"
+                                />
+
+                                <Input
+                                    value="{quantity}"
+                                    type="Number"
+                                    editable="{ui>/editMode}"
+                                />
+                                <Input
+                                    value="{oldPrice}"
+                                    type="Number"
+                                    editable="{ui>/editMode}"
+                                />
+                                <Input
+                                    value="{currentPrice}"
+                                    type="Number"
+                                    editable="{ui>/editMode}"
+                                />
                                 <Text text="{priceDifference}" />
                                 <Text text="{invoiceAmount}" />
-                                <Text text="{invoiceStatus}" />
+                                <ComboBox
+                                    selectedKey="{invoiceStatus}"
+                                    editable="{ui>/editMode}"
+                                >
+                                    <core:Item
+                                        key="Draft"
+                                        text="Draft"
+                                    />
+                                    <core:Item
+                                        key="Submitted"
+                                        text="Submitted"
+                                    />
+                                    <core:Item
+                                        key="Approved"
+                                        text="Approved"
+                                    />
+                                    <core:Item
+                                        key="Rejected"
+                                        text="Rejected"
+                                    />
+                                </ComboBox>
                                 <Text text="{riskLevel}" />
                             </cells>
                         </ColumnListItem>

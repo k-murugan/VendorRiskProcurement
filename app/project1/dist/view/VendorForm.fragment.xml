@@ -9,101 +9,113 @@
         title="Vendor Details"
     >
         <content>
+
             <f:SimpleForm
-                editable="false"
+                editable="true"
                 layout="ColumnLayout"
                 columnsL="2"
             >
+
                 <f:content>
+
                     <Label
                         text="Vendor Code"
                         required="true"
                     />
                     <Input
-                        value=""
-                        type="Text"
                         id="inputVendorCode"
+                        type="Text"
+                        placeholder="Enter Vendor Code"
                     />
+
                     <Label
                         text="Name"
                         required="true"
                     />
                     <Input
-                        value=""
-                        type="Text"
                         id="inputName"
+                        type="Text"
+                        placeholder="Enter Vendor Name"
                     />
+
                     <Label
                         text="Country"
                         required="true"
                     />
                     <Input
-                        value=""
-                        type="Text"
                         id="inputCountry"
+                        type="Text"
+                        placeholder="Enter Country"
                     />
+
                     <Label
                         text="Region"
                         required="true"
                     />
                     <Input
-                        value=""
-                        type="Text"
                         id="inputRegion"
+                        type="Text"
+                        placeholder="Enter Region"
                     />
+
                     <Label
                         text="Category"
                         required="true"
                     />
                     <Input
-                        value=""
-                        type="Text"
                         id="inputCategory"
+                        type="Text"
+                        placeholder="Enter Category"
                     />
+
                     <Label
                         text="Material Category"
                         required="true"
                     />
                     <Input
-                        value=""
                         id="inputMaterial"
+                        type="Text"
+                        placeholder="Enter Material Category"
                     />
+
                     <Label
                         text="Contact Person"
                         required="true"
                     />
                     <Input
-                        value=""
-                        type="Text"
                         id="inputContact"
+                        type="Text"
+                        placeholder="Enter Contact Person"
                     />
+
                     <Label
                         text="Email ID"
                         required="true"
                     />
                     <Input
-                        value=""
-                        type="Email"
                         id="inputEmail"
+                        type="Email"
+                        placeholder="Enter Email"
                     />
+
                     <Label
                         text="Phone Number"
                         required="true"
                     />
                     <Input
-                        value=""
-                        type="Number"
                         id="inputPhone"
+                        type="Number"
+                        placeholder="Enter Phone Number"
                     />
+
                     <Label
                         text="Status"
                         required="true"
                     />
-                    <!-- <Input value="" 
-                    id="inputStatus"/> -->
+
                     <ComboBox
                         id="inputStatus"
-                        selectedKey="{status}"
+                        selectedKey="ACTIVE"
                         editable="true"
                     >
                         <core:Item
@@ -115,21 +127,25 @@
                             text="INACTIVE"
                         />
                         <core:Item
-                            key='BLOCKED'
+                            key="BLOCKED"
                             text="BLOCKED"
                         />
                         <core:Item
-                            key='SUSPENDED'
-                            text='SUSPENDED'
+                            key="SUSPENDED"
+                            text="SUSPENDED"
                         />
                         <core:Item
-                            key='BLACKLISTED'
+                            key="BLACKLISTED"
                             text="BLACKLISTED"
                         />
                     </ComboBox>
+
                 </f:content>
+
             </f:SimpleForm>
+
         </content>
+
         <beginButton>
             <Button
                 text="Create"
@@ -137,11 +153,13 @@
                 press=".onCreate"
             />
         </beginButton>
+
         <endButton>
             <Button
                 text="Cancel"
                 press=".onCloseDialog"
             />
         </endButton>
+
     </Dialog>
 </core:FragmentDefinition>

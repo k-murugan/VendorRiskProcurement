@@ -155,9 +155,9 @@
           "name": "POItem",
           "viewLevel": 2
         },
-        "VendorObject":{
-          "name":"VendorObject",
-          "viewLevel":2
+        "VendorObject": {
+          "name": "VendorObject",
+          "viewLevel": 2
         }
       }
     },

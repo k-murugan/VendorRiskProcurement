@@ -18,7 +18,6 @@
                 <f:heading>
                     <Title text="Invoice Details" />
                 </f:heading>
-
             </f:DynamicPageTitle>
         </f:title>
 
@@ -67,14 +66,11 @@
                                         id="inStatusFilter"
                                         width="220px"
                                         selectionChange=".onInStatusFilterChange"
-                                        items="{
-                                            path: '/Invoices',
-                                            templateShareable: true
-                                        }"
+                                        items="{invoiceStatus>/statuses}"
                                     >
                                         <core:Item
-                                            key="{invoiceStatus}"
-                                            text="{invoiceStatus}"
+                                            key="{invoiceStatus>status}"
+                                            text="{invoiceStatus>status}"
                                         />
                                     </MultiComboBox>
                                 </fb:control>
@@ -90,24 +86,41 @@
                 width="100%"
                 class="sapUiMediumMarginTop"
             >
-            <Toolbar>
-            <Title text="Invoice List"/>
-            <ToolbarSpacer/>
-            <Button
-                                icon="sap-icon://edit"
-                                tooltip="Edit Invoice"
-                                type="Transparent"
-                                press=".onEditInvoice"
-                            />
+                <Toolbar>
+                    <Title text="Invoice List" />
+                    <ToolbarSpacer />
+                    <Button
+                        id="editInvoiceButton"
+                        icon="sap-icon://edit"
+                        tooltip="Edit Invoice"
+                        type="Transparent"
+                        press=".onEditInvoice"
+                    />
 
-                            <Button
-                                icon="sap-icon://delete"
-                                tooltip="Delete Invoice"
-                                type="Transparent"
-                                press=".onDeleteInvoice"
-                            />
-            
-            </Toolbar>
+                    <Button
+                        id="saveInvoiceButton"
+                        icon="sap-icon://save"
+                        tooltip="Save Invoice"
+                        type="Emphasized"
+                        press=".onSaveInvoice"
+                        visible="false"
+                    />
+
+                    <Button
+                        id="cancelInvoiceButton"
+                        icon="sap-icon://decline"
+                        tooltip="Cancel Edit"
+                        type="Transparent"
+                        press=".onCancelInvoice"
+                        visible="false"
+                    />
+                    <Button
+                        icon="sap-icon://delete"
+                        tooltip="Delete Invoice"
+                        type="Transparent"
+                        press=".onDeleteInvoice"
+                    />
+                </Toolbar>
                 <Table
                     mode="MultiSelect"
                     id="invoiceTable"
@@ -119,11 +132,12 @@
                         path: '/Invoices',
                         sorter: {
                             path: 'invoiceNumber'
+                        },
+                         parameters: {
+                            $$updateGroupId: 'invoiceUpdate'
                         }
                     }"
-                    
                 >
-
                     <columns>
                         <Column>
                             <Text text="Invoice Number" />
@@ -162,15 +176,71 @@
                             press=".onVendorPress"
                         >
                             <cells>
-                                <Text text="{invoiceNumber}" />
-                                <Text text="{invoiceDate}" />
-                                <Text text="{materialCode}" />
-                                <Text text="{quantity}" />
-                                <Text text="{oldPrice}" />
-                                <Text text="{currentPrice}" />
+                                <Input
+                                    value="{invoiceNumber}"
+                                    editable="{ui>/editMode}"
+                                />
+
+                                <Input
+                                    value="{invoiceDate}"
+                                    type="Date"
+                                    editable="{ui>/editMode}"
+                                />
+
+                                <Input
+                                    value="{materialCode}"
+                                    editable="{ui>/editMode}"
+                                />
+
+                                <Input
+                                    value="{quantity}"
+                                    type="Number"
+                                    editable="{ui>/editMode}"
+                                />
+                                <Input
+                                    value="{oldPrice}"
+                                    type="Number"
+                                    editable="{ui>/editMode}"
+                                />
+                                <Input
+                                    value="{currentPrice}"
+                                    type="Number"
+                                    editable="{ui>/editMode}"
+                                />
                                 <Text text="{priceDifference}" />
                                 <Text text="{invoiceAmount}" />
-                                <Text text="{invoiceStatus}" />
+                                <HBox alignItems="Center">
+                                <ComboBox
+                                    selectedKey="{invoiceStatus}"
+                                    editable="{ui>/editMode}"
+                                >
+                                    <core:Item
+                                        key="Draft"
+                                        text="Draft"
+                                    />
+                                    <core:Item
+                                        key="Submitted"
+                                        text="Submitted"
+                                    />
+                                    <core:Item
+                                        key="Approved"
+                                        text="Approved"
+                                    />
+                                    <core:Item
+                                        key="Rejected"
+                                        text="Rejected"
+                                    />
+                                </ComboBox>
+                                <!-- <ObjectStatus
+                                    text="{invoiceStatus}"
+                                    visible="{= !${ui>/editMode} }"
+                                    state="{=${invoiceStatus} === 'Draft' ? 'None' :
+                                         ${invoiceStatus} === 'Submitted' ? 'Information':
+                                         ${invoiceStatus} === 'Approved' ? 'Success':
+                                         ${invoiceStatus} === 'Rejected' ? 'Error':
+                 'None'}"
+                                /> -->
+                                </HBox>
                                 <Text text="{riskLevel}" />
                             </cells>
                         </ColumnListItem>
