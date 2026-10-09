@@ -121,11 +121,11 @@ sap.ui.define([
                         sVenPath
                     );
 
-
+                this._VenContext = oContextBinding.getBoundContext();
           
                 var oVendor =
                     await oContextBinding.requestObject();
-
+                // this._VenContext = oVendorContext;
 
                 console.log(
                     "Vendor data received:",
@@ -188,15 +188,15 @@ sap.ui.define([
                 });
 
 
-                var oUIModel =
-                    this.getView().getModel("ui");
+                    this.getView()
+            .getModel("ui")
+            .setData({
 
-                oUIModel.setData({
+                editMode: false,
 
-                    editMode: false,
+                isNew: false
 
-                    isNew: false
-                });
+            });
 
                 console.log(
                     "Vendor model updated:",
@@ -251,8 +251,177 @@ sap.ui.define([
                 "Edit mode enabled."
             );
         },
+      onSave: async function () {
+
+    var oVenModel =
+        this.getView().getModel("ven");
+
+    var oVen =
+        oVenModel.getData();
+
+    var oDataModel =
+        this._getODataModel();
 
 
+    if (!oDataModel) {
+
+        MessageBox.error(
+            "OData model is not available."
+        );
+
+        return;
+    }
+
+
+    if (!oVen.venId) {
+
+        MessageBox.error(
+            "Vendor ID is missing."
+        );
+
+        return;
+    }
+
+
+    if (!this._VenContext) {
+
+        MessageBox.error(
+            "Vendor context is not available."
+        );
+
+        return;
+    }
+
+
+    try {
+
+        console.log(
+            "Saving Vendor:",
+            oVen
+        );
+
+
+        /*
+         * Update backend properties
+         *
+         * IMPORTANT:
+         * Use the actual CDS field names.
+         */
+
+        this._VenContext.setProperty(
+            "vendorCode",
+            oVen.vendorCode
+        );
+
+
+        this._VenContext.setProperty(
+            "vendorName",
+            oVen.vendorName
+        );
+
+
+        this._VenContext.setProperty(
+            "country",
+            oVen.country
+        );
+
+
+        this._VenContext.setProperty(
+            "region",
+            oVen.region
+        );
+
+
+        this._VenContext.setProperty(
+            "vendorCategory",
+            oVen.vendorCategory
+        );
+
+
+        this._VenContext.setProperty(
+            "materialCategory",
+            oVen.materialCategory
+        );
+
+
+        this._VenContext.setProperty(
+            "contactPerson",
+            oVen.contactPerson
+        );
+
+
+        this._VenContext.setProperty(
+            "email",
+            oVen.email
+        );
+
+
+        this._VenContext.setProperty(
+            "phone",
+            oVen.phone
+        );
+
+
+        this._VenContext.setProperty(
+            "vendorStatus",
+            oVen.vendorStatus
+        );
+
+
+        /*
+         * Send changes to backend
+         */
+        await oDataModel.submitBatch(
+            "$auto"
+        );
+
+
+        console.log(
+            "Vendor saved successfully."
+        );
+
+
+        /*
+         * Exit edit mode
+         */
+        this.getView()
+            .getModel("ui")
+            .setProperty(
+                "/editMode",
+                false
+            );
+
+
+        MessageToast.show(
+            "Vendor updated successfully."
+        );
+
+
+        /*
+         * Reload backend data
+         */
+        await this._loadVendor(
+            this._sVenPath
+        );
+
+
+    } catch (oError) {
+
+        console.error(
+            "Failed to save Vendor:",
+            oError
+        );
+
+
+        MessageBox.error(
+            "Failed to save Vendor.\n\n" +
+            (
+                oError.message ||
+                "Unknown error"
+            )
+        );
+    }
+},
         onCancelEdit: function () {
 
             var oUIModel =

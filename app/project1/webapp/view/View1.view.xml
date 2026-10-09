@@ -2,163 +2,392 @@
     controllerName="project1.controller.View1"
     xmlns="sap.m"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns:tnt="sap.tnt"
     xmlns:f="sap.f"
-    xmlns:core="sap.ui.core"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+    xmlns:viz.data="sap.viz.ui5.data"
     height="100%"
 >
-    <HBox
-        id="mainLayout"
-        width="100%"
-        height="100%"
-        renderType="Bare"
+    <Page
+        id="mainPage"
+        showHeader="false"
+        class="sapUiNoContentPadding"
     >
-        <VBox
-            id="sideContainer"
-            width="70px"
-            height="100%"
-            renderType="Bare"
-            class="sideContainer"
-        >
-            <Button
-                icon="sap-icon://navigation-right-arrow"
-                press=".onCollapseExpandPress"
-            />
-            <!-- <Button
-			text="Show/Hide &quot;Walked&quot;"
-			icon="sap-icon://menu2"
-			press=".onHideShowWalkedPress" /> -->
-            <tnt:SideNavigation
-                id="sideNavigation"
-                selectedKey="dashboard"
-                expanded="false"
+
+        <content>
+
+            <f:DynamicPage
+                id="dashboardPage"
+                fitContent="true"
             >
-                <tnt:NavigationList id="navigationList">
-                   
-                    <tnt:NavigationListItem
-                        key="dashboard"
-                        text="Dashboard"
-                        icon="sap-icon://home"
-                        select=".onNavigationSelect"
-                    />
 
-                    <tnt:NavigationListItem
-                        key="Vendor"
-                        text="Vendors"
-                        icon="sap-icon://supplier"
-                        select=".onNavigationSelect"
-                    />
+                <!-- ========================= -->
+                <!-- PAGE TITLE -->
+                <!-- ========================= -->
 
-                    <tnt:NavigationListItem
-                        key="purchaseOrders"
-                        text="Purchase Orders"
-                        icon="sap-icon://cart"
-                        select=".onNavigationSelect"
-                    />
+                <f:title>
+                    <f:DynamicPageTitle>
+                        <f:heading>
+                            <Title text="Procurement Overview" />
+                        </f:heading>
+                    </f:DynamicPageTitle>
+                </f:title>
 
-                    <tnt:NavigationListItem
-                        key="invoices"
-                        text="Invoices"
-                        icon="sap-icon://receipt"
-                        select=".onNavigationSelect"
-                    />
-                </tnt:NavigationList>
-            </tnt:SideNavigation>
-        
-        </VBox>
-        <Page
-            id="mainPage"
-            width="auto"
-            showHeader="false"
-            class="sapUiNoContentPadding"
-        >
-            <content>
-                <f:DynamicPage
-                    id="dashboardPage"
-                    fitContent="true"
-                >
-                    <f:title>
-                        <f:DynamicPageTitle>
-                            <f:heading>
-                                <Title text="Procurement Overview" />
-                            </f:heading>
-                        </f:DynamicPageTitle>
-                    </f:title>
 
-                    <f:content>
-                        <VBox
+                <!-- ========================= -->
+                <!-- PAGE CONTENT -->
+                <!-- ========================= -->
+
+                <f:content>
+
+                    <VBox
+                        width="100%"
+                        class="sapUiResponsiveContentPadding"
+                    >
+
+
+                        <!-- ========================= -->
+                        <!-- NAVIGATION TILES -->
+                        <!-- ========================= -->
+
+                        <HBox
                             width="100%"
-                            class="sapUiResponsiveContentPadding"
+                            wrap="Wrap"
+                            justifyContent="Center"
+                            class="sapUiSmallMarginBottom"
                         >
-                            <HBox
-                                width="100%"
-                                wrap="Wrap"
-                                renderType="Bare"
-                                class="sapUiSmallMarginBottom"
+
+                            <!-- VENDORS -->
+
+                            <GenericTile
+                                id="vendorTile"
+                                header="Vendors"
+                                subheader="Manage Vendors"
+                                press=".onVendorPress"
+                                class="sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                                width="300px"
                             >
-                                <GenericTile
-                                    id="vendorTile"
-                                    header="Total Vendors"
-                                    press=".onVendorPress"
-                                    class="sapUiSmallMarginEnd sapUiSmallMarginBottom"
-                                    width="300px"
-                                >
-                                    <TileContent>
-                                        <NumericContent
-                                            id="vendorCount"
-                                            value="0"
-                                            icon="sap-icon://supplier"
-                                            valueColor="Good"
-                                        />
-                                    </TileContent>
-                                </GenericTile>
 
-                                <GenericTile
-                                    id="poTile"
-                                    header="Purchase Orders"
-                                    press=".onPurchaseOrderPress"
-                                    class="sapUiSmallMarginEnd sapUiSmallMarginBottom"
-                                    width="300px"
-                                >
-                                    <TileContent>
-                                        <NumericContent
-                                            id="poCount"
-                                            value="0"
-                                            icon="sap-icon://cart"
-                                            valueColor="Neutral"
-                                        />
-                                    </TileContent>
-                                </GenericTile>
+                                <TileContent>
 
-                                <GenericTile
-                                    id="invoiceTile"
-                                    header="Total Invoices"
-                                    press=".onInvoicePress"
-                                    class="sapUiSmallMarginBottom"
-                                    width="300px"
-                                >
-                                    <TileContent>
-                                        <NumericContent
-                                            id="invoiceCount"
-                                            value="0"
-                                            icon="sap-icon://receipt"
-                                            valueColor="Neutral"
-                                        />
-                                    </TileContent>
-                                </GenericTile>
-                            </HBox>
+                                    <NumericContent
+                                        id="vendorCount"
+                                        value="0"
+                                        icon="sap-icon://supplier"
+                                        valueColor="Good"
+                                    />
 
-                            <!-- <Panel
-                                headerText="Procurement Monitoring"
-                                expandable="false"
-                                class="sapUiSmallMarginBottom"
+                                </TileContent>
+
+                            </GenericTile>
+
+
+                            <!-- PURCHASE ORDERS -->
+
+                            <GenericTile
+                                id="poTile"
+                                header="Purchase Orders"
+                                subheader="Manage Purchase Orders"
+                                press=".onPurchaseOrderPress"
+                                class="sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                                width="300px"
                             >
-                                <content />
-                            </Panel> -->
-                        </VBox>
-                    </f:content>
-                </f:DynamicPage>
-            </content>
-        </Page>
-    </HBox>
+
+                                <TileContent>
+
+                                    <NumericContent
+                                        id="poCount"
+                                        value="0"
+                                        icon="sap-icon://cart"
+                                        valueColor="Neutral"
+                                    />
+
+                                </TileContent>
+
+                            </GenericTile>
+
+
+                            <!-- INVOICES -->
+
+                            <GenericTile
+                                id="invoiceTile"
+                                header="Invoices"
+                                subheader="Manage Invoices"
+                                press=".onInvoicePress"
+                                class="sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                                width="300px"
+                            >
+
+                                <TileContent>
+
+                                    <NumericContent
+                                        id="invoiceCount"
+                                        value="0"
+                                        icon="sap-icon://receipt"
+                                        valueColor="Neutral"
+                                    />
+
+                                </TileContent>
+
+                            </GenericTile>
+
+
+                            <!-- RISK -->
+
+                            <GenericTile
+                                id="RiskTile"
+                                header="Risk Calculation"
+                                subheader="Vendor Risk"
+                                press=".onVendorRisk"
+                                class="sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                                width="300px"
+                            >
+
+                                <TileContent>
+
+                                    <NumericContent
+                                        id="RiskLevel"
+                                        icon="sap-icon://risk"
+                                        valueColor="Neutral"
+                                    />
+
+                                </TileContent>
+
+                            </GenericTile>
+
+                        </HBox>
+
+
+
+                        <!-- ========================= -->
+                        <!-- CHARTS -->
+                        <!-- ========================= -->
+
+                        <HBox
+                            width="100%"
+                            justifyContent="Center"
+                            wrap="Wrap"
+                        >
+
+
+                            <!-- ========================= -->
+                            <!-- VENDOR STATUS CARD -->
+                            <!-- ========================= -->
+
+                            <Panel
+                                id="vendorStatusPanel"
+                                headerText="Vendor Status"
+                                width="450px"
+                                class="sapUiSmallMargin"
+                            >
+
+                                <content>
+
+                                    <VBox
+                                        width="100%"
+                                        alignItems="Center"
+                                    >
+
+                                        <viz:VizFrame
+                                            id="idVizFrame"
+                                            uiConfig="{applicationSet:'fiori'}"
+                                            height="350px"
+                                            width="420px"
+                                            vizType="donut"
+                                            vizProperties="{
+                                                plotArea: {
+                                                    dataLabel: {
+                                                        visible: true,
+                                                        type: 'value'
+                                                    }
+                                                },
+                                                legend: {
+                                                    visible: true
+                                                },
+                                                title: {
+                                                    visible: false
+                                                }
+                                            }"
+                                        >
+
+                                            <viz:dataset>
+
+                                                <viz.data:FlattenedDataset
+                                                    data="{vendorChart>/VendorStatus}"
+                                                >
+
+                                                    <viz.data:dimensions>
+
+                                                        <viz.data:DimensionDefinition
+                                                            name="Vendor Status"
+                                                            value="{vendorChart>status}"
+                                                        />
+
+                                                    </viz.data:dimensions>
+
+
+                                                    <viz.data:measures>
+
+                                                        <viz.data:MeasureDefinition
+                                                            name="Vendor Count"
+                                                            value="{vendorChart>count}"
+                                                        />
+
+                                                    </viz.data:measures>
+
+                                                </viz.data:FlattenedDataset>
+
+                                            </viz:dataset>
+
+
+                                            <viz:feeds>
+
+                                                <viz.feeds:FeedItem
+                                                    uid="size"
+                                                    type="Measure"
+                                                    values="Vendor Count"
+                                                />
+
+                                                <viz.feeds:FeedItem
+                                                    uid="color"
+                                                    type="Dimension"
+                                                    values="Vendor Status"
+                                                />
+
+                                            </viz:feeds>
+
+
+                                            <viz:dependents>
+
+                                                <viz:Popover
+                                                    id="idPopOver"
+                                                />
+
+                                            </viz:dependents>
+
+                                        </viz:VizFrame>
+
+                                    </VBox>
+
+                                </content>
+
+                            </Panel>
+
+
+
+                            <!-- ========================= -->
+                            <!-- PURCHASE ORDER STATUS CARD -->
+                            <!-- ========================= -->
+
+                            <Panel
+                                id="poStatusPanel"
+                                headerText="Purchase Order Status"
+                                width="450px"
+                                class="sapUiSmallMargin"
+                            >
+
+                                <content>
+
+                                    <VBox
+                                        width="100%"
+                                        alignItems="Center"
+                                    >
+
+                                        <viz:VizFrame
+                                            id="idVizFrames"
+                                            uiConfig="{applicationSet:'fiori'}"
+                                            height="350px"
+                                            width="420px"
+                                            vizType="bar"
+                                            vizProperties="{
+                                                plotArea: {
+                                                    dataLabel: {
+                                                        visible: true,
+                                                        type: 'value'
+                                                    }
+                                                },
+                                                legend: {
+                                                    visible: false
+                                                },
+                                                title: {
+                                                    visible: false
+                                                }
+                                            }"
+                                        >
+
+                                            <viz:dataset>
+
+                                                <viz.data:FlattenedDataset
+                                                    data="{poChart>/poStatus}"
+                                                >
+
+                                                    <viz.data:dimensions>
+
+                                                        <viz.data:DimensionDefinition
+                                                            name="Purchase Order Status"
+                                                            value="{poChart>status}"
+                                                        />
+
+                                                    </viz.data:dimensions>
+
+
+                                                    <viz.data:measures>
+
+                                                        <viz.data:MeasureDefinition
+                                                            name="PO Count"
+                                                            value="{poChart>count}"
+                                                        />
+
+                                                    </viz.data:measures>
+
+                                                </viz.data:FlattenedDataset>
+
+                                            </viz:dataset>
+
+
+                                            <viz:feeds>
+
+                                                <viz.feeds:FeedItem
+                                                    uid="valueAxis"
+                                                    type="Measure"
+                                                    values="PO Count"
+                                                />
+
+                                                <viz.feeds:FeedItem
+                                                    uid="categoryAxis"
+                                                    type="Dimension"
+                                                    values="Purchase Order Status"
+                                                />
+
+                                            </viz:feeds>
+
+
+                                            <viz:dependents>
+
+                                                <viz:Popover
+                                                    id="idPopOvers"
+                                                />
+
+                                            </viz:dependents>
+
+                                        </viz:VizFrame>
+
+                                    </VBox>
+
+                                </content>
+
+                            </Panel>
+
+                        </HBox>
+
+                    </VBox>
+
+                </f:content>
+
+            </f:DynamicPage>
+
+        </content>
+
+    </Page>
+
 </mvc:View>

@@ -1,0 +1,231 @@
+<mvc:View
+    controllerName="project1.controller.App"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m">
+    <App>
+    <Page >
+    <content>
+    <VBox class="sapUiSmallMargin">
+ 
+        <HBox
+            justifyContent="SpaceBetween"
+            alignItems="Center"
+            wrap="Wrap"
+            class="sapUiSmallMarginBottom">
+ 
+            <VBox>
+                <Title text="Vendor Risk Management" level="H1"/>
+                <Text text="Vendor Risk Control Tower"/>
+            </VBox>
+ 
+            <HBox alignItems="Center">
+ 
+                <Label
+                    text="Select Vendor"
+                    labelFor="vendorSelect"
+                    class="sapUiSmallMarginEnd"/>
+ 
+                <Select
+                    id="vendorSelect"
+                    width="22rem"
+                    change=".onVendorChange"
+                    items="{vendors>/list}">
+ 
+                    <core:Item
+                        key="{vendors>ID}"
+                        text="{vendors>label}"/>
+ 
+                </Select>
+ 
+            </HBox>
+ 
+        </HBox>
+ 
+        <Panel class="riskCard sapUiSmallMarginBottom">
+ 
+            <HBox
+                justifyContent="SpaceBetween"
+                alignItems="Center"
+                wrap="Wrap"
+                class="sapUiTinyMargin">
+ 
+                <HBox>
+ 
+                    <VBox class="sapUiLargeMarginEnd">
+                        <Label text="Vendor Code"/>
+                        <Text id="vendorCode" text="-"/>
+                    </VBox>
+ 
+                    <VBox>
+                        <Label text="Vendor Name"/>
+                        <Title id="vendorName" text="-" level="H3"/>
+                    </VBox>
+ 
+                </HBox>
+ 
+                <VBox alignItems="End">
+                    <Label text="Assessment Status"/>
+                    <ObjectStatus text="Completed" state="Success"/>
+                </VBox>
+ 
+            </HBox>
+ 
+        </Panel>
+ 
+ 
+        <!-- Risk Cards -->
+ 
+        <HBox
+            width="100%"
+            wrap="Wrap"
+            class="sapUiSmallMarginBottom">
+ 
+ 
+            <!-- Overall -->
+ 
+            <Panel headerText="Overall Risk" class="riskCard">
+ 
+                <layoutData>
+                    <FlexItemData
+                        growFactor="1"
+                        baseSize="0"
+                        minWidth="12rem"
+                        styleClass="sapUiTinyMarginEnd sapUiTinyMarginBottom"/>
+                </layoutData>
+ 
+                <VBox
+                    alignItems="Center"
+                    justifyContent="Center"
+                    class="sapUiSmallMargin">
+ 
+                    <ObjectNumber
+                        id="overallRisk"
+                        number="0"
+                        unit="/ 100"
+                        emphasized="true"/>
+ 
+                    <ObjectStatus
+                        id="overallLevel"
+                        text="Loading..."
+                        state="Warning"/>
+                                 
+                    <Text
+                        text="Combined risk"
+                        class="sapUiTinyMarginTop"/>
+ 
+                </VBox>
+ 
+            </Panel>
+ 
+ 
+            <Panel headerText="Delivery Risk" class="riskCard">
+ 
+                <layoutData>
+                    <FlexItemData
+                        growFactor="1"
+                        baseSize="0"
+                        minWidth="12rem"
+                        styleClass="sapUiTinyMarginEnd sapUiTinyMarginBottom"/>
+                </layoutData>
+ 
+                <VBox
+                    alignItems="Center"
+                    justifyContent="Center"
+                    class="sapUiSmallMargin">
+ 
+                    <ObjectNumber
+                        id="deliveryRisk"
+                        number="0"
+                        unit="/ 100"
+                        emphasized="true"/>
+ 
+                    <ObjectStatus
+                        id="deliveryStatus"
+                        text="Loading..."
+                        state="Warning"/>
+ 
+                    <Text
+                        text="Delivery Performance"
+                        class="sapUiTinyMarginTop"/>
+ 
+                </VBox>
+ 
+            </Panel>
+ 
+            <Panel headerText="Quality Risk" class="riskCard">
+ 
+                <layoutData>
+                    <FlexItemData
+                        growFactor="1"
+                        baseSize="0"
+                        minWidth="12rem"
+                        styleClass="sapUiTinyMarginEnd sapUiTinyMarginBottom"/>
+                </layoutData>
+ 
+                <VBox
+                    alignItems="Center"
+                    justifyContent="Center"
+                    class="sapUiSmallMargin">
+ 
+                    <ObjectNumber
+                        id="qualityRisk"
+                        number="0"
+                        unit="/ 100"
+                        emphasized="true"/>
+ 
+                    <ObjectStatus
+                        id="qualityStatus"
+                        text="Loading..."
+                        state="Warning"/>
+ 
+                    <Text
+                        text="Quality Performance"
+                        class="sapUiTinyMarginTop"/>
+ 
+                </VBox>
+ 
+            </Panel>
+ 
+            <Panel headerText="Price Risk" class="riskCard">
+ 
+                <layoutData>
+                    <FlexItemData
+                        growFactor="1"
+                        baseSize="0"
+                        minWidth="12rem"
+                        styleClass="sapUiTinyMarginBottom"/>
+                </layoutData>
+ 
+                <VBox
+                    alignItems="Center"
+                    justifyContent="Center"
+                    class="sapUiSmallMargin">
+ 
+                    <ObjectNumber
+                        id="priceRisk"
+                        number="0"
+                        unit="/ 100"
+                        emphasized="true"/>
+ 
+                    <ObjectStatus
+                        id="priceStatus"
+                        text="Loading..."
+                        state="Warning"/>
+ 
+                    <Text
+                        text="Price Deviation"
+                        class="sapUiTinyMarginTop"/>
+ 
+                </VBox>
+ 
+            </Panel>
+ 
+ 
+        </HBox>
+ 
+    </VBox>
+    </content>
+    </Page>
+    </App>
+</mvc:View>

@@ -1,81 +1,229 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
-    "sap/m/MessageToast"
-], function (Controller, MessageToast) {
+    "sap/m/MessageToast", "sap/ui/model/json/JSONModel"
+], function (Controller, MessageToast, JSONModel) {
     "use strict";
 
     return Controller.extend("project1.controller.View1", {
         onInit: function () {
             const oModel = this.getOwnerComponent().getModel();
             console.log("OData Model:", oModel);
+                   var oChartModel = new JSONModel({
+                VendorStatus: []
+            });
+
+            this.getView().setModel(
+                oChartModel,
+                "vendorChart"
+            );
+
+            this._loadVendorStatusChart();
+              var oPOChartModel = new JSONModel({
+                poStatus: []
+            });
+
+            this.getView().setModel(
+                oPOChartModel,
+                "poChart"
+            );
+
+            // Load PO Status chart
+            this._loadPOStatusChart();
             this._loadTotalVendor(oModel);
             this._loadTotalPO(oModel);
             this._loadTotalInvoice(oModel);
         },
-        onCollapseExpandPress() {
-			 const oSideNavigation = this.byId("sideNavigation");
-    const oSideContainer = this.byId("sideContainer");
 
-    const bExpanded = oSideNavigation.getExpanded();
+            _loadVendorStatusChart: async function () {
 
-    if (bExpanded) {
-        // Collapse
-        oSideNavigation.setExpanded(false);
-        oSideContainer.setWidth("70px");
-    } else {
-        // Expand
-        oSideNavigation.setExpanded(true);
-        oSideContainer.setWidth("250px");
-    }
-		},
+            try {
 
-    //     _loadTotalVendor: function (oModel) {
-    //         oModel.callFunction("/totalVendor", {
-    //             method: "GET",
-    //             success: function (oData) {
-    //                 console.log("Total Vendor Result:", oData);
-    //                 const iValue = oData.totalVendor;
-    //                 console.log("Total Vendors:", iValue);
-    //                 this.byId("vendorCount").setValue(iValue);
-    //             }.bind(this),
-    //             error: function (oError) {
-    //                 console.error(
-    //                     "Error getting vendor count:",
-    //                     oError
-    //                 );
-    //                 MessageToast.show(
-    //                     "Unable to load vendor count"
-    //                 );
-    //             }
-    //         });
-    //     },
-    //  _loadTotalPO: function(oModel){
-    //     oModel.callFunction("/totalPO",{
-    //         method:"GET",
-    //         success:function(oData){
-    //             const iValue=oData.totalPO;
-    //             this.byId("poCount").setValue(iValue);
-    //         }.bind(this),
-    //         error: function(oError){
-    //             console.error("Error getting PO count:",oError);
-    //             MessageToast.show("Unable to load PO count");
-    //         }
-    //     })
-    //  },
-    //  _loadTotalInvoice: function(oModel){
-    //     oModel.callFunction("/totalInvoice",{
-    //         method: "GET",
-    //         success: function(oData){
-    //             const iValue = oData.totalInvoice;
-    //             this.byId("invoiceCount").setValue(iValue);
-    //         }.bind(this),
-    //         error: function(oError){
-    //             console.error("Error getting invoice count:", oError);
-    //             MessageToast.show("Unable to load invoice count");
-    //         }
-    //     })
-    //  },
+                var oModel = this.getOwnerComponent().getModel();
 
+                var oListBinding = oModel.bindList("/Vendors");
+
+                var aContexts = await oListBinding.requestContexts();
+
+                var aVendors = aContexts.map(function (oContext) {
+                    return oContext.getObject();
+                });
+
+                console.log("Vendors:", aVendors);
+
+                // Count vendors by status
+                var oStatusCount = {};
+
+                aVendors.forEach(function (oVendor) {
+
+                    var sStatus = oVendor.vendorStatus;
+
+                    if (!sStatus) {
+                        sStatus = "UNKNOWN";
+                    }
+
+                    if (!oStatusCount[sStatus]) {
+                        oStatusCount[sStatus] = 0;
+                    }
+
+                    oStatusCount[sStatus]++;
+                });
+
+                // Convert object to chart array
+                var aChartData = Object.keys(oStatusCount).map(function (sStatus) {
+
+                    return {
+                        status: sStatus,
+                        count: oStatusCount[sStatus]
+                    };
+
+                });
+
+                console.log("Vendor Status Chart:", aChartData);
+
+                // Set chart model
+                this.getView()
+                    .getModel("vendorChart")
+                    .setProperty(
+                        "/VendorStatus",
+                        aChartData
+                    );
+
+            } catch (oError) {
+
+                console.error(
+                    "Failed to load vendor status chart:",
+                    oError
+                );
+
+                MessageToast.show(
+                    "Unable to load vendor status chart"
+                );
+            }
+        },
+            _loadPOStatusChart: async function () {
+
+            try {
+
+                const oModel = this.getOwnerComponent().getModel();
+
+                console.log(
+                    "Loading Purchase Orders..."
+                );
+
+                // Bind to PurchaseOrders entity
+                var oListBinding = oModel.bindList(
+                    "/PurchaseOrders"
+                );
+
+                // Read PO records
+                var aContexts =
+                    await oListBinding.requestContexts();
+
+                var aPurchaseOrders =
+                    aContexts.map(function (oContext) {
+                        return oContext.getObject();
+                    });
+
+                console.log(
+                    "Purchase Orders:",
+                    aPurchaseOrders
+                );
+
+
+                // ==========================================
+                // Count PO statuses
+                // ==========================================
+
+                var oStatusCount = {};
+
+                aPurchaseOrders.forEach(function (oPO) {
+
+                    var sStatus = oPO.poStatus;
+
+                    // If status is empty
+                    if (!sStatus) {
+                        sStatus = "UNKNOWN";
+                    }
+
+                    // Initialize count
+                    if (!oStatusCount[sStatus]) {
+                        oStatusCount[sStatus] = 0;
+                    }
+
+                    // Increment count
+                    oStatusCount[sStatus]++;
+                });
+
+
+              
+                var aPOChartData =
+                    Object.keys(oStatusCount).map(
+                        function (sStatus) {
+
+                            return {
+                                status: sStatus,
+                                count: oStatusCount[sStatus]
+                            };
+
+                        }
+                    );
+
+
+                console.log(
+                    "PO Chart Data:",
+                    aPOChartData
+                );
+
+
+                // ==========================================
+                // Set data to poChart model
+                // ==========================================
+
+                this.getView()
+                    .getModel("poChart")
+                    .setProperty(
+                        "/poStatus",
+                        aPOChartData
+                    );
+
+
+            } catch (oError) {
+
+                console.error(
+                    "Failed to load PO status chart:",
+                    oError
+                );
+
+                MessageToast.show(
+                    "Unable to load Purchase Order chart"
+                );
+            }
+        },
+   
+        onVendorPress: function () {
+            this.getOwnerComponent()
+                .getRouter()
+                .navTo("Vendor");
+        },
+
+        onPurchaseOrderPress: function () {
+            this.getOwnerComponent()
+                .getRouter()
+                .navTo("PurchaseOrder");
+        },
+
+        onInvoicePress: function () {
+            this.getOwnerComponent()
+                .getRouter()
+                .navTo("Invoice");
+        },
+        onVendorRisk: function(){
+            this.getOwnerComponent()
+                .getRouter()
+                .navTo("vendorRisk")
+        },
+
+  
 
          _loadTotalVendor: function (oModel) { 
             const oOperation = oModel.bindContext( "/totalVendor(...)" ); 
@@ -229,40 +377,40 @@ sap.ui.define([
         //     );
         // },
 
-        onNavigationSelect: function (oEvent) {
+        // onNavigationSelect: function (oEvent) {
 
-            const oItem = oEvent.getParameter("item");
-            const sKey = oItem.getKey();
+        //     const oItem = oEvent.getParameter("item");
+        //     const sKey = oItem.getKey();
 
-            switch (sKey) {
-                case "dashboard":
-                    this.getOwnerComponent()
-                        .getRouter()
-                        .navTo("View1");
-                    break;
+        //     switch (sKey) {
+        //         case "dashboard":
+        //             this.getOwnerComponent()
+        //                 .getRouter()
+        //                 .navTo("View1");
+        //             break;
 
-                case "Vendor":
-                    this.getOwnerComponent()
-                        .getRouter()
-                        .navTo("Vendor");
-                    break;
+        //         case "Vendor":
+        //             this.getOwnerComponent()
+        //                 .getRouter()
+        //                 .navTo("Vendor");
+        //             break;
 
-                case "purchaseOrders":
-                    this.getOwnerComponent()
-                        .getRouter()
-                        .navTo("PurchaseOrder");
-                    break;
+        //         case "purchaseOrders":
+        //             this.getOwnerComponent()
+        //                 .getRouter()
+        //                 .navTo("PurchaseOrder");
+        //             break;
 
-                case "invoices":
-                    this.getOwnerComponent()
-                        .getRouter()
-                        .navTo("Invoice");
-                    break;
+        //         case "invoices":
+        //             this.getOwnerComponent()
+        //                 .getRouter()
+        //                 .navTo("Invoice");
+        //             break;
 
-                default:
-                    MessageToast.show("Page not found");
-            }
-        }
+        //         default:
+        //             MessageToast.show("Page not found");
+        //     }
+        // }
 
     });
 });

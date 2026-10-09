@@ -135,6 +135,11 @@
           "name": "VendorObject",
           "pattern": "vendors/{ven}",
           "target": "VendorObject"
+        },
+        {
+          "pattern":"vendorRisk",
+          "name":"vendorRisk",
+          "target":"vendorRisk"
         }
       ],
       "targets": {
@@ -158,6 +163,9 @@
         "VendorObject": {
           "name": "VendorObject",
           "viewLevel": 2
+        },
+        "vendorRisk":{
+          "name":"vendorRisk"
         }
       }
     },
